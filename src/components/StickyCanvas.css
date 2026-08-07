@@ -1,0 +1,433 @@
+/* ===== Sticky Canvas ===== */
+
+/* wrapper — gives the full scroll height */
+.sc__wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* spacer lives after the scene and provides scroll distance */
+.sc__spacer {
+  height: 300vh;   /* 3 extra sections after the hero */
+  pointer-events: none;
+}
+
+/* ── scene — sticky, always fills viewport ── */
+.sc__scene {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  /* pull up so spacer doesn't push it down */
+  margin-bottom: -100vh;
+  z-index: 1;
+}
+
+/* background layer */
+.sc__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sc__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.sc__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  pointer-events: none;
+}
+.sc__orb--1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,60,20,.05) 0%, transparent 70%);
+  top: -10%; right: -5%;
+}
+.sc__orb--2 {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(255,80,20,.03) 0%, transparent 70%);
+  bottom: -10%; left: 10%;
+}
+
+/* ── 3D Model — dead center of viewport ── */
+.sc__model-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+/* ── Text layer — sits on top of model ── */
+.sc__text-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  padding-bottom: 80px; /* clear stat bar */
+}
+
+/* ── dots ── */
+.sc__dots {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: all;
+  z-index: 8;
+}
+.sc__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  border: none; cursor: pointer; padding: 0;
+  transition: background .3s, transform .3s;
+}
+.sc__dot--active {
+  background: rgba(255,255,255,.8);
+  transform: scale(1.4);
+}
+
+/* ══════════════════════════════════════════════
+   HERO CONTENT
+══════════════════════════════════════════════ */
+.sc__hero-content {
+  pointer-events: all;
+  padding: 0 var(--section-padding);
+  width: 100%;
+  max-width: 700px;
+}
+
+.sc__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin-bottom: 2rem;
+}
+.sc__eyebrow-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.45);
+}
+.sc__eyebrow-txt {
+  font-family: var(--font-primary);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+}
+
+.sc__h1 {
+  font-family: var(--font-primary);
+  font-size: clamp(2.8rem, 6.2vw, 6.2rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -.035em;
+  color: #fff;
+  margin-bottom: 2.8rem;
+}
+.sc__h1-line { display: block; }
+.sc__h1-word { display: block; overflow: visible; }
+
+.sc__word { display: inline-flex; }
+.sc__word > span {
+  background: linear-gradient(135deg,#fff 0%,rgba(255,255,255,.5) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sc__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  font-family: var(--font-primary);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  padding-bottom: .4rem;
+  transition: color .3s, border-color .3s;
+}
+.sc__cta:hover { color: #fff; border-color: rgba(255,255,255,.5); }
+.sc__cta svg { transition: transform .3s; }
+.sc__cta:hover svg { transform: translateX(5px); }
+
+.sc__scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .6rem;
+  margin-top: 2.8rem;
+}
+.sc__scroll-bar {
+  width: 1px; height: 42px;
+  background: rgba(255,255,255,.22);
+  transform-origin: top;
+}
+.sc__scroll-lbl {
+  font-family: var(--font-primary);
+  font-size: .58rem;
+  letter-spacing: .22em;
+  color: rgba(255,255,255,.25);
+  writing-mode: vertical-rl;
+}
+
+/* ══════════════════════════════════════════════
+   ABOUT / PROCESS CONTENT  — full width overlay
+══════════════════════════════════════════════ */
+.sc__about-content {
+  pointer-events: all;
+  padding: 0 var(--section-padding);
+  width: 100%;          /* full viewport width */
+}
+
+.sc__alabel {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-family: var(--font-primary);
+  font-size: .66rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  margin-bottom: 2rem;
+}
+.sc__alabel-gem { font-size: .38rem; opacity: .55; }
+
+/* Big heading — same width as reference (almost full screen) */
+.sc__ah2 {
+  font-family: var(--font-primary);
+  font-size: clamp(1.7rem, 4vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+  color: #fff;
+  max-width: 1000px;
+  margin-bottom: 3rem;
+}
+
+.sc__adivider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,.06);
+  margin-bottom: 2.5rem;
+}
+
+/* 3-col bottom row — matches reference exactly */
+.sc__arow {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 3rem;
+  align-items: start;
+  max-width: 1000px;
+}
+
+.sc__atag-left {
+  font-family: var(--font-primary);
+  font-size: .65rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.26);
+  line-height: 1.9;
+}
+
+.sc__atag-right {
+  font-family: var(--font-secondary);
+  font-size: .84rem;
+  line-height: 1.75;
+  color: rgba(255,255,255,.46);
+}
+
+.sc__acta {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: var(--font-primary);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  padding-bottom: .3rem;
+  white-space: nowrap;
+  transition: color .3s, border-color .3s;
+  align-self: flex-end;
+}
+.sc__acta:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+.sc__acta svg { transition: transform .3s; }
+.sc__acta:hover svg { transform: translateX(4px); }
+
+/* ── stat bar ── */
+.sc__statbar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+  padding: 1.5rem var(--section-padding);
+  border-top: 1px solid rgba(255,255,255,.04);
+  pointer-events: none;
+}
+.sc__sdiv { width:1px; height:32px; background:rgba(255,255,255,.07); }
+.sc__stat { display:flex; flex-direction:column; gap:.18rem; }
+.sc__sval {
+  font-family:var(--font-primary); font-size:.68rem; font-weight:700;
+  letter-spacing:.1em; color:rgba(255,255,255,.6);
+}
+.sc__slbl {
+  font-family:var(--font-primary); font-size:.56rem; letter-spacing:.1em;
+  color:rgba(255,255,255,.28); text-transform:uppercase;
+}
+.sc__sdesc {
+  font-family:var(--font-secondary); font-size:.7rem;
+  line-height:1.65; color:rgba(255,255,255,.36);
+}
+
+/* cursor */
+.sc__cursor {
+  position: fixed;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.2);
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  z-index: 9999;
+  transition: left .08s ease-out, top .08s ease-out;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .sc__arow { grid-template-columns: 1fr 1fr; }
+  .sc__acta { grid-column: 1/-1; }
+  .sc__ah2 { font-size: clamp(1.5rem,4.5vw,3rem); }
+}
+
+@media (max-width: 768px) {
+  .sc__model-wrap { opacity: .3; }
+  .sc__arow { grid-template-columns: 1fr; gap: 1.4rem; }
+  .sc__atag-left { display: none; }
+  .sc__sdesc { display: none; }
+  .sc__ah2 { font-size: clamp(1.4rem,6vw,2.4rem); }
+}
+
+/* ══════════════════════════════════════════════
+   3rd SECTION: GIANT MARQUEE (TRIONN STYLE)
+══════════════════════════════════════════════ */
+.sc__marquee-content {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5.5rem var(--section-padding) 6.5rem;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.sc__marquee-topleft {
+  font-family: var(--font-primary);
+  font-size: clamp(0.62rem, 0.9vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  pointer-events: all;
+  margin-left: 2rem;
+}
+
+.sc__marquee-topleft span {
+  display: block;
+}
+
+.sc__marquee-container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100vw;
+  transform: translateY(-50%);
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1; /* behind/around 3D model */
+}
+
+.sc__marquee-track {
+  display: inline-flex;
+  align-items: center;
+  animation: scMarqueeScroll 20s linear infinite;
+  will-change: transform;
+}
+
+@keyframes scMarqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.sc__marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.2rem;
+  padding-right: 2.2rem;
+}
+
+.sc__marquee-word {
+  font-family: var(--font-primary);
+  font-size: clamp(3.2rem, 10vw, 9.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 50px rgba(255, 255, 255, 0.12);
+}
+
+.sc__marquee-plus {
+  font-family: var(--font-primary);
+  font-size: clamp(1.8rem, 5.5vw, 4.8rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.sc__marquee-bottomtag {
+  align-self: center;
+  font-family: var(--font-primary);
+  font-size: clamp(0.62rem, 0.9vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  padding: 0.6rem 1.4rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: all;
+}
