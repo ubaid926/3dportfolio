@@ -8,19 +8,17 @@
 }
 
 :root {
-  /* Pure Dark Theme — Cinematic Black */
-  --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-tertiary: #111111;
+  /* Premium Dark Blue Theme */
+  --bg-primary: #030712;
+  --bg-secondary: #080f26;
+  --bg-tertiary: #0e1738;
   --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --text-muted: #505050;
-  --accent-red: #ff4444;
-  --accent-orange: #ff8844;
-  --accent-warm: #ffaa44;
-  --accent-glow: rgba(255, 68, 68, 0.12);
-  --border-subtle: rgba(160, 160, 160, 0.08);
-  --border-hover: rgba(255, 68, 68, 0.35);
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
+  --accent-blue: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.16);
+  --border-subtle: rgba(56, 189, 248, 0.12);
+  --border-hover: rgba(56, 189, 248, 0.4);
   
   /* Typography */
   --font-primary: 'Space Grotesk', sans-serif;
@@ -39,7 +37,7 @@ html {
 
 body {
   font-family: var(--font-secondary);
-  background-color: #000000;
+  background-color: #030712;
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.6;

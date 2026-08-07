@@ -16,14 +16,14 @@
   70%        { transform: translateY(-5px); }
 }
 
-/* Very subtle warm centre glow behind canvas */
+/* Very subtle cyan/blue centre glow behind canvas */
 .model3d__glow-bg {
   position: absolute;
   inset: -20%;
   background: radial-gradient(
     ellipse 60% 55% at 55% 55%,
-    rgba(255, 110, 20, 0.09) 0%,
-    rgba(200, 80, 10, 0.04) 45%,
+    rgba(14, 165, 233, 0.18) 0%,
+    rgba(29, 78, 216, 0.1) 45%,
     transparent 70%
   );
   pointer-events: none;
@@ -44,11 +44,11 @@
   height: 100%;
   cursor: grab;
   touch-action: none;
-  /* Outer drop-shadow replicates the orange halo from the reference */
+  /* Outer drop-shadow in cyan/blue */
   filter:
-    drop-shadow(0 0 22px rgba(255, 120, 20, 0.22))
-    drop-shadow(0 0 60px rgba(200, 80, 10, 0.12))
-    drop-shadow(0 24px 50px rgba(0, 0, 0, 0.75));
+    drop-shadow(0 0 25px rgba(56, 189, 248, 0.28))
+    drop-shadow(0 0 65px rgba(37, 99, 235, 0.18))
+    drop-shadow(0 24px 50px rgba(0, 0, 0, 0.85));
 }
 
 .model3d__canvas-mount:active { cursor: grabbing; }
@@ -80,12 +80,12 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(255, 160, 60, 0.8);
+  background: rgba(56, 189, 248, 0.9);
   animation: dot-pulse 2.4s ease-in-out infinite;
 }
 @keyframes dot-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255,120,20,.5); }
-  50%       { box-shadow: 0 0 0 5px rgba(255,120,20,0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(56, 189, 248, 0); }
 }
 
 .model3d__label-text {
@@ -94,7 +94,7 @@
   font-weight: 500;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255, 180, 90, 0.7);
+  color: rgba(147, 197, 253, 0.85);
 }
 
 /* ── Responsive ── */

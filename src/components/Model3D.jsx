@@ -2,6 +2,15 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import './Model3D.css';
 
+import img1 from '../assets/(1).jpeg';
+import img2 from '../assets/(2).jpeg';
+import img3 from '../assets/(3).jpeg';
+import img4 from '../assets/(4).jpeg';
+import img5 from '../assets/(5).jpeg';
+import img6 from '../assets/(6).jpeg';
+import img7 from '../assets/(7).jpeg';
+import img8 from '../assets/(8).jpeg';
+
 // ─── Rounded rect shape ───────────────────────────────────────────────────────
 function roundedRectShape(w, h, r) {
   const s = new THREE.Shape();
@@ -18,162 +27,17 @@ function roundedRectShape(w, h, r) {
   return s;
 }
 
-// ─── USER PORTFOLIO IMAGES (local assets) ─────────────────────────────────────
+// ─── USER PORTFOLIO IMAGES (from src/assets) ──────────────────────────────────
 const SCENERY_URLS = [
-  '/textures/img1.jpg', // Alrasul Whey Protein
-  '/textures/img2.jpg', // Honor X6C phone
-  '/textures/img3.jpg', // Dawae Islami fasting
-  '/textures/img4.jpg', // Allah is All-Knowing
-  '/textures/img5.jpg', // Lice-Free Salon Hyderabad
-  '/textures/img6.jpg', // Rabi-ul-Awwal travel package
-  '/textures/img7.jpg', // Arabian Nights perfume box
-  '/textures/img8.jpg', // Al-Saad Iternity perfume box
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+  img7,
+  img8,
 ];
-
-// ─── PROCEDURAL SCENERY CANVAS GENERATOR (INSTANT FALLBACK & BASE) ────────────
-function createSceneryCanvasTexture(themeIdx) {
-  const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
-  const ctx = canvas.getContext('2d');
-
-  const themes = [
-    // 0: Mountain Sunset
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#2b0938');
-      grad.addColorStop(0.5, '#b83b5e');
-      grad.addColorStop(1, '#f08a5d');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-      const sunGlow = ctx.createRadialGradient(256, 320, 10, 256, 320, 120);
-      sunGlow.addColorStop(0, 'rgba(255, 230, 150, 0.9)');
-      sunGlow.addColorStop(1, 'rgba(255, 100, 50, 0)');
-      ctx.fillStyle = sunGlow; ctx.beginPath(); ctx.arc(256, 320, 120, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = '#1a0523';
-      ctx.beginPath(); ctx.moveTo(0, 512); ctx.lineTo(0, 360); ctx.lineTo(120, 260); ctx.lineTo(240, 380); ctx.lineTo(380, 240); ctx.lineTo(512, 390); ctx.lineTo(512, 512); ctx.fill();
-    },
-    // 1: Starry Aurora
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#050a18');
-      grad.addColorStop(0.6, '#0a192f');
-      grad.addColorStop(1, '#020c1b');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-      const aurora = ctx.createLinearGradient(0, 150, 512, 300);
-      aurora.addColorStop(0, 'rgba(0, 255, 170, 0.6)');
-      aurora.addColorStop(0.5, 'rgba(0, 200, 255, 0.4)');
-      aurora.addColorStop(1, 'rgba(150, 0, 255, 0.5)');
-      ctx.fillStyle = aurora;
-      ctx.beginPath(); ctx.moveTo(0, 120); ctx.bezierCurveTo(150, 80, 350, 280, 512, 180); ctx.lineTo(512, 380); ctx.bezierCurveTo(300, 420, 100, 220, 0, 320); ctx.fill();
-      ctx.fillStyle = '#ffffff';
-      for (let i = 0; i < 80; i++) {
-        const sx = (Math.sin(i*12.3)*0.5+0.5)*512;
-        const sy = (Math.cos(i*45.6)*0.5+0.5)*350;
-        ctx.fillRect(sx, sy, (i%3===0?2.5:1.2), (i%3===0?2.5:1.2));
-      }
-    },
-    // 2: Ocean Sunset
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#3d0c5a');
-      grad.addColorStop(0.45, '#e05297');
-      grad.addColorStop(0.65, '#ff7b54');
-      grad.addColorStop(1, '#0c2440');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-      ctx.fillStyle = 'rgba(255, 200, 100, 0.3)';
-      ctx.fillRect(0, 310, 512, 202);
-    },
-    // 3: Autumn Forest
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#2d0000');
-      grad.addColorStop(0.5, '#8c1c13');
-      grad.addColorStop(0.85, '#bf4343');
-      grad.addColorStop(1, '#1b0000');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-    },
-    // 4: Desert Dunes
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#190a28');
-      grad.addColorStop(0.4, '#6b2d5c');
-      grad.addColorStop(0.7, '#e07a5f');
-      grad.addColorStop(1, '#3d1308');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-      ctx.fillStyle = '#c8553d';
-      ctx.beginPath(); ctx.moveTo(0, 360); ctx.quadraticCurveTo(200, 300, 512, 420); ctx.lineTo(512, 512); ctx.lineTo(0, 512); ctx.fill();
-    },
-    // 5: Alpine Lake
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#0b132b');
-      grad.addColorStop(0.5, '#1c2541');
-      grad.addColorStop(0.75, '#48cae4');
-      grad.addColorStop(1, '#03045e');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-    },
-    // 6: Cosmic Night Sky
-    () => {
-      const grad = ctx.createRadialGradient(256, 256, 20, 256, 256, 320);
-      grad.addColorStop(0, '#7209b7');
-      grad.addColorStop(0.5, '#3a0ca3');
-      grad.addColorStop(1, '#03071e');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-    },
-    // 7: Misty Forest
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#10002b');
-      grad.addColorStop(0.5, '#5a189a');
-      grad.addColorStop(0.8, '#9d4edd');
-      grad.addColorStop(1, '#240046');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-    },
-    // 8: Sunset Canyon
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#3f0008');
-      grad.addColorStop(0.5, '#9e0059');
-      grad.addColorStop(0.8, '#ff5400');
-      grad.addColorStop(1, '#1e0003');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-    },
-    // 9: Fuji Blossom
-    () => {
-      const grad = ctx.createLinearGradient(0, 0, 0, 512);
-      grad.addColorStop(0, '#022c22');
-      grad.addColorStop(0.5, '#065f46');
-      grad.addColorStop(0.8, '#10b981');
-      grad.addColorStop(1, '#021f17');
-      ctx.fillStyle = grad; ctx.fillRect(0,0,512,512);
-    }
-  ];
-
-  if (themes[themeIdx % themes.length]) {
-    themes[themeIdx % themes.length]();
-  }
-
-  const labels = [
-    'MOUNTAIN SUNSET', 'STARRY AURORA', 'OCEAN SUNSET', 'AUTUMN FOREST', 'DESERT DUNES',
-    'ALPINE LAKE', 'COSMIC NIGHT', 'MISTY FOREST', 'SUNSET CANYON', 'FUJI BLOSSOM'
-  ];
-
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(24, 24, 464, 464);
-
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
-  ctx.fillRect(40, 420, 432, 50);
-
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '700 20px system-ui, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(labels[themeIdx % labels.length], 256, 452);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.needsUpdate = true;
-  return texture;
-}
 
 // ─── VERTEX SHADER ────────────────────────────────────────────────────────────
 const vertexShader = /* glsl */`
@@ -316,33 +180,23 @@ const Model3D = ({ scrollProgress = 0 }) => {
       uLight2Dir:   { value: new THREE.Vector3(  0.6,  0.6, -0.8).normalize() },
       uLight1Int:   { value: 0.0 },
       uLight2Int:   { value: 0.0 },
-      uLight1Color: { value: new THREE.Color('#ffb703') }, // Yellow / Gold Spotlight
-      uLight2Color: { value: new THREE.Color('#ffffff') }, // White Spotlight
+      uLight1Color: { value: new THREE.Color('#38bdf8') }, // Electric Cyan/Blue Spotlight
+      uLight2Color: { value: new THREE.Color('#60a5fa') }, // Soft Blue Spotlight
     };
 
-    // ── Generate Scenery Pool of 10 Textures ───────────────────────────
-    const poolTextures = SCENERY_URLS.map((url, idx) => {
-      // Create procedural fallback texture first (shows instantly)
-      const canvasTex = createSceneryCanvasTexture(idx % 10);
-
-      // Load the local portfolio image
-      const loader = new THREE.TextureLoader();
-      loader.load(url, (photoTex) => {
-        photoTex.colorSpace = THREE.SRGBColorSpace;
-        photoTex.needsUpdate = true;
-        canvasTex.image = photoTex.image;
-        canvasTex.needsUpdate = true;
-      });
-
-      return canvasTex;
+    // ── Load Texture Pool directly from src/assets ──────────────────────
+    const loader = new THREE.TextureLoader();
+    const poolTextures = SCENERY_URLS.map((url) => {
+      const tex = loader.load(url);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
     });
 
-    // The 4 vertical sides in Three.js BoxGeometry correspond to material indices [0, 1, 4, 5]
-    const VERTICAL_SIDE_FACES = [0, 1, 4, 5]; // Right, Left, Front, Back
+    // All 6 faces of the 3D cube model: 0:Right, 1:Left, 2:Top, 3:Bottom, 4:Front, 5:Back
+    const ALL_SIX_FACES = [0, 1, 2, 3, 4, 5];
 
-    // Initial active texture pool index for each of the 6 faces (indices 0-7, pool size = 8)
-    // 4 vertical sides [0,1,4,5] start with images 0,1,2,3; top(2)→4; bottom(3)→5
-    let currentFaceIndices = [0, 1, 4, 5, 2, 3];
+    // Initial active texture pool index for each of the 6 faces (indices 0 to 5)
+    let currentFaceIndices = [0, 1, 2, 3, 4, 5];
 
     // Create 6 face materials with initial textures & blend uniforms
     const materials = currentFaceIndices.map((texIdx) => {
@@ -403,18 +257,18 @@ const Model3D = ({ scrollProgress = 0 }) => {
       nextTexIdx: -1,
     }));
 
-    let nextSideFaceIdx = 0;
+    let nextFaceIdx = 0;
 
-    // Timer: Cycle images ONLY on the 4 vertical sides [0, 1, 4, 5] every 2.8 seconds
+    // Timer: Cycle images across ALL 6 sides every 2.8 seconds
     const swapInterval = setInterval(() => {
-      const targetSideFace = VERTICAL_SIDE_FACES[nextSideFaceIdx];
-      nextSideFaceIdx = (nextSideFaceIdx + 1) % VERTICAL_SIDE_FACES.length;
+      const targetFace = ALL_SIX_FACES[nextFaceIdx];
+      nextFaceIdx = (nextFaceIdx + 1) % ALL_SIX_FACES.length;
 
-      // Find unused scenery indices in pool that are NOT active on ANY of the 4 vertical sides
-      const activeSideSceneries = VERTICAL_SIDE_FACES.map(fIdx => currentFaceIndices[fIdx]);
+      // Find unused asset image indices in pool that are NOT active on ANY of the 6 sides
+      const activeImages = ALL_SIX_FACES.map(fIdx => currentFaceIndices[fIdx]);
       const unusedIndices = [];
       for (let i = 0; i < poolTextures.length; i++) {
-        if (!activeSideSceneries.includes(i)) {
+        if (!activeImages.includes(i)) {
           unusedIndices.push(i);
         }
       }
@@ -423,10 +277,10 @@ const Model3D = ({ scrollProgress = 0 }) => {
         const nextPoolIdx = unusedIndices[Math.floor(Math.random() * unusedIndices.length)];
 
         // Start cross-fade transition on that side
-        materials[targetSideFace].uniforms.uNextMap.value = poolTextures[nextPoolIdx];
-        transitionState[targetSideFace].active = true;
-        transitionState[targetSideFace].progress = 0;
-        transitionState[targetSideFace].nextTexIdx = nextPoolIdx;
+        materials[targetFace].uniforms.uNextMap.value = poolTextures[nextPoolIdx];
+        transitionState[targetFace].active = true;
+        transitionState[targetFace].progress = 0;
+        transitionState[targetFace].nextTexIdx = nextPoolIdx;
       }
     }, 2800);
 
@@ -446,35 +300,140 @@ const Model3D = ({ scrollProgress = 0 }) => {
       return m;
     };
 
-    const yellowGlow = makeGlow('#ffb703', 4.0, new THREE.Vector3( 0.6, 0.6,-0.8));
-    const whiteGlow  = makeGlow('#ffffff', 4.0, new THREE.Vector3(-0.6,-0.6,-0.8));
+    const blueGlow1 = makeGlow('#38bdf8', 4.0, new THREE.Vector3( 0.6, 0.6,-0.8));
+    const blueGlow2 = makeGlow('#60a5fa', 4.0, new THREE.Vector3(-0.6,-0.6,-0.8));
 
-    // ── FIXED BACKGROUND ARCHITECTURAL GRID (STATIC IN BACKGROUND) ─────────────
-    const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.055 });
+    // ── ANIMATED DYNAMIC 3D CYBER NET GRID ─────────────────────────────────────
+    const lineMat = new THREE.LineBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.08,
+      blending: THREE.AdditiveBlending,
+    });
+
     const linesGrp = new THREE.Group();
-    linesGrp.position.set(0, 0, -3.5); // Fixed deep in the background behind the model
+    linesGrp.position.set(0, 0, -3.5);
     scene.add(linesGrp);
 
-    const addLine = (x1, y1, z1, x2, y2, z2) => {
-      linesGrp.add(new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints([
-          new THREE.Vector3(x1, y1, z1), new THREE.Vector3(x2, y2, z2),
-        ]), lineMat,
-      ));
+    const animatedLines = [];
+
+    const addSegmentedLine = (x1, y1, x2, y2, segments = 16) => {
+      const positions = new Float32Array((segments + 1) * 3);
+      const initialCoords = [];
+
+      for (let i = 0; i <= segments; i++) {
+        const t = i / segments;
+        const x = x1 + (x2 - x1) * t;
+        const y = y1 + (y2 - y1) * t;
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = 0;
+        initialCoords.push({ x, y });
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const lineMesh = new THREE.Line(geo, lineMat);
+      linesGrp.add(lineMesh);
+
+      animatedLines.push({ geo, initialCoords, positions });
     };
 
-    // Static background architectural grid (Does not rotate with the 3D box)
+    // Build vertical and horizontal grid lines
+    const gridNodes = [];
     for (let x = -14; x <= 14; x += 3.5) {
-      addLine(x, -10, 0, x, 10, 0); // Vertical background lines
+      addSegmentedLine(x, -10, x, 10, 20);
     }
     for (let y = -9; y <= 9; y += 3) {
-      addLine(-14, y, 0, 14, y, 0); // Horizontal background lines
+      addSegmentedLine(-14, y, 14, y, 24);
     }
     // Subdued diagonal accent lines
-    addLine(-14, 8, 0, 14, -8, 0);
-    addLine(-14, -8, 0, 14, 8, 0);
-    addLine(-14, 3, 0, 14, -5, 0);
-    addLine(-14, -3, 0, 14, 5, 0);
+    addSegmentedLine(-14, 8, 14, -8, 20);
+    addSegmentedLine(-14, -8, 14, 8, 20);
+    addSegmentedLine(-14, 3, 14, -5, 20);
+    addSegmentedLine(-14, -3, 14, 5, 20);
+
+    // Glowing Node Dots at Grid Intersections
+    const nodePositions = [];
+    for (let x = -14; x <= 14; x += 3.5) {
+      for (let y = -9; y <= 9; y += 3) {
+        nodePositions.push(x, y, 0);
+        gridNodes.push({ x, y });
+      }
+    }
+
+    const nodeGeo = new THREE.BufferGeometry();
+    nodeGeo.setAttribute('position', new THREE.Float32BufferAttribute(nodePositions, 3));
+
+    const nodeMat = new THREE.PointsMaterial({
+      color: 0x38bdf8,
+      size: 0.13,
+      transparent: true,
+      opacity: 0.45,
+      blending: THREE.AdditiveBlending,
+    });
+    const nodePoints = new THREE.Points(nodeGeo, nodeMat);
+    linesGrp.add(nodePoints);
+
+    // ── ELECTRIC CURRENT PULSES TRAVELING ALONG NET LINES ──────────────────────
+    const NUM_PULSES = 16;
+    const currentPulses = [];
+    const PULSE_COLORS = [0x00f0ff, 0x38bdf8, 0xffaa00, 0xffffff, 0x60a5fa, 0xff7700];
+
+    const getInterpolatedPointOnLine = (lineData, tNorm) => {
+      const { initialCoords } = lineData;
+      const count = initialCoords.length;
+      if (count < 2) return { x: 0, y: 0 };
+      const clampedT = Math.max(0, Math.min(1, tNorm));
+      const idxF = clampedT * (count - 1);
+      const idx1 = Math.floor(idxF);
+      const idx2 = Math.min(idx1 + 1, count - 1);
+      const subT = idxF - idx1;
+      const p1 = initialCoords[idx1];
+      const p2 = initialCoords[idx2];
+      return {
+        x: p1.x + (p2.x - p1.x) * subT,
+        y: p1.y + (p2.y - p1.y) * subT,
+      };
+    };
+
+    const resetPulse = (pulse) => {
+      pulse.lineIndex = Math.floor(Math.random() * animatedLines.length);
+      pulse.progress = -Math.random() * 0.4;
+      pulse.speed = 0.006 + Math.random() * 0.010;
+      pulse.length = 0.12 + Math.random() * 0.18;
+      const colHex = PULSE_COLORS[Math.floor(Math.random() * PULSE_COLORS.length)];
+      pulse.mesh.material.color.setHex(colHex);
+    };
+
+    for (let i = 0; i < NUM_PULSES; i++) {
+      const pulseGeo = new THREE.BufferGeometry();
+      const pulsePos = new Float32Array(8 * 3); // 8-segment smooth glowing current trail
+      pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
+
+      const pulseMat = new THREE.LineBasicMaterial({
+        color: 0x00f0ff,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+
+      const pulseMesh = new THREE.Line(pulseGeo, pulseMat);
+      linesGrp.add(pulseMesh);
+
+      const pulse = {
+        mesh: pulseMesh,
+        geo: pulseGeo,
+        positions: pulsePos,
+        lineIndex: 0,
+        progress: 0,
+        speed: 0.01,
+        length: 0.18,
+      };
+      resetPulse(pulse);
+      currentPulses.push(pulse);
+    }
 
     // ── REALISTIC LIGHTNING ARC SYSTEM (TRIONN REFERENCE STYLE) ────────────────
     const lightningGrp = new THREE.Group();
@@ -581,11 +540,11 @@ const Model3D = ({ scrollProgress = 0 }) => {
     ];
 
     const ALL_COLORS = [
-      '#ffb703',
-      '#ff9100',
-      '#ffffff',
-      '#e0f2fe',
-      '#ffc107',
+      '#38bdf8',
+      '#2563eb',
+      '#60a5fa',
+      '#00bfff',
+      '#93c5fd',
     ];
 
     const pickRandomPos = (currentIdx) => {
@@ -608,8 +567,8 @@ const Model3D = ({ scrollProgress = 0 }) => {
       FADEOUT:    35,
     });
 
-    const ls1 = createLightState(0, 0,  '#ffb703');
-    const ls2 = createLightState(2, 60, '#ffffff');
+    const ls1 = createLightState(0, 0,  '#38bdf8');
+    const ls2 = createLightState(2, 60, '#60a5fa');
 
     const tickLight = (ls) => {
       ls.frame++;
@@ -702,6 +661,74 @@ const Model3D = ({ scrollProgress = 0 }) => {
       animId = requestAnimationFrame(animate);
       t += 0.012;
 
+      // ── Animate 3D Cyber Net Grid Wave & Parallax ──────────────────────
+      const waveT = t * 1.5;
+      const mouseW = { x: mouse.x * 7.5, y: mouse.y * 4.5 };
+
+      animatedLines.forEach(({ geo, initialCoords, positions }) => {
+        for (let i = 0; i < initialCoords.length; i++) {
+          const { x, y } = initialCoords[i];
+          const distToM = Math.hypot(x - mouseW.x, y - mouseW.y);
+          const mouseWarp = Math.exp(-distToM * 0.35) * 0.45;
+          const waveZ = Math.sin(x * 0.35 + waveT) * Math.cos(y * 0.35 + waveT * 0.8) * 0.22;
+
+          positions[i * 3 + 2] = waveZ + mouseWarp;
+        }
+        geo.attributes.position.needsUpdate = true;
+      });
+
+      // Animate node points Z & opacity pulse
+      const nodePosAttr = nodeGeo.attributes.position;
+      for (let i = 0; i < gridNodes.length; i++) {
+        const { x, y } = gridNodes[i];
+        const distToM = Math.hypot(x - mouseW.x, y - mouseW.y);
+        const mouseWarp = Math.exp(-distToM * 0.35) * 0.45;
+        const waveZ = Math.sin(x * 0.35 + waveT) * Math.cos(y * 0.35 + waveT * 0.8) * 0.22;
+
+        nodePosAttr.setZ(i, waveZ + mouseWarp);
+      }
+      nodePosAttr.needsUpdate = true;
+
+      // ── Animate Electric Current Pulses along Net Lines ────────────────
+      currentPulses.forEach((pulse) => {
+        pulse.progress += pulse.speed;
+        if (pulse.progress - pulse.length > 1.0) {
+          resetPulse(pulse);
+        }
+
+        const lineData = animatedLines[pulse.lineIndex];
+        if (!lineData) return;
+
+        const segs = 7;
+        const positions = pulse.positions;
+
+        for (let i = 0; i <= segs; i++) {
+          const subFactor = i / segs;
+          const currentT = pulse.progress - (1 - subFactor) * pulse.length;
+          const pt = getInterpolatedPointOnLine(lineData, currentT);
+
+          const distToM = Math.hypot(pt.x - mouseW.x, pt.y - mouseW.y);
+          const mouseWarp = Math.exp(-distToM * 0.35) * 0.45;
+          const waveZ = Math.sin(pt.x * 0.35 + waveT) * Math.cos(pt.y * 0.35 + waveT * 0.8) * 0.22;
+
+          positions[i * 3]     = pt.x;
+          positions[i * 3 + 1] = pt.y;
+          positions[i * 3 + 2] = waveZ + mouseWarp + 0.02; // elevated for vivid electric current glow
+        }
+
+        pulse.geo.attributes.position.needsUpdate = true;
+
+        const headT = pulse.progress;
+        const opacityScale = headT < 0.1 ? headT / 0.1 : headT > 0.9 ? (1 - headT) / 0.1 : 1.0;
+        pulse.mesh.material.opacity = Math.max(0, Math.min(1, opacityScale)) * 0.95;
+      });
+
+      // Parallax rotation & subtle opacity pulse on grid net
+      linesGrp.rotation.x = Math.sin(t * 0.3) * 0.03 + mouse.y * 0.04;
+      linesGrp.rotation.y = Math.cos(t * 0.25) * 0.03 + mouse.x * 0.04;
+      lineMat.opacity = 0.07 + Math.sin(t * 1.8) * 0.03;
+      nodeMat.opacity = 0.35 + Math.sin(t * 2.2) * 0.15;
+
       // ── Animate & fade out active electric current lightning arcs ──────
       for (let i = activeLightningBolts.length - 1; i >= 0; i--) {
         const bolt = activeLightningBolts[i];
@@ -781,13 +808,13 @@ const Model3D = ({ scrollProgress = 0 }) => {
       uniforms.uLight2Int.value = ls2.int * 2.4;
       uniforms.uLight2Color.value.copy(ls2.color);
 
-      yellowGlow.position.set(light1Pos.x * 0.22, light1Pos.y * 0.22, -0.9);
-      yellowGlow.material.uniforms.uIntensity.value = ls1.int * 0.32;
-      yellowGlow.material.uniforms.uColor.value.copy(ls1.color);
+      blueGlow1.position.set(light1Pos.x * 0.22, light1Pos.y * 0.22, -0.9);
+      blueGlow1.material.uniforms.uIntensity.value = ls1.int * 0.32;
+      blueGlow1.material.uniforms.uColor.value.copy(ls1.color);
 
-      whiteGlow.position.set(light2Pos.x * 0.22, light2Pos.y * 0.22, -0.9);
-      whiteGlow.material.uniforms.uIntensity.value = ls2.int * 0.28;
-      whiteGlow.material.uniforms.uColor.value.copy(ls2.color);
+      blueGlow2.position.set(light2Pos.x * 0.22, light2Pos.y * 0.22, -0.9);
+      blueGlow2.material.uniforms.uIntensity.value = ls2.int * 0.28;
+      blueGlow2.material.uniforms.uColor.value.copy(ls2.color);
 
       // Scroll interpolation
       const sp = scrollRef.current;
