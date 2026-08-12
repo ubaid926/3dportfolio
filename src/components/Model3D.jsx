@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import './Model3D.css';
 
@@ -143,14 +143,66 @@ const glowFrag = /* glsl */`
 `;
 
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
-const Model3D = ({ scrollProgress = 0 }) => {
+const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
   const mountRef  = useRef(null);
   const scrollRef = useRef(0);
+  // Reactive copy for the HTML frame (causes re-render on scroll, lightweight)
+  const [frameProgress, setFrameProgress] = useState(0);
+
+  // Mouse-tilt state for holographic card
+  const frameRef   = useRef(null);
+  const tiltRafRef = useRef(null);
+  const tiltTarget = useRef({ x: 0, y: 0 });
+  const tiltCurrent = useRef({ x: 0, y: 0 });
 
   // Sync scroll value into ref (no re-render needed in RAF loop)
+  // Also push into state for the HTML frame overlay
   useEffect(() => {
     scrollRef.current = scrollProgress;
+    setFrameProgress(scrollProgress);
   }, [scrollProgress]);
+
+  /* ── Mouse-tracking 3D tilt for holographic frame ── */
+  useEffect(() => {
+    const onMove = (e) => {
+      const el = frameRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width  / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      tiltTarget.current = { x: dy * -22, y: dx * 22 };
+    };
+    const onLeave = () => {
+      tiltTarget.current = { x: 0, y: 0 };
+    };
+
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const tick = () => {
+      const el = frameRef.current;
+      if (el) {
+        tiltCurrent.current.x = lerp(tiltCurrent.current.x, tiltTarget.current.x, 0.08);
+        tiltCurrent.current.y = lerp(tiltCurrent.current.y, tiltTarget.current.y, 0.08);
+        el.style.setProperty('--tilt-x', `${tiltCurrent.current.x}deg`);
+        el.style.setProperty('--tilt-y', `${tiltCurrent.current.y}deg`);
+        // Move holographic sheen based on tilt
+        const sheenX = 50 + tiltCurrent.current.y * 1.2;
+        const sheenY = 50 + tiltCurrent.current.x * 1.2;
+        el.style.setProperty('--sheen-x', `${sheenX}%`);
+        el.style.setProperty('--sheen-y', `${sheenY}%`);
+      }
+      tiltRafRef.current = requestAnimationFrame(tick);
+    };
+    tiltRafRef.current = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseleave', onLeave);
+    return () => {
+      cancelAnimationFrame(tiltRafRef.current);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseleave', onLeave);
+    };
+  }, []);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -158,6 +210,31 @@ const Model3D = ({ scrollProgress = 0 }) => {
 
     let W = mount.clientWidth  || 520;
     let H = mount.clientHeight || 520;
+
+    // ── Responsive helpers — recalculated on every resize ─────────────
+    // Group scale: box shrinks on small screens so it fits in the viewport
+    const getGroupScale = (w) => {
+      if (w <= 380) return 0.36;
+      if (w <= 480) return 0.44;
+      if (w <= 768) return 0.60;
+      if (w <= 1024) return 0.74;
+      return 0.85;
+    };
+    // Camera Z distance: pull back on mobile so exploded panels stay in view
+    const getCameraZ = (w) => {
+      if (w <= 380) return 12.5;
+      if (w <= 480) return 11.5;
+      if (w <= 768) return 10.2;
+      if (w <= 1024) return 9.2;
+      return 8.5;
+    };
+    // FOV: widen on mobile to capture the full explode spread
+    const getCameraFov = (w) => {
+      if (w <= 480) return 54;
+      if (w <= 768) return 48;
+      if (w <= 1024) return 42;
+      return 38;
+    };
 
     // ── Renderer ──────────────────────────────────────────────────────
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -168,8 +245,8 @@ const Model3D = ({ scrollProgress = 0 }) => {
 
     // ── Scene & Camera ────────────────────────────────────────────────
     const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
-    camera.position.set(0, 0, 8.5);
+    const camera = new THREE.PerspectiveCamera(getCameraFov(W), W / H, 0.1, 100);
+    camera.position.set(0, 0, getCameraZ(W));
 
     // ── Shared uniforms (all panels share same light values) ──────────
     const uniforms = {
@@ -216,7 +293,7 @@ const Model3D = ({ scrollProgress = 0 }) => {
 
     // ── Build 6 3D Face Panels that form Box at Home & Explode on Scroll ──
     const group = new THREE.Group();
-    group.scale.set(0.85, 0.85, 0.85);
+    group.scale.setScalar(getGroupScale(W));
     scene.add(group);
 
     const panelGeo = new THREE.BoxGeometry(2.3, 2.3, 0.12);
@@ -645,9 +722,14 @@ const Model3D = ({ scrollProgress = 0 }) => {
       if (!mount) return;
       W = mount.clientWidth || 520;
       H = mount.clientHeight || 520;
+      // Update camera to match new viewport size
       camera.aspect = W / H;
+      camera.fov    = getCameraFov(W);
+      camera.position.z = getCameraZ(W);
       camera.updateProjectionMatrix();
       renderer.setSize(W, H);
+      // Rescale the 3D group so the box stays proportional on screen
+      group.scale.setScalar(getGroupScale(W));
     };
 
     const resizeObserver = new ResizeObserver(() => onResize());
@@ -853,10 +935,89 @@ const Model3D = ({ scrollProgress = 0 }) => {
     };
   }, []);
 
+  // ── Derive frame transform from scrollProgress ────────────────────────────
+  // Same cubic-ease-in-out as the box panels for perfect sync
+  const sp = frameProgress;
+  const ease = sp < 0.5
+    ? 4 * sp * sp * sp
+    : 1 - Math.pow(-2 * sp + 2, 3) / 2;
+
+  // At ease=0: frame is tiny and dim, sitting inside the closed box.
+  // At ease=1: frame is full-size, centered, fully opaque.
+  const frameScale   = 0.16 + ease * 0.84;
+  const frameZ       = ease * 90;
+  const frameOpacity = 0.0 + ease * 1.0;
+  const frameRotY    = (1 - ease) * -24;
+  const frameRotX    = (1 - ease) * 10;
+
   return (
     <div className="model3d__wrapper">
       <div className="model3d__glow-bg" />
       <div ref={mountRef} className="model3d__canvas-mount" />
+
+      {/* ── Portfolio image frame — Holographic 3D card ── */}
+      {portfolioImage && (
+        <div className="model3d__frame-wrap">
+          <div
+            ref={frameRef}
+            className="model3d__frame"
+            style={{
+              '--tilt-x': '0deg',
+              '--tilt-y': '0deg',
+              '--sheen-x': '50%',
+              '--sheen-y': '50%',
+              transform: `
+                perspective(900px)
+                translateZ(${frameZ}px)
+                rotateY(${frameRotY}deg)
+                rotateX(${frameRotX}deg)
+                scale(${frameScale})
+              `,
+              opacity: frameOpacity,
+            }}
+          >
+            {/* Holographic shimmer overlay */}
+            <div className="model3d__frame-holo" />
+
+            {/* Scanline overlay */}
+            <div className="model3d__frame-scanlines" />
+
+            {/* Glare spot that follows mouse */}
+            <div className="model3d__frame-glare" />
+
+            {/* Decorative corner brackets */}
+            <span className="model3d__frame-corner model3d__frame-corner--tl" />
+            <span className="model3d__frame-corner model3d__frame-corner--tr" />
+            <span className="model3d__frame-corner model3d__frame-corner--bl" />
+            <span className="model3d__frame-corner model3d__frame-corner--br" />
+
+            {/* Side accent line */}
+            <div className="model3d__frame-side-accent" />
+
+            <img
+              src={portfolioImage}
+              alt="Portfolio owner"
+              className="model3d__frame-img"
+              draggable={false}
+            />
+
+            {/* Data badge row */}
+            <div className="model3d__frame-badge">
+              <span className="model3d__frame-badge-dot" />
+              <span>PORTFOLIO OWNER</span>
+              <span className="model3d__frame-badge-sep">|</span>
+              <span className="model3d__frame-badge-tag">FULL STACK</span>
+            </div>
+
+            {/* Top floating chip */}
+            <div className="model3d__frame-chip">
+              <span className="model3d__frame-chip-dot" />
+              <span>AVAILABLE</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="model3d__label">
         <span className="model3d__label-dot" />
         <span className="model3d__label-text">DRAG TO EXPLORE</span>

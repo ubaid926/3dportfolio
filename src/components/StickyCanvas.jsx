@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import Lenis from 'lenis';
 import Model3D from './Model3D';
+import ownerPortrait from '../assets/download.png';
 import './StickyCanvas.css';
 const ROTATING_WORDS = ['experiences', 'interfaces', 'products', 'solutions', 'visions'];
 
@@ -16,10 +17,6 @@ const SECTIONS = [
     cta: 'MORE ABOUT US',
   },
   {
-    id: 'vision',
-    label: 'VISION',
-  },
-  {
     id: 'process',
     label: 'PROCESS',
     heading: 'Every pixel is intentional. Every interaction considered. We build systems that scale and stories that resonate.',
@@ -27,16 +24,24 @@ const SECTIONS = [
     tagRight: 'We partner with ambitious brands to translate complex ideas into clear, beautiful digital experiences that perform.',
     cta: 'OUR PROCESS',
   },
+  {
+    id: 'vision',
+    label: 'VISION',
+  },
+  {
+    id: 'keyfacts',
+    label: 'KEY FACTS',
+  },
 ];
 
 const StickyCanvas = () => {
-  const [active, setActive]         = useState(0);
+  const [active, setActive] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [word, setWord]             = useState(0);
-  const [mousePos, setMousePos]     = useState({ x: 0, y: 0 });
+  const [word, setWord] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const wrapperRef = useRef(null);
-  const lenisRef   = useRef(null);
-  const rafRef     = useRef(null);
+  const lenisRef = useRef(null);
+  const rafRef = useRef(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -77,13 +82,20 @@ const StickyCanvas = () => {
 
   /* ── Scroll to section ── */
   const scrollTo = (i) => {
+    if (i === 4) {
+      const el = document.getElementById('keyfacts');
+      if (el) {
+        lenisRef.current?.scrollTo(el, { duration: 1.4 });
+        return;
+      }
+    }
     lenisRef.current?.scrollTo(i * window.innerHeight, { duration: 1.2 });
   };
 
   /* ── Mouse tracking ── */
   useEffect(() => {
     const h = (e) => {
-      mouseX.set((e.clientX / window.innerWidth  - 0.5) * 2);
+      mouseX.set((e.clientX / window.innerWidth - 0.5) * 2);
       mouseY.set((e.clientY / window.innerHeight - 0.5) * 2);
       setMousePos({ x: e.clientX, y: e.clientY });
     };
@@ -100,23 +112,35 @@ const StickyCanvas = () => {
 
   const sec = SECTIONS[active];
 
+  // Calculate fade-out ratio as user scrolls towards KeyFacts
+  const sceneOpacity = scrollProgress > 0.82 ? Math.max(0, 1 - (scrollProgress - 0.82) * 5.5) : 1;
+  const sceneScale = scrollProgress > 0.82 ? Math.max(0.92, 1 - (scrollProgress - 0.82) * 0.4) : 1;
+
   return (
     /* wrapper gives total scroll height */
     <div ref={wrapperRef} className="sc__wrapper">
 
       {/* ── STICKY SCENE — always visible ── */}
-      <div className="sc__scene">
+      <div 
+        className="sc__scene"
+        style={{
+          opacity: sceneOpacity,
+          transform: `scale(${sceneScale})`,
+          transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
+          pointerEvents: sceneOpacity < 0.1 ? 'none' : 'auto',
+        }}
+      >
 
         {/* background */}
         <div className="sc__bg">
           <ParticlesCanvas />
-          <motion.div className="sc__orb sc__orb--1" style={{ x: sX,  y: sY  }} />
+          <motion.div className="sc__orb sc__orb--1" style={{ x: sX, y: sY }} />
           <motion.div className="sc__orb sc__orb--2" style={{ x: sX2, y: sY2 }} />
         </div>
 
         {/* ── 3D MODEL — absolute center ── */}
         <div className="sc__model-wrap">
-          <Model3D scrollProgress={scrollProgress} />
+          <Model3D scrollProgress={scrollProgress} portfolioImage={ownerPortrait} />
         </div>
 
         {/* ── TEXT LAYER — full viewport, over model ── */}
@@ -140,8 +164,8 @@ const StickyCanvas = () => {
             {active === 0 && (
               <motion.div key="hero" className="sc__hero-content"
                 initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25,0.46,0.45,0.94] } }}
-                exit={{ opacity: 0, y: -60, transition: { duration: 0.4, ease: [0.55,0.06,0.68,0.19] } }}
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] } }}
+                exit={{ opacity: 0, y: -60, transition: { duration: 0.4, ease: [0.55, 0.06, 0.68, 0.19] } }}
               >
                 <div className="sc__eyebrow">
                   <span className="sc__eyebrow-dot" />
@@ -156,10 +180,14 @@ const StickyCanvas = () => {
                         {ROTATING_WORDS[word].split('').map((ch, i) => (
                           <motion.span key={`w${word}-${i}`} style={{ display: 'inline-block' }}
                             initial={{ opacity: 0, filter: 'blur(14px)' }}
-                            animate={{ opacity: 1, filter: 'blur(0px)',
-                              transition: { duration: 0.4, delay: i * 0.038, ease: [0.25,0.46,0.45,0.94] } }}
-                            exit={{ opacity: 0, filter: 'blur(14px)',
-                              transition: { duration: 0.24, delay: i * 0.028, ease: [0.55,0.06,0.68,0.19] } }}
+                            animate={{
+                              opacity: 1, filter: 'blur(0px)',
+                              transition: { duration: 0.4, delay: i * 0.038, ease: [0.25, 0.46, 0.45, 0.94] }
+                            }}
+                            exit={{
+                              opacity: 0, filter: 'blur(14px)',
+                              transition: { duration: 0.24, delay: i * 0.028, ease: [0.55, 0.06, 0.68, 0.19] }
+                            }}
                           >{ch}</motion.span>
                         ))}
                       </motion.span>
@@ -171,25 +199,25 @@ const StickyCanvas = () => {
                 <a href="#work" className="sc__cta">
                   START A PROJECT
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                   </svg>
                 </a>
 
                 <div className="sc__scroll-hint">
                   <motion.div className="sc__scroll-bar"
-                    animate={{ scaleY: [0,1,0] }}
+                    animate={{ scaleY: [0, 1, 0] }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} />
                   <span className="sc__scroll-lbl">SCROLL</span>
                 </div>
               </motion.div>
             )}
 
-            {/* 3rd SECTION: MARQUEE / VISION (2) - TRIONN STYLE */}
-            {active === 2 && (
+            {/* MARQUEE / VISION (3) - TRIONN STYLE */}
+            {active === 3 && (
               <motion.div key="marquee" className="sc__marquee-content"
                 initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.25,0.46,0.45,0.94] } }}
-                exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.42, ease: [0.55,0.06,0.68,0.19] } }}
+                animate={{ opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } }}
+                exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.42, ease: [0.55, 0.06, 0.68, 0.19] } }}
               >
                 <div className="sc__marquee-topleft">
                   <span>FOCUSED VISION.</span>
@@ -217,12 +245,12 @@ const StickyCanvas = () => {
               </motion.div>
             )}
 
-            {/* ABOUT (1) / PROCESS (3) */}
-            {(active === 1 || active === 3) && sec.heading && (
+            {/* ABOUT (1) / PROCESS (2) TEXT BLOCKS */}
+            {(active === 1 || active === 2) && sec.heading && (
               <motion.div key={`sec-${active}`} className="sc__about-content"
                 initial={{ opacity: 0, y: 55 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25,0.46,0.45,0.94] } }}
-                exit={{ opacity: 0, y: -50, transition: { duration: 0.42, ease: [0.55,0.06,0.68,0.19] } }}
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } }}
+                exit={{ opacity: 0, y: -50, transition: { duration: 0.42, ease: [0.55, 0.06, 0.68, 0.19] } }}
               >
                 <span className="sc__alabel">
                   <span className="sc__alabel-gem">◆</span> {sec.label}
@@ -240,7 +268,7 @@ const StickyCanvas = () => {
                   <a href="#" className="sc__acta">
                     {sec.cta}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                      <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                     </svg>
                   </a>
                 </div>
@@ -259,7 +287,7 @@ const StickyCanvas = () => {
           </div>
           <div className="sc__sdiv" />
           <p className="sc__sdesc">
-            Websites, AI products, brands,<br/>and systems built for clarity,<br/>scale and impact.
+            Websites, AI products, brands,<br />and systems built for clarity,<br />scale and impact.
           </p>
         </div>
 
@@ -287,33 +315,33 @@ const ParticlesCanvas = () => {
     resize();
     window.addEventListener('resize', resize);
     for (let i = 0; i < 65; i++) pts.push({
-      x: Math.random()*c.width, y: Math.random()*c.height,
-      sz: Math.random()*1.4+0.4, vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22,
-      op:Math.random()*.32+.06, ph:Math.random()*Math.PI*2,
+      x: Math.random() * c.width, y: Math.random() * c.height,
+      sz: Math.random() * 1.4 + 0.4, vx: (Math.random() - .5) * .22, vy: (Math.random() - .5) * .22,
+      op: Math.random() * .32 + .06, ph: Math.random() * Math.PI * 2,
     });
     const draw = () => {
-      ctx.clearRect(0,0,c.width,c.height);
-      pts.forEach((p,i)=>{
-        p.x+=p.vx; p.y+=p.vy; p.ph+=.01;
-        if(p.x<0)p.x=c.width; if(p.x>c.width)p.x=0;
-        if(p.y<0)p.y=c.height; if(p.y>c.height)p.y=0;
-        const a=p.op*(.5+.5*Math.sin(p.ph));
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
-        ctx.fillStyle=`rgba(255,255,255,${a})`; ctx.fill();
-        pts.forEach((q,j)=>{
-          if(j<=i)return;
-          const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
-          if(d<110){
-            ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
-            ctx.strokeStyle=`rgba(255,255,255,${.025*(1-d/110)})`;ctx.lineWidth=.4;ctx.stroke();
+      ctx.clearRect(0, 0, c.width, c.height);
+      pts.forEach((p, i) => {
+        p.x += p.vx; p.y += p.vy; p.ph += .01;
+        if (p.x < 0) p.x = c.width; if (p.x > c.width) p.x = 0;
+        if (p.y < 0) p.y = c.height; if (p.y > c.height) p.y = 0;
+        const a = p.op * (.5 + .5 * Math.sin(p.ph));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.sz, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${a})`; ctx.fill();
+        pts.forEach((q, j) => {
+          if (j <= i) return;
+          const dx = p.x - q.x, dy = p.y - q.y, d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 110) {
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(255,255,255,${.025 * (1 - d / 110)})`; ctx.lineWidth = .4; ctx.stroke();
           }
         });
       });
-      id=requestAnimationFrame(draw);
+      id = requestAnimationFrame(draw);
     };
     draw();
-    return ()=>{ cancelAnimationFrame(id); window.removeEventListener('resize',resize); };
-  },[]);
+    return () => { cancelAnimationFrame(id); window.removeEventListener('resize', resize); };
+  }, []);
   return <canvas ref={ref} className="sc__particles" />;
 };
 

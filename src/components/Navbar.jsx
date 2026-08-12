@@ -5,6 +5,7 @@ import './Navbar.css';
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,109 +15,170 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = ['Work', 'About', 'Services', 'Contact'];
+  const navItems = [
+    { label: 'Work', href: '#work' },
+    { label: 'Services', href: '#services' },
+    { label: 'About', href: '#about' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
   return (
-    <motion.nav
-      className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      <div className="navbar__container">
-        {/* Logo */}
-        <motion.a
-          href="#"
-          className="navbar__logo"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <span className="navbar__logo-icon">◆</span>
-          <span className="navbar__logo-text">STUDIO</span>
-        </motion.a>
-
-        {/* Desktop Nav Links */}
-        <div className="navbar__links">
-          {navItems.map((item, index) => (
-            <motion.a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="navbar__link"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-              whileHover={{ y: -2 }}
-            >
-              {item}
-            </motion.a>
-          ))}
-        </div>
-
-        {/* CTA + Menu */}
-        <div className="navbar__actions">
+    <>
+      {/* Top Header Bar */}
+      <motion.header
+        className={`navbar ${scrolled ? 'navbar--scrolled' : ''} ${menuOpen ? 'navbar--drawer-open' : ''}`}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="navbar__container">
+          {/* Logo */}
           <motion.a
-            href="#contact"
-            className="navbar__cta"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-            whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(45, 212, 107, 0.3)' }}
-            whileTap={{ scale: 0.95 }}
+            href="#"
+            className="navbar__logo"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
-            LET'S TALK
+            <span className="navbar__logo-icon">◆</span>
+            <span className="navbar__logo-text">STUDIO<sup>®</sup></span>
           </motion.a>
 
-          <motion.button
-            className={`navbar__menu-btn ${menuOpen ? 'active' : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Toggle menu"
-          >
-            <span className="navbar__menu-text">MENU</span>
-            <span className="navbar__menu-icon">
-              <span></span>
-              <span></span>
-            </span>
-          </motion.button>
-        </div>
-      </div>
+          {/* Top Right Action Controls */}
+          <div className="navbar__actions">
+            {/* Audio Mute/Unmute Toggle */}
+            <motion.button
+              className={`navbar__icon-btn ${!isMuted ? 'active' : ''}`}
+              onClick={() => setIsMuted(!isMuted)}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              aria-label="Toggle audio"
+              title={isMuted ? "Unmute audio" : "Mute audio"}
+            >
+              {isMuted ? (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+              )}
+            </motion.button>
 
-      {/* Mobile Menu Overlay */}
+            {/* Let's Talk CTA Pill */}
+            <motion.a
+              href="#contact"
+              className="navbar__cta-pill"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+            >
+              LET'S TALK
+            </motion.a>
+
+            {/* Menu Toggle Button */}
+            <motion.button
+              className={`navbar__menu-pill ${menuOpen ? 'active' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              aria-label="Toggle navigation menu"
+            >
+              <span>MENU</span>
+              <span className="navbar__menu-symbol">
+                {menuOpen ? '✕' : '☰'}
+              </span>
+            </motion.button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Right Side Drawer Panel & Backdrop */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            className="navbar__overlay"
-            initial={{ clipPath: 'circle(0% at calc(100% - 40px) 40px)' }}
-            animate={{ clipPath: 'circle(150% at calc(100% - 40px) 40px)' }}
-            exit={{ clipPath: 'circle(0% at calc(100% - 40px) 40px)' }}
-            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="navbar__overlay-content">
-              {navItems.map((item, index) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="navbar__overlay-link"
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 50 }}
-                  transition={{ delay: 0.1 + index * 0.08, duration: 0.4 }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <span className="navbar__overlay-number">0{index + 1}</span>
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+          <>
+            {/* Dark Backdrop Overlay */}
+            <motion.div
+              className="navbar__backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
+              onClick={() => setMenuOpen(false)}
+            />
+
+            {/* Right Side Drawer */}
+            <motion.aside
+              className="navbar__drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="navbar__drawer-inner">
+                {/* Main Links */}
+                <div className="navbar__drawer-main">
+                  <nav className="navbar__drawer-nav">
+                    {navItems.map((item, index) => (
+                      <motion.a
+                        key={item.label}
+                        href={item.href}
+                        className="navbar__drawer-link"
+                        initial={{ opacity: 0, x: 40 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.12 + index * 0.07, duration: 0.4 }}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {item.label}
+                      </motion.a>
+                    ))}
+                  </nav>
+
+                  {/* Story Badge Button */}
+                  <motion.a
+                    href="#about"
+                    className="navbar__story-badge"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45, duration: 0.4 }}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <span className="navbar__story-sparkle">✦</span> THE STUDIO NAME STORY
+                  </motion.a>
+                </div>
+
+                {/* Drawer Footer Details */}
+                <div className="navbar__drawer-footer">
+                  {/* Business Enquiry */}
+                  <div className="navbar__footer-block">
+                    <div className="navbar__footer-heading">BUSINESS ENQUIRY</div>
+                    <div className="navbar__footer-content">
+                      <p><span className="navbar__prefix">E.</span> <a href="mailto:hello@studio.com">hello@studio.com</a></p>
+                      <p><span className="navbar__prefix">P.</span> <a href="tel:+919824182099">+91 98241 82099</a></p>
+                    </div>
+                  </div>
+
+                  {/* Social Links Grid */}
+                  <div className="navbar__footer-block">
+                    <div className="navbar__footer-heading">SOCIAL</div>
+                    <div className="navbar__social-grid">
+                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">Linkedin</a>
+                      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+                      <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer">Dribbble</a>
+                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 };
 
 export default Navbar;
+

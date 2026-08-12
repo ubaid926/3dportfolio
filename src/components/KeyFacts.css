@@ -1,0 +1,361 @@
+/* ===== Key Facts Section ===== */
+
+.kf__section {
+  position: relative;
+  background-color: #e5e5e7;
+  color: #1c1c1e;
+  padding: 100px 24px 80px 24px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  z-index: 10;
+}
+
+.kf__container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Section Header ── */
+.kf__header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.kf__title {
+  font-size: 5rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: #1f2023;
+  margin: 0 0 16px 0;
+  line-height: 1;
+}
+
+.kf__subtitle {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: #55555c;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ── Cards Grid + 3D Perspective Stage ── */
+.kf__cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 72px;
+}
+
+/* The perspective stage sits around the grid so all cards share one VP */
+.kf__perspective-stage {
+  perspective: 1100px;
+  perspective-origin: 50% 40%;
+  transform-style: preserve-3d;
+}
+
+/* Base Card */
+.kf__card {
+  border-radius: 24px;
+  padding: 32px 28px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 520px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transform-style: preserve-3d;
+  transition: box-shadow 0.4s ease;
+  /* Ensure will-change for GPU compositing */
+  will-change: transform, opacity;
+}
+
+/* Side cards (left & right) get pointer events so hover works */
+.kf__card--side {
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* Centre card always sits above the perspective plane */
+.kf__card--centre {
+  z-index: 4;
+  position: relative;
+  /* Subtle lift shadow to reinforce depth */
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.kf__counter-num {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.kf__card:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark Card */
+.kf__card--dark {
+  background-color: #212226;
+  color: #ffffff;
+}
+
+/* Light Card */
+.kf__card--light {
+  background-color: #ededef;
+  color: #1c1c1e;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* Card Header Label */
+.kf__card-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  color: #9a9ab0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.kf__card-label--dark {
+  color: #64646e;
+}
+
+/* Image Container */
+.kf__card-img-wrap {
+  width: 100%;
+  height: 310px;
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.kf__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
+  transition: transform 0.5s ease;
+}
+
+.kf__card:hover .kf__card-img {
+  transform: scale(1.03);
+}
+
+/* Circle Badge (Middle Card) */
+.kf__circle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 24px 0;
+}
+
+.kf__circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.kf__circle-val {
+  font-size: 3.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #1c1c1e;
+}
+
+.kf__circle-val sup {
+  font-size: 2rem;
+  font-weight: 400;
+  top: -0.6em;
+}
+
+/* Card Footer */
+.kf__card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.kf__footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kf__icon-v {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.kf__footer-desc {
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: #b0b0b8;
+  margin: 0;
+  font-weight: 400;
+}
+
+.kf__footer-desc--dark {
+  color: #55555c;
+  width: 100%;
+  text-align: center;
+}
+
+.kf__stat-number {
+  font-size: 3.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 0.9;
+}
+
+.kf__stat-number sup {
+  font-size: 1.8rem;
+  font-weight: 400;
+  top: -0.5em;
+}
+
+/* ── Partners Bar ── */
+.kf__partners {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.kf__partners-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  color: #64646e;
+  text-transform: uppercase;
+}
+
+.kf__partners-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.kf__partner-logo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.85;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  cursor: default;
+}
+
+.kf__partner-logo:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.kf__partner-divider {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Specific partner brand styles */
+.kf__logo-credible {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.kf__logo-yellowtail {
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.kf__logo-luxury {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kf__luxury-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.kf__luxury-top {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.kf__luxury-bot {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.kf__logo-technis {
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.kf__technis-dot {
+  font-size: 0.6rem;
+  color: #1c1c1e;
+}
+
+.kf__logo-ockto {
+  font-family: system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  font-size: 1.05rem;
+}
+
+/* ── Responsive adjustments ── */
+@media (max-width: 1024px) {
+  .kf__cards-grid {
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 480px;
+  }
+  
+  .kf__title {
+    font-size: 3.6rem;
+  }
+
+  .kf__partners-logos {
+    gap: 20px;
+  }
+
+  .kf__partner-divider {
+    display: none;
+  }
+}
