@@ -19,7 +19,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
+  /* clip rather than hidden — allows sticky positioning while clipping overflow */
+  overflow: clip;
   padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 5vw, 4rem);
 }
 
@@ -46,6 +47,28 @@
   gap: 1.5rem;
 }
 
+.wc__card {
+  width: 58vw;
+  max-width: 850px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.wc__card-media {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.wc__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 /* ── Section Header Layout ── */
 .wc__header {
   display: flex;
@@ -171,7 +194,8 @@
 /* ── PINNED HORIZONTAL CARDS TRACK ── */
 .wc__track-overflow {
   width: 100%;
-  overflow: hidden;
+  /* Allow visible overflow so the last card can animate upward from below */
+  overflow: visible;
   padding: 0.5rem 0 1rem 0;
 }
 
