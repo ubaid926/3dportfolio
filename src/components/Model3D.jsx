@@ -212,27 +212,25 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
     let H = mount.clientHeight || 520;
 
     // ── Responsive helpers — recalculated on every resize ─────────────
-    // Group scale: box shrinks on small screens so it fits in the viewport
+    // Group scale: balanced medium scale on mobile so it looks proportional behind text
     const getGroupScale = (w) => {
-      if (w <= 380) return 0.36;
-      if (w <= 480) return 0.44;
-      if (w <= 768) return 0.60;
-      if (w <= 1024) return 0.74;
+      if (w <= 480) return 0.62;
+      if (w <= 768) return 0.70;
+      if (w <= 1024) return 0.80;
       return 0.85;
     };
-    // Camera Z distance: pull back on mobile so exploded panels stay in view
+    // Camera Z distance: optimal viewing distance
     const getCameraZ = (w) => {
-      if (w <= 380) return 12.5;
-      if (w <= 480) return 11.5;
-      if (w <= 768) return 10.2;
-      if (w <= 1024) return 9.2;
-      return 8.5;
+      if (w <= 480) return 8.8;
+      if (w <= 768) return 8.4;
+      if (w <= 1024) return 8.2;
+      return 8.2;
     };
-    // FOV: widen on mobile to capture the full explode spread
+    // FOV: balanced perspective
     const getCameraFov = (w) => {
-      if (w <= 480) return 54;
-      if (w <= 768) return 48;
-      if (w <= 1024) return 42;
+      if (w <= 480) return 42;
+      if (w <= 768) return 40;
+      if (w <= 1024) return 38;
       return 38;
     };
 

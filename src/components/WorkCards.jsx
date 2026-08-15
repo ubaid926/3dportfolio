@@ -166,7 +166,7 @@ const CardItem = ({
     <motion.div
       key={`card-${index}`}
       className={`wc__card ${isActive ? 'wc__card--active' : ''}`}
-      initial={{ y: 60, opacity: 0 }}
+      initial={{ y: 40, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       viewport={{ once: false, margin: '-20px' }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -257,7 +257,9 @@ const WorkCards = () => {
   const trackRef = useRef(null);
   const overflowRef = useRef(null);
 
-  const [maxTranslate, setMaxTranslate] = useState(0);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
+  const [maxTranslateX, setMaxTranslateX] = useState(0);
+  const [maxTranslateY, setMaxTranslateY] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
@@ -276,11 +278,21 @@ const WorkCards = () => {
 
   useEffect(() => {
     const calculateTranslate = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
       if (!trackRef.current || !overflowRef.current) return;
+
+      // Desktop horizontal translation distance
       const trackWidth = trackRef.current.scrollWidth;
       const viewportWidth = overflowRef.current.clientWidth;
-      const maxScroll = trackWidth - viewportWidth + 80;
-      setMaxTranslate(Math.max(0, maxScroll));
+      const maxScrollX = trackWidth - viewportWidth + 80;
+      setMaxTranslateX(Math.max(0, maxScrollX));
+
+      // Mobile vertical translation distance for stacked cards
+      const trackHeight = trackRef.current.scrollHeight;
+      const viewportHeight = overflowRef.current.clientHeight;
+      const maxScrollY = trackHeight - viewportHeight + 40;
+      setMaxTranslateY(Math.max(0, maxScrollY));
     };
 
     calculateTranslate();
@@ -296,9 +308,9 @@ const WorkCards = () => {
       const progress = Math.max(0, Math.min(1, current / totalScroll));
       
       // Phase 1 (0 -> 0.58): calculate active card index
-      const horizontalProgress = Math.min(progress / 0.58, 1);
+      const cardsProgress = Math.min(progress / 0.58, 1);
       const idx = Math.min(
-        Math.floor(horizontalProgress * PROJECTS.length),
+        Math.floor(cardsProgress * PROJECTS.length),
         PROJECTS.length - 1
       );
       setActiveIndex(Math.max(0, idx));
@@ -321,9 +333,9 @@ const WorkCards = () => {
     const clamped = Math.max(0, Math.min(1, latest));
 
     // Phase 1 (0 -> 0.58): Active card
-    const horizontalProgress = Math.min(clamped / 0.58, 1);
+    const cardsProgress = Math.min(clamped / 0.58, 1);
     const idx = Math.min(
-      Math.floor(horizontalProgress * PROJECTS.length),
+      Math.floor(cardsProgress * PROJECTS.length),
       PROJECTS.length - 1
     );
     setActiveIndex(idx);
@@ -333,18 +345,21 @@ const WorkCards = () => {
     setServicesProgress(sProgress);
   });
 
-  // Phase 1 (0 -> 0.58): Horizontal cards scroll across screen
-  const cardsX = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslate]);
+  // Phase 1 (0 -> 0.58): Cards scroll (Desktop: horizontal, Mobile: vertical stacked)
+  const cardsX = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslateX]);
+  const cardsY = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslateY]);
 
-  // Phase 2 (0.58 -> 0.76): Curtain slides out to the left, revealing Services on white
+  // Phase 2 (0.58 -> 0.76): Curtain slides out (Desktop: to left, Mobile: upwards/above), revealing Services underneath
   const curtainX = useTransform(smoothProgress, [0.58, 0.76], ['0vw', '-100vw']);
+  const curtainY = useTransform(smoothProgress, [0.58, 0.76], ['0vh', '-100vh']);
 
   const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
 
   return (
     <div id="work" ref={targetRef} className="wc__outer-wrapper">
       <div className="wc__sticky-scene">
-        {/* ── UNDERNEATH LAYER: Full Animated Services Section ── */}
+        
+        {/* ── UNDERNEATH LAYER: Full Animated Services Section (Desktop & Mobile) ── */}
         <div className="wc__services-underlay">
           <ServicesView
             progress={servicesProgress}
@@ -352,10 +367,10 @@ const WorkCards = () => {
           />
         </div>
 
-        {/* ── FOREGROUND LAYER: WORK CARDS CURTAIN (SLIDES OUT TO LEFT) ── */}
+        {/* ── FOREGROUND LAYER: WORK CARDS CURTAIN (SLIDES OUT TO REVEAL SERVICES) ── */}
         <motion.div
           className="wc__slide-curtain"
-          style={{ x: curtainX }}
+          style={isMobile ? { y: curtainY } : { x: curtainX }}
         >
           {/* Full-bleed ambient background image that crossfades with active project */}
           <div className="wc__backdrop-wrap">
@@ -447,9 +462,13 @@ const WorkCards = () => {
               </div>
             </div>
 
-            {/* RIGHT SIDE: Horizontal Scrolling Cards Track */}
+            {/* RIGHT SIDE: Scrolling Cards Track (Horizontal on desktop, vertical on mobile) */}
             <div className="wc__right-panel" ref={overflowRef}>
-              <motion.div ref={trackRef} className="wc__track" style={{ x: cardsX }}>
+              <motion.div
+                ref={trackRef}
+                className="wc__track"
+                style={isMobile ? { y: cardsY } : { x: cardsX }}
+              >
                 {PROJECTS.map((project, index) => (
                   <CardItem
                     key={project.id}

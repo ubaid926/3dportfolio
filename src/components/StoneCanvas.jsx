@@ -169,33 +169,34 @@ const StoneCanvas = ({ progress = 0 }) => {
     if (!s || !s.stone) return;
     const { stone } = s;
 
-    if (progress < 0.05) {
+    // Stone starts appearing as background transitions past 0.10
+    if (progress < 0.10) {
       stone.visible = false;
       return;
     }
 
     stone.visible = true;
 
-    // local t: 0.05→1.0 maps to 0→1
-    const t = Math.min((progress - 0.05) / 0.95, 1);
+    // Stone completes travel between progress 0.10 and 0.50
+    const t = Math.max(0, Math.min(1, (progress - 0.10) / 0.40));
 
-    // Ease-out — stone decelerates as it approaches
-    const eased = 1 - Math.pow(1 - t, 2.6);
+    // Ease-out deceleration
+    const eased = 1 - Math.pow(1 - t, 2.8);
 
-    // Z: from -70 → 2.2 (very close, feels massive)
-    stone.position.z = -70 + eased * 72.2;
+    // Z: from -70 → 1.8 (centered, perfect size behind cards)
+    stone.position.z = -70 + eased * 71.8;
 
-    // Y: starts elevated and settles
-    stone.position.y = 0.6 + eased * 0.3;
+    // Y: settles in center
+    stone.position.y = 0.4 - (1 - eased) * 0.2;
 
-    // Scale: tiny speck → large boulder
-    const sc = 0.01 + eased * 1.8;
+    // Scale: from tiny to large central monolith
+    const sc = 0.01 + eased * 1.75;
     stone.scale.setScalar(sc);
 
-    // Opacity fade-in over first 25% of travel
+    // Opacity fade-in over first 30% of travel
     stone.traverse((child) => {
       if (child.isMesh && child.material) {
-        const op = Math.min(t * 4, 1);
+        const op = Math.min(t * 3.5, 1);
         child.material.opacity = op;
         child.material.transparent = op < 1;
       }

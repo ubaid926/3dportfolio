@@ -16,6 +16,7 @@
   top: 0;
   left: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   overflow: clip;
   background-color: #ffffff;
@@ -32,7 +33,7 @@
   overflow: clip;
 }
 
-/* ── Foreground Layer: Slide Curtain (Slides Left to Reveal Services) ── */
+/* ── Foreground Layer: Slide Curtain (Slides Out to Reveal Services) ── */
 .wc__slide-curtain {
   position: absolute;
   inset: 0;
@@ -246,7 +247,7 @@
   transform: translateX(5px);
 }
 
-/* ── Right Panel (Horizontal Cards Viewport) ── */
+/* ── Right Panel (Cards Viewport) ── */
 .wc__right-panel {
   flex: 1;
   width: 54%;
@@ -402,36 +403,32 @@
 
 .wc__card-title {
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #111827;
   letter-spacing: -0.025em;
-  line-height: 1.2;
+  margin: 0;
 }
 
 .wc__card-subtitle {
-  font-size: 0.92rem;
-  color: #6b7280;
-  line-height: 1.45;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .wc__explore-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.76rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #111827;
+  padding-top: 0.3rem;
   white-space: nowrap;
-  margin-top: 0.3rem;
-  transition: all 0.3s ease;
 }
 
 .wc__explore-link svg {
@@ -439,57 +436,57 @@
 }
 
 .wc__card:hover .wc__explore-link svg {
-  transform: translateX(5px);
+  transform: translateX(4px);
 }
 
-/* ── Finale End Card ── */
+/* ── FINALE CARD (END OF TRACK) ── */
 .wc__finale-card {
-  flex: 0 0 clamp(400px, 46vw, 640px);
+  flex: 0 0 clamp(380px, 45vw, 680px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 1.5rem;
-  padding: clamp(2.5rem, 5.5vw, 6.5rem) clamp(2rem, 4vw, 4rem);
-  border-radius: 0;
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: none;
-  box-shadow: none;
+  justify-content: space-between;
+  aspect-ratio: 16 / 11;
+  background-color: #111827;
+  border-radius: 20px;
+  padding: clamp(2rem, 4.5vw, 4rem) clamp(1.8rem, 4vw, 3.5rem);
+  box-sizing: border-box;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
 }
 
 .wc__finale-title {
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-  font-size: clamp(2.6rem, 4vw, 4.4rem);
+  font-size: clamp(2.2rem, 3.2vw, 3.2rem);
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  color: #111827;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
   margin: 0;
 }
 
 .wc__finale-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.9rem;
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #334155;
+  color: #ffffff;
   text-decoration: none;
   padding-bottom: 4px;
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid #ffffff;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 0.5rem;
+  align-self: flex-start;
 }
 
 .wc__finale-link:hover {
-  color: #000000;
-  border-bottom-color: #000000;
-  gap: 1.1rem;
+  gap: 1.2rem;
+  color: #38bdf8;
+  border-bottom-color: #38bdf8;
 }
 
 .wc__finale-link svg {
@@ -497,20 +494,21 @@
 }
 
 .wc__finale-link:hover svg {
-  transform: translateX(5px);
+  transform: translateX(6px);
 }
 
-/* ── PROJECT DETAIL MODAL ── */
+/* ── MODAL DIALOG ── */
 .wc__modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(16px);
+  background: rgba(3, 7, 18, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .wc__modal-content {
@@ -520,51 +518,45 @@
   background: #ffffff;
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.35);
   color: #111827;
 }
 
 .wc__modal-close {
   position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  width: 40px;
-  height: 40px;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   color: #111827;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
-  z-index: 10;
+  transition: all 0.2s ease;
+  z-index: 20;
 }
 
 .wc__modal-close:hover {
   background: #111827;
   color: #ffffff;
-  transform: rotate(90deg);
 }
 
 .wc__modal-grid {
   display: grid;
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .wc__modal-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  grid-template-columns: 1.2fr 1fr;
 }
 
 .wc__modal-image-wrap {
   width: 100%;
   height: 100%;
-  min-height: 320px;
-  background: #000000;
+  min-height: 440px;
+  background: #0d1117;
+  overflow: hidden;
 }
 
 .wc__modal-image-wrap img {
@@ -574,41 +566,44 @@
 }
 
 .wc__modal-details {
-  padding: 2.5rem 2.2rem;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 1.2rem;
+  justify-content: space-between;
+  gap: 1.5rem;
 }
 
 .wc__modal-cat {
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6b7280;
-  font-weight: 600;
+  color: #0284c7;
 }
 
 .wc__modal-title {
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
   font-size: 2.2rem;
   font-weight: 700;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: #111827;
+  margin: 0;
+  line-height: 1.1;
 }
 
 .wc__modal-desc {
-  color: #4b5563;
-  line-height: 1.6;
   font-size: 0.95rem;
+  line-height: 1.55;
+  color: #4b5563;
+  margin: 0;
 }
 
 .wc__modal-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  padding: 1rem 0;
+  gap: 1rem;
+  padding: 1.2rem 0;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -620,13 +615,15 @@
 }
 
 .wc__meta-lbl {
-  font-size: 0.82rem;
-  color: #8c8c8c;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
   text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .wc__meta-val {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: #111827;
 }
@@ -634,14 +631,16 @@
 .wc__modal-tags {
   display: flex;
   gap: 0.4rem;
+  flex-wrap: wrap;
 }
 
 .wc__modal-tag {
   font-size: 0.72rem;
-  padding: 0.2rem 0.5rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  background: #f1f5f9;
+  color: #334155;
   border-radius: 6px;
-  background: rgba(0, 0, 0, 0.06);
-  color: #374151;
 }
 
 .wc__modal-btn {
@@ -650,17 +649,17 @@
   justify-content: center;
   gap: 0.6rem;
   width: 100%;
-  padding: 0.95rem 1.5rem;
-  border-radius: 12px;
+  padding: 0.9rem;
   background: #111827;
   color: #ffffff;
   font-family: var(--font-primary, 'Space Grotesk', sans-serif);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
+  border-radius: 12px;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
 }
 
 .wc__modal-btn:hover {
@@ -668,204 +667,174 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* ══════════════════════════════════════════
-   RESPONSIVE — Tablet (≤960px)
-   ══════════════════════════════════════════ */
-@media (max-width: 960px) {
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet & Mobile (≤768px)
+   Cards vertically stacked, Curtain slides UP to reveal Services
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
 
-  /* Turn off sticky pin + restore normal flow */
   .wc__outer-wrapper {
-    height: auto;
-    min-height: 0;
-    padding: 0;
-    background-color: #f5f5f7;
+    height: 480vh;
   }
 
   .wc__sticky-scene {
-    position: static;
-    height: auto;
-    background-color: #f5f5f7;
-    overflow: visible;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: #ffffff;
+    z-index: 10;
   }
 
-  /* Curtain becomes a normal block, no JS transform */
-  .wc__slide-curtain {
-    position: static;
-    transform: none !important;
-    box-shadow: none;
-    padding: 5rem 2rem 4rem;
-    background-color: #f5f5f7;
-    min-height: 0;
-    height: auto;
-  }
-
-  /* Hide services underlay — not needed on mobile */
+  /* Services underlay sits underneath on mobile, revealed when curtain slides UP */
   .wc__services-underlay {
-    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    display: block;
   }
 
-  /* Backdrop image stays as subtle full-bleed on tablet */
-  .wc__backdrop-wrap {
-    border-radius: 0;
-  }
-
-  /* Top border line becomes a divider block */
-  .wc__top-border-line {
-    position: static;
-    margin-bottom: 0;
-    margin-top: 0;
-    height: 1px;
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-
-  .wc__crosshair {
-    display: none;
-  }
-
-  /* Stack left+right panels vertically */
-  .wc__split-layout {
+  /* Slide curtain contains vertically stacked cards, slides UP (-100vh) */
+  .wc__slide-curtain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: #f5f5f7;
+    box-shadow: 0 35px 90px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    padding: max(1.2rem, calc(env(safe-area-inset-top) + 0.6rem)) 0 max(1rem, env(safe-area-inset-bottom)) 0;
+    will-change: transform;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 2.5rem;
-    padding: 0;
+    justify-content: space-between;
   }
 
-  /* Left panel: full width, no horizontal pad */
+  .wc__top-border-line {
+    display: none;
+  }
+
+  /* Split layout stacked vertically */
+  .wc__split-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 0.8rem;
+  }
+
+  /* Header Top Panel */
   .wc__left-panel {
-    flex: 0 0 100%;
+    flex: 0 0 auto;
     width: 100%;
     height: auto;
-    padding: 0;
+    padding: 0 1.4rem;
   }
 
   .wc__title-block {
-    gap: 1.2rem;
+    gap: 0.4rem;
     max-width: 100%;
   }
 
   .wc__main-title {
-    font-size: clamp(2.2rem, 6vw, 3.2rem);
-  }
-
-  /* Right panel: full-width, touch-scrollable */
-  .wc__right-panel {
-    width: 100%;
-    flex: unset;
-    overflow-x: auto;
-    overflow-y: visible;
-    padding-bottom: 2rem;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    /* subtle scroll snap */
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .wc__right-panel::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Cards track: disable JS transform, let it flex naturally */
-  .wc__track {
-    transform: none !important;
-    will-change: auto;
-    gap: 1.5rem;
-    padding-right: 2rem; /* trailing breath room */
-  }
-
-  /* Individual card snaps on scroll */
-  .wc__card {
-    flex: 0 0 80vw;
-    scroll-snap-align: start;
-  }
-
-  /* Finale card same snap width */
-  .wc__finale-card {
-    flex: 0 0 80vw;
-    scroll-snap-align: start;
-    padding: clamp(1.8rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
-  }
-}
-
-/* ══════════════════════════════════════════
-   RESPONSIVE — Mobile (≤640px)
-   ══════════════════════════════════════════ */
-@media (max-width: 640px) {
-
-  .wc__slide-curtain {
-    padding: 4.5rem 1.25rem 3rem;
-  }
-
-  .wc__main-title {
-    font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+    font-size: clamp(1.85rem, 7vw, 2.4rem);
     letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  .wc__active-card-info {
+    min-height: auto;
+    margin-top: 0.2rem;
+  }
+
+  .wc__active-badge {
+    font-size: 0.68rem;
   }
 
   .wc__active-title {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
+    line-height: 1.2;
   }
 
   .wc__active-subtitle {
-    font-size: 0.85rem;
-    -webkit-line-clamp: 3;
+    display: none;
   }
 
-  /* Narrower cards — near-full-width */
+  .wc__all-link {
+    display: none;
+  }
+
+  /* Cards Viewport: Stacked vertical track */
+  .wc__right-panel {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    padding: 0.4rem 1.4rem 1rem 1.4rem;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .wc__track {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    will-change: transform;
+    align-items: stretch;
+  }
+
+  /* Individual full-width cards */
   .wc__card {
-    flex: 0 0 88vw;
+    flex: unset;
+    width: 100%;
+    gap: 0.8rem;
   }
 
-  .wc__card-title {
-    font-size: 1.4rem;
+  .wc__card-media {
+    aspect-ratio: 16 / 9.5;
+    border-radius: 14px;
   }
 
-  .wc__card-subtitle {
-    font-size: 0.86rem;
+  .wc__media-hero-text {
+    font-size: clamp(1.5rem, 5.5vw, 2rem);
   }
 
   .wc__card-info {
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.4rem;
   }
 
   .wc__card-content-left {
     max-width: 100%;
   }
 
-  .wc__media-hero-text {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  .wc__card-title {
+    font-size: 1.25rem;
+  }
+
+  .wc__card-subtitle {
+    font-size: 0.82rem;
   }
 
   .wc__finale-card {
-    flex: 0 0 88vw;
-    padding: 1.8rem 1.25rem;
+    flex: unset;
+    width: 100%;
+    padding: 1.8rem 1.4rem;
+    border-radius: 16px;
   }
 
   .wc__finale-title {
-    font-size: clamp(1.8rem, 7vw, 2.6rem);
-    line-height: 1.1;
-  }
-
-  /* Track: add left padding so first card aligns with content */
-  .wc__track {
-    gap: 1.25rem;
-    padding-right: 1.25rem;
-  }
-
-  /* Active badge smaller */
-  .wc__active-badge {
-    font-size: 0.7rem;
-  }
-
-  /* All-link stays readable */
-  .wc__all-link {
-    font-size: 0.78rem;
-    gap: 0.6rem;
-  }
-
-  .wc__finale-link {
-    font-size: 0.78rem;
-    gap: 0.6rem;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    line-height: 1.15;
   }
 
   /* Modal fullscreen on mobile */
@@ -880,8 +849,13 @@
     overflow-y: auto;
   }
 
+  .wc__modal-grid {
+    grid-template-columns: 1fr;
+  }
+
   .wc__modal-image-wrap {
     min-height: 200px;
+    max-height: 250px;
   }
 
   .wc__modal-details {
@@ -891,26 +865,5 @@
 
   .wc__modal-title {
     font-size: 1.6rem;
-  }
-}
-
-/* ══════════════════════════════════════════
-   RESPONSIVE — Small Mobile (≤375px)
-   ══════════════════════════════════════════ */
-@media (max-width: 375px) {
-  .wc__card {
-    flex: 0 0 92vw;
-  }
-
-  .wc__finale-card {
-    flex: 0 0 92vw;
-  }
-
-  .wc__main-title {
-    font-size: 1.75rem;
-  }
-
-  .wc__finale-title {
-    font-size: 1.75rem;
   }
 }

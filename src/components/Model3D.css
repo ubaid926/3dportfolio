@@ -109,50 +109,46 @@
 
 /* ── 768px — tablet portrait ── */
 @media (max-width: 768px) {
-  /* Smaller float amplitude on mobile */
-  .model3d__wrapper    { animation-duration: 7s; }
+  .model3d__wrapper    { animation-duration: 9s; }
+  .model3d__glow-bg    { inset: -15%; filter: blur(40px); opacity: 0.8; }
 
-  /* Tighter glow */
-  .model3d__glow-bg    { inset: -8%; filter: blur(35px); }
-
-  /* Reduce expensive drop-shadows for performance */
   .model3d__canvas-mount {
+    touch-action: pan-y;
     filter:
-      drop-shadow(0 0 14px rgba(56, 189, 248, 0.18))
-      drop-shadow(0 12px 30px rgba(0, 0, 0, 0.75));
+      drop-shadow(0 0 16px rgba(56, 189, 248, 0.25))
+      drop-shadow(0 14px 35px rgba(0, 0, 0, 0.8));
   }
 
-  /* Label: move up slightly */
-  .model3d__label      { bottom: 8%; }
+  /* Label: hide on mobile/touch */
+  .model3d__label      { display: none; }
 
-  /* Frame: smaller on tablet portrait */
-  .model3d__frame      { width: clamp(130px, 28vw, 200px); }
+  /* Frame: balanced proportional size on tablet */
+  .model3d__frame      { width: clamp(130px, 30vw, 175px); }
 }
 
 /* ── 480px — small phones ── */
 @media (max-width: 480px) {
-  /* Pause the float animation for perf / reduce motion */
-  .model3d__wrapper    { animation: none; }
+  .model3d__glow-bg    { inset: -12%; filter: blur(30px); opacity: 0.75; }
 
-  /* Very minimal glow */
-  .model3d__glow-bg    { inset: -5%; filter: blur(25px); opacity: 0.6; }
+  .model3d__canvas-mount {
+    filter:
+      drop-shadow(0 0 12px rgba(56, 189, 248, 0.2))
+      drop-shadow(0 10px 25px rgba(0, 0, 0, 0.75));
+  }
 
-  /* No drop shadow at all — the model is background opacity anyway */
-  .model3d__canvas-mount { filter: none; }
+  /* Balanced proportional frame size on phones */
+  .model3d__frame      { width: clamp(110px, 32vw, 145px); }
 
-  /* Smallest frame size */
-  .model3d__frame      { width: clamp(100px, 30vw, 160px); }
-
-  /* Corner brackets shrink with frame */
-  .model3d__frame-corner { width: 12px; height: 12px; }
-  .model3d__frame-badge  { height: 22px; font-size: 0.44rem; }
+  /* Corner brackets scale gracefully */
+  .model3d__frame-corner { width: 14px; height: 14px; }
+  .model3d__frame-badge  { height: 24px; font-size: 0.44rem; }
   .model3d__frame-corner--bl,
-  .model3d__frame-corner--br { bottom: 24px; }
+  .model3d__frame-corner--br { bottom: 26px; }
 }
 
-/* ── 360px — very small phones: hide frame to keep UI clean ── */
+/* ── 360px — very small phones ── */
 @media (max-width: 360px) {
-  .model3d__frame-wrap { display: none; }
+  .model3d__frame      { width: clamp(95px, 30vw, 125px); }
 }
 
 /* ══════════════════════════════════════════════════════════════
