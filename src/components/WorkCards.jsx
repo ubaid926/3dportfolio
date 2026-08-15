@@ -16,6 +16,7 @@ import img5 from '../assets/(5).jpeg';
 import img6 from '../assets/(6).jpeg';
 import img7 from '../assets/(7).jpeg';
 import img8 from '../assets/(8).jpeg';
+import { ServicesView, ServiceDetailModal } from './Services';
 
 import './WorkCards.css';
 
@@ -259,7 +260,8 @@ const WorkCards = () => {
   const [maxTranslate, setMaxTranslate] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
-
+  const [selectedService, setSelectedService] = useState(null);
+  const [servicesProgress, setServicesProgress] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -293,13 +295,17 @@ const WorkCards = () => {
       const current = -rect.top;
       const progress = Math.max(0, Math.min(1, current / totalScroll));
       
-      // Calculate active card index during the horizontal phase (0 to 0.72)
-      const horizontalProgress = Math.min(progress / 0.72, 1);
+      // Phase 1 (0 -> 0.58): calculate active card index
+      const horizontalProgress = Math.min(progress / 0.58, 1);
       const idx = Math.min(
         Math.floor(horizontalProgress * PROJECTS.length),
         PROJECTS.length - 1
       );
       setActiveIndex(Math.max(0, idx));
+
+      // Phase 3 (0.76 -> 1.0): Services animation
+      const sProgress = Math.max(0, Math.min(1, (progress - 0.76) / 0.24));
+      setServicesProgress(sProgress);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -313,31 +319,40 @@ const WorkCards = () => {
 
   useMotionValueEvent(smoothProgress, 'change', (latest) => {
     const clamped = Math.max(0, Math.min(1, latest));
-    const horizontalProgress = Math.min(clamped / 0.72, 1);
+
+    // Phase 1 (0 -> 0.58): Active card
+    const horizontalProgress = Math.min(clamped / 0.58, 1);
     const idx = Math.min(
       Math.floor(horizontalProgress * PROJECTS.length),
       PROJECTS.length - 1
     );
     setActiveIndex(idx);
+
+    // Phase 3 (0.76 -> 1.0): Services background & 3D stone animation
+    const sProgress = Math.max(0, Math.min(1, (clamped - 0.76) / 0.24));
+    setServicesProgress(sProgress);
   });
 
-  // Phase 1 (0 -> 0.72): Horizontal cards scroll across the screen
-  const cardsX = useTransform(smoothProgress, [0, 0.72], [0, -maxTranslate]);
+  // Phase 1 (0 -> 0.58): Horizontal cards scroll across screen
+  const cardsX = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslate]);
 
-  // Phase 2 (0.72 -> 1.0): Cards curtain slides out to the LEFT
-  const curtainX = useTransform(smoothProgress, [0.72, 1.0], ['0vw', '-100vw']);
+  // Phase 2 (0.58 -> 0.76): Curtain slides out to the left, revealing Services on white
+  const curtainX = useTransform(smoothProgress, [0.58, 0.76], ['0vw', '-100vw']);
 
   const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
 
   return (
     <div id="work" ref={targetRef} className="wc__outer-wrapper">
       <div className="wc__sticky-scene">
-        {/* Plain white background revealed as curtain slides away */}
-        <div className="wc__services-underlay" />
+        {/* ── UNDERNEATH LAYER: Full Animated Services Section ── */}
+        <div className="wc__services-underlay">
+          <ServicesView
+            progress={servicesProgress}
+            onOpenModal={(svc) => setSelectedService(svc)}
+          />
+        </div>
 
-        {/* =========================================================
-            FOREGROUND LAYER: WORK CARDS CURTAIN (SLIDES OUT TO LEFT)
-            ========================================================= */}
+        {/* ── FOREGROUND LAYER: WORK CARDS CURTAIN (SLIDES OUT TO LEFT) ── */}
         <motion.div
           className="wc__slide-curtain"
           style={{ x: curtainX }}
@@ -550,6 +565,16 @@ const WorkCards = () => {
         )}
       </AnimatePresence>
 
+      {/* SERVICES MODAL */}
+      <AnimatePresence>
+        {selectedService && (
+          <ServiceDetailModal
+            selectedService={selectedService}
+            setSelectedService={setSelectedService}
+            onClose={() => setSelectedService(null)}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );

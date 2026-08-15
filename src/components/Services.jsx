@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import StoneCanvas from './StoneCanvas';
+import LightningStorm from './LightningStorm';
 import './Services.css';
 
 /* ─────────────────────────────────────────────── */
@@ -142,56 +143,136 @@ export const ServiceDetailModal = ({ selectedService, setSelectedService, onClos
 };
 
 /* ─────────────────────────────────────────────── */
-/*  SERVICES CONTENT — light/white underlay preview */
-/*  Used inside WorkCards curtain underlay only.    */
-/*  Always white background, no stone, no dark bg.  */
+/*  SERVICES VIEW — animated scene                  */
+/*  progress: 0 (white) → 1 (dark, stone, glow)    */
 /* ─────────────────────────────────────────────── */
-export const ServicesContent = ({ onOpenModal }) => {
+export const ServicesView = ({ progress = 0, onOpenModal }) => {
   const [hoveredService, setHoveredService] = useState(null);
 
+  // progress p: 0→1 drives everything smoothly
+  const p = Math.max(0, Math.min(1, progress));
+
+  // Phase 1 (0→0.05): Pristine white background, text is black, stone hidden
+  // Phase 2 (0.05→0.75): Smooth crossfade from white → deep cinematic dark, text transitions black → luminous white, 3D stone flies in
+  // Phase 3 (0.75→1.0): Full dark cinematic scene with stone rotating and monumental glowing typography
+  const bgTransition = Math.min(Math.max((p - 0.05) / 0.70, 0), 1);
+  const bgOpacity = bgTransition;
+  const fogOpacity = bgTransition * 0.75;
+
+  // Smooth RGB interpolation for typography: #111827 (17,24,39) → #f5f5f5 (245,245,245)
+  const rWord = Math.round(17 + (245 - 17) * bgTransition);
+  const gWord = Math.round(24 + (245 - 24) * bgTransition);
+  const bWord = Math.round(39 + (245 - 39) * bgTransition);
+  const wordColor = `rgb(${rWord}, ${gWord}, ${bWord})`;
+
+  // Text shadow glow on dark background
+  const textShadowStyle = bgTransition > 0.05
+    ? `0 2px ${35 * bgTransition}px rgba(0, 0, 0, ${0.9 * bgTransition}), 0 0 ${75 * bgTransition}px rgba(0, 0, 0, ${0.6 * bgTransition})`
+    : 'none';
+
+  // Eyebrow: #4b5563 (75,85,99) → rgba(200,200,210,0.85)
+  const rEye = Math.round(75 + (200 - 75) * bgTransition);
+  const gEye = Math.round(85 + (200 - 85) * bgTransition);
+  const bEye = Math.round(99 + (210 - 99) * bgTransition);
+  const eyebrowColor = `rgb(${rEye}, ${gEye}, ${bEye})`;
+
+  // Tag text: #374151 (55,65,81) → rgba(200,200,210,0.85)
+  const rTag = Math.round(55 + (200 - 55) * bgTransition);
+  const gTag = Math.round(65 + (200 - 65) * bgTransition);
+  const bTag = Math.round(81 + (210 - 81) * bgTransition);
+  const tagColor = `rgb(${rTag}, ${gTag}, ${bTag})`;
+
+  // Sparkle icon: #111827 → rgb(220,220,230)
+  const rSpk = Math.round(17 + (220 - 17) * bgTransition);
+  const gSpk = Math.round(24 + (220 - 24) * bgTransition);
+  const bSpk = Math.round(39 + (230 - 39) * bgTransition);
+  const sparkleColor = `rgb(${rSpk}, ${gSpk}, ${bSpk})`;
+
+  // View link CTA: #111827 → rgb(240,240,245)
+  const rLnk = Math.round(17 + (240 - 17) * bgTransition);
+  const gLnk = Math.round(24 + (240 - 24) * bgTransition);
+  const bLnk = Math.round(39 + (245 - 39) * bgTransition);
+  const viewLinkColor = `rgb(${rLnk}, ${gLnk}, ${bLnk})`;
+
   return (
-    <div className="srv__scene-inner">
-      <div className="srv__bg-ambient" />
+    <div id="services" className="srv__scene-wrap">
+      {/* ── White base (always visible, covered by storm clouds video overlay) ── */}
+      <div className="srv__white-base" />
 
-      {/* Top Label */}
-      <div className="srv__top-bar">
-        <span className="srv__eyebrow">OUR SERVICES</span>
+      {/* ── Dark Storm Clouds with Lightning Flashing Background Video ── */}
+      <div className="srv__storm-video-wrap" style={{ opacity: bgOpacity }}>
+        <LightningStorm progress={p} />
+        <div className="srv__storm-overlay" />
       </div>
+      <div className="srv__fog-overlay" style={{ opacity: fogOpacity }} />
 
-      {/* Monumental Typography */}
-      <div className="srv__center-sculpture">
-        <div className="srv__typo-grid">
-          {SERVICES_DATA.map((svc) => (
-            <div key={svc.id} className="srv__typo-row">
-              <button
-                className={`srv__word-btn ${hoveredService === svc.id ? 'active' : ''}`}
-                onMouseEnter={() => setHoveredService(svc.id)}
-                onMouseLeave={() => setHoveredService(null)}
-                onClick={() => onOpenModal?.(svc)}
-                aria-label={`Explore ${svc.title} Services`}
-              >
-                <span className="srv__word">{svc.title}</span>
-                <span className="srv__dot-indicator">•</span>
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* ── Three.js Stone Canvas ── */}
+      <StoneCanvas progress={p} />
 
-      {/* Bottom Bar */}
-      <div className="srv__bottom-bar">
-        <div className="srv__tag-wrapper">
-          <span className="srv__sparkle">✦</span>
-          <span className="srv__tag-text">DIFFERENT DISCIPLINES. ONE STANDARD OF CRAFT.</span>
+      {/* ── Content layer ── */}
+      <div className="srv__content-layer">
+        {/* Eyebrow */}
+        <div className="srv__top-bar">
+          <span
+            className="srv__eyebrow"
+            style={{ color: eyebrowColor }}
+          >
+            OUR SERVICES
+          </span>
         </div>
-        <div className="srv__cta-wrapper">
-          <button className="srv__view-link" onClick={() => onOpenModal?.(SERVICES_DATA[0])}>
-            <span>VIEW SERVICES</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </button>
+
+        {/* Monumental Typography */}
+        <div className="srv__center-sculpture">
+          <div className="srv__typo-grid">
+            {SERVICES_DATA.map((svc) => (
+              <div key={svc.id} className="srv__typo-row">
+                <button
+                  className={`srv__word-btn ${hoveredService === svc.id ? 'active' : ''}`}
+                  onMouseEnter={() => setHoveredService(svc.id)}
+                  onMouseLeave={() => setHoveredService(null)}
+                  onClick={() => onOpenModal?.(svc)}
+                  aria-label={`Explore ${svc.title} Services`}
+                >
+                  <span
+                    className="srv__word"
+                    style={{
+                      color: hoveredService === svc.id ? '#0284c7' : wordColor,
+                      textShadow: textShadowStyle,
+                    }}
+                  >
+                    {svc.title}
+                  </span>
+                  <span className="srv__dot-indicator">•</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="srv__bottom-bar">
+          <div className="srv__tag-wrapper">
+            <span className="srv__sparkle" style={{ color: sparkleColor }}>✦</span>
+            <span className="srv__tag-text" style={{ color: tagColor }}>
+              DESIGN WITH INTENT. BUILT TO WORK.
+            </span>
+          </div>
+          <div className="srv__cta-wrapper">
+            <button
+              className="srv__view-link"
+              style={{
+                color: viewLinkColor,
+                borderBottomColor: viewLinkColor,
+              }}
+              onClick={() => onOpenModal?.(SERVICES_DATA[0])}
+            >
+              <span>VIEW SERVICES</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -199,8 +280,7 @@ export const ServicesContent = ({ onOpenModal }) => {
 };
 
 /* ─────────────────────────────────────────────── */
-/*  STANDALONE SERVICES — full scroll-driven scene  */
-/*  Starts white → dark bg → stone → text reveal   */
+/*  STANDALONE SERVICES WRAPPER                     */
 /* ─────────────────────────────────────────────── */
 const Services = () => {
   const containerRef = useRef(null);
@@ -210,10 +290,14 @@ const Services = () => {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end end'],
+    offset: ['start start', 'end end'],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 55, damping: 20 });
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 65,
+    damping: 24,
+    restDelta: 0.001,
+  });
 
   React.useEffect(() => {
     return smoothProgress.on('change', (v) => setProgress(Math.max(0, Math.min(1, v))));
@@ -224,102 +308,10 @@ const Services = () => {
     setModalOpen(true);
   };
 
-  // ── Scroll-phase calculations ──────────────────────────
-  // p: 0→1 drives everything
-  const p = progress;
-
-  // Phase 1 (0→0.25): background starts white, stays white
-  // Phase 2 (0.25→0.55): background crossfades from white → deep dark
-  const bgOpacity = Math.min(Math.max((p - 0.22) / 0.30, 0), 1);
-  const fogOpacity = bgOpacity * 0.7;
-
-  // Eyebrow: appears at 0.35
-  const eyebrowOpacity = Math.min(Math.max((p - 0.32) / 0.14, 0), 1);
-
-  // Text lines: cascade in starting 0.42
-  const lineProgress = (start) => ({
-    opacity: Math.min(Math.max((p - start) / 0.13, 0), 1),
-    transform: `translateY(${(1 - Math.min(Math.max((p - start) / 0.15, 0), 1)) * 55}px)`,
-  });
-
-  // Bottom bar: 0.80
-  const bottomOpacity = Math.min(Math.max((p - 0.78) / 0.15, 0), 1);
-
-  // Text color: white once background is >50% dark
-  const textDark = bgOpacity > 0.5;
-
   return (
-    <section id="services" ref={containerRef} className="srv__standalone-section">
+    <section id="services-standalone" ref={containerRef} className="srv__standalone-section">
       <div className="srv__sticky-scene-full">
-        {/* ── White base (always visible, covered by dark overlay) ── */}
-        <div className="srv__white-base" />
-
-        {/* ── Dark atmospheric overlay (fades in on scroll) ── */}
-        <div className="srv__dark-bg" style={{ opacity: bgOpacity }} />
-        <div className="srv__fog-overlay" style={{ opacity: fogOpacity }} />
-
-        {/* ── Three.js Stone Canvas ── */}
-        <StoneCanvas progress={p} />
-
-        {/* ── Content layer ── */}
-        <div className="srv__content-layer">
-          {/* Eyebrow */}
-          <div className="srv__top-bar">
-            <span
-              className={`srv__eyebrow ${textDark ? 'srv__eyebrow-dark' : ''}`}
-              style={{ opacity: eyebrowOpacity }}
-            >
-              OUR SERVICES
-            </span>
-          </div>
-
-          {/* Monumental Typography */}
-          <div className="srv__center-sculpture">
-            <div className="srv__typo-grid">
-              {[
-                { svc: SERVICES_DATA[0], start: 0.40 },
-                { svc: SERVICES_DATA[1], start: 0.51 },
-                { svc: SERVICES_DATA[2], start: 0.62 },
-                { svc: SERVICES_DATA[3], start: 0.73 },
-              ].map(({ svc, start }) => (
-                <div key={svc.id} className="srv__typo-row">
-                  <button
-                    className="srv__word-btn"
-                    style={lineProgress(start)}
-                    onClick={() => openServiceModal(svc)}
-                    aria-label={`Explore ${svc.title} Services`}
-                  >
-                    <span className={`srv__word ${textDark ? 'srv__word-dark' : ''}`}>
-                      {svc.title}
-                    </span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="srv__bottom-bar" style={{ opacity: bottomOpacity }}>
-            <div className="srv__tag-wrapper">
-              <span className="srv__sparkle" style={{ color: textDark ? 'rgba(200,200,210,0.8)' : '#111827' }}>✦</span>
-              <span className={`srv__tag-text ${textDark ? 'srv__tag-dark' : ''}`}>
-                DIFFERENT DISCIPLINES. ONE STANDARD OF CRAFT.
-              </span>
-            </div>
-            <div className="srv__cta-wrapper">
-              <button
-                className={`srv__view-link ${textDark ? 'srv__view-link-dark' : ''}`}
-                onClick={() => openServiceModal(SERVICES_DATA[0])}
-              >
-                <span>VIEW SERVICES</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+        <ServicesView progress={progress} onOpenModal={openServiceModal} />
       </div>
 
       {/* Modal */}

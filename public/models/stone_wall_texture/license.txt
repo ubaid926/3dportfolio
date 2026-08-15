@@ -1,0 +1,11 @@
+Model Information:
+* title:	Stone wall texture
+* source:	https://sketchfab.com/3d-models/stone-wall-texture-3a3901109c714a7e8705d7dd7a2d300c
+* author:	JonnyMANSON (https://sketchfab.com/JonnyMANSON)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Stone wall texture" (https://sketchfab.com/3d-models/stone-wall-texture-3a3901109c714a7e8705d7dd7a2d300c) by JonnyMANSON (https://sketchfab.com/JonnyMANSON) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
