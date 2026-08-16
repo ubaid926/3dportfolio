@@ -586,6 +586,151 @@
 }
 
 /* ══════════════════════════════════════════════
+   MOBILE STAGE & SCROLL-DRIVEN CARDS
+══════════════════════════════════════════════ */
+.srv__mobile-stage {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  box-sizing: border-box;
+  padding-bottom: 0.6rem;
+}
+
+.srv__mobile-cards-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 205px;
+  margin: 0 auto;
+}
+
+/* ── Translucent Frosted Glass Card for Mobile (Preserves 3D Stone Visibility) ── */
+.srv__mobile-scroll-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 195px;
+  background: linear-gradient(145deg, rgba(10, 15, 28, 0.45) 0%, rgba(18, 25, 44, 0.28) 100%);
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  padding: 18px 18px;
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(56, 189, 248, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  user-select: none;
+  box-sizing: border-box;
+  will-change: transform, opacity;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.srv__mobile-scroll-card:active {
+  background: linear-gradient(145deg, rgba(14, 20, 36, 0.6) 0%, rgba(24, 34, 58, 0.45) 100%);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.srv__mobile-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.srv__mobile-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.srv__mobile-index {
+  font-family: var(--font-primary, 'Space Grotesk', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.srv__mobile-category {
+  font-family: var(--font-primary, 'Space Grotesk', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7dd3fc;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.srv__mobile-icon-wrap {
+  color: #38bdf8;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.srv__mobile-icon-wrap svg {
+  width: 28px;
+  height: 28px;
+}
+
+.srv__mobile-card-title {
+  font-family: var(--font-primary, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.25rem, 4.8vw, 1.55rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.srv__mobile-card-desc {
+  font-size: 0.84rem;
+  color: rgba(226, 232, 240, 0.88);
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 400;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.srv__mobile-card-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-primary, 'Space Grotesk', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  margin-top: 2px;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+/* ══════════════════════════════════════════════
    RESPONSIVE ADJUSTMENTS
 ══════════════════════════════════════════════ */
 @media (max-width: 1200px) {
@@ -613,64 +758,64 @@
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 768px) {
   .srv__content-layer {
-    padding: max(1.8rem, env(safe-area-inset-top)) 1.5rem max(1.2rem, env(safe-area-inset-bottom)) 1.5rem;
+    padding: max(1.4rem, calc(env(safe-area-inset-top) + 0.6rem)) 1.2rem max(1rem, env(safe-area-inset-bottom)) 1.2rem;
   }
 
   .srv__cards-stage {
+    display: none !important;
+  }
+
+  .srv__mobile-stage {
+    display: flex;
+  }
+
+  .srv__center-sculpture {
+    padding: 0 0.5rem;
+  }
+
+  .srv__word {
+    font-size: clamp(2.4rem, 10.5vw, 4.6rem);
+    line-height: 0.92;
+  }
+
+  .srv__dot-indicator {
+    font-size: 1.4rem;
+  }
+
+  .srv__bottom-bar {
     flex-direction: column;
-    gap: 1.2rem;
-    width: 100%;
-    overflow: visible;
-  }
-
-  .srv__center-spacer {
-    display: none;
-  }
-
-  .srv__column {
-    width: 100%;
-    gap: 1.2rem;
-    transform: none !important;
-  }
-
-  .srv__card {
-    padding: 22px 20px;
-    border-radius: 20px;
-  }
-
-  .srv__card-title {
-    font-size: 1.35rem;
-  }
-
-  .srv__card-desc {
-    font-size: 0.86rem;
-    margin-top: 12px;
+    gap: 0.65rem;
+    align-items: center;
+    padding-top: 0.25rem;
   }
 
   .srv__tag-wrapper {
     position: static;
     transform: none;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
     text-align: center;
-  }
-
-  .srv__bottom-bar {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    padding-top: 0.5rem;
+    white-space: normal;
   }
 
   .srv__cta-wrapper {
     margin-left: 0;
   }
 
+  .srv__view-link {
+    font-size: 0.78rem;
+  }
+
+  .srv__modal-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
   .srv__modal-container {
-    border-radius: 20px;
-    max-height: 90vh;
+    border-radius: 24px 24px 0 0;
+    max-height: 88vh;
     overflow-y: auto;
   }
 
@@ -679,17 +824,17 @@
   }
 
   .srv__modal-nav {
-    padding: 1.5rem 1.25rem 1rem 1.25rem;
+    padding: 1.25rem 1rem 0.85rem 1rem;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    gap: 0.8rem;
+    gap: 0.6rem;
   }
 
   .srv__modal-nav-items {
     flex-direction: row;
     overflow-x: auto;
     scrollbar-width: none;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .srv__modal-nav-items::-webkit-scrollbar {
@@ -698,14 +843,37 @@
 
   .srv__nav-item {
     flex-shrink: 0;
-    padding: 0.6rem 0.9rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 10px;
+  }
+
+  .srv__nav-item-title {
+    font-size: 0.88rem;
+  }
+
+  .srv__nav-item-cat {
+    display: none;
   }
 
   .srv__modal-content {
-    padding: 1.8rem 1.25rem;
+    padding: 1.5rem 1.2rem;
+  }
+
+  .srv__content-title {
+    font-size: 1.85rem;
+  }
+
+  .srv__content-tagline {
+    font-size: 0.95rem;
+  }
+
+  .srv__content-desc {
+    font-size: 0.88rem;
+    margin: 1rem 0;
   }
 
   .srv__deliverables-list {
     grid-template-columns: 1fr;
+    gap: 0.6rem;
   }
 }

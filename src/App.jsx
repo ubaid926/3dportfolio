@@ -2,6 +2,7 @@ import Navbar from './components/Navbar';
 import StickyCanvas from './components/StickyCanvas';
 import KeyFacts from './components/KeyFacts';
 import WorkCards from './components/WorkCards';
+import ClientStories from './components/ClientStories';
 import './App.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <StickyCanvas />
       <KeyFacts />
       <WorkCards />
+      <ClientStories />
     </div>
   );
 }

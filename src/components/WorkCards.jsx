@@ -163,13 +163,9 @@ const CardItem = ({
   setSelectedProject,
 }) => {
   return (
-    <motion.div
+    <div
       key={`card-${index}`}
       className={`wc__card ${isActive ? 'wc__card--active' : ''}`}
-      initial={{ y: 40, opacity: 0 }}
-      whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ once: false, margin: '-20px' }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       onClick={() => setSelectedProject(project)}
       onMouseEnter={() => onSelectCard(index)}
     >
@@ -181,7 +177,7 @@ const CardItem = ({
           src={project.image}
           alt={project.title}
           className="wc__card-img"
-          loading="lazy"
+          loading="eager"
         />
 
         {/* Overlay */}
@@ -244,7 +240,7 @@ const CardItem = ({
           </svg>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -257,7 +253,7 @@ const WorkCards = () => {
   const trackRef = useRef(null);
   const overflowRef = useRef(null);
 
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
   const [maxTranslateX, setMaxTranslateX] = useState(0);
   const [maxTranslateY, setMaxTranslateY] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -271,8 +267,8 @@ const WorkCards = () => {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 75,
-    damping: 24,
+    stiffness: 85,
+    damping: 26,
     restDelta: 0.001,
   });
 
@@ -291,13 +287,20 @@ const WorkCards = () => {
       // Mobile vertical translation distance for stacked cards
       const trackHeight = trackRef.current.scrollHeight;
       const viewportHeight = overflowRef.current.clientHeight;
-      const maxScrollY = trackHeight - viewportHeight + 40;
+      const maxScrollY = trackHeight - viewportHeight;
       setMaxTranslateY(Math.max(0, maxScrollY));
     };
 
     calculateTranslate();
-    const timer = setTimeout(calculateTranslate, 400);
+    const timer = setTimeout(calculateTranslate, 250);
     window.addEventListener('resize', calculateTranslate);
+
+    let ro;
+    if (typeof ResizeObserver !== 'undefined' && trackRef.current) {
+      ro = new ResizeObserver(calculateTranslate);
+      ro.observe(trackRef.current);
+      if (overflowRef.current) ro.observe(overflowRef.current);
+    }
 
     const handleScroll = () => {
       if (!targetRef.current) return;
@@ -306,7 +309,7 @@ const WorkCards = () => {
       if (totalScroll <= 0) return;
       const current = -rect.top;
       const progress = Math.max(0, Math.min(1, current / totalScroll));
-      
+
       // Phase 1 (0 -> 0.58): calculate active card index
       const cardsProgress = Math.min(progress / 0.58, 1);
       const idx = Math.min(
@@ -315,8 +318,8 @@ const WorkCards = () => {
       );
       setActiveIndex(Math.max(0, idx));
 
-      // Phase 3 (0.76 -> 1.0): Services animation
-      const sProgress = Math.max(0, Math.min(1, (progress - 0.76) / 0.24));
+      // Phase 2 & 3 (0.58 -> 1.0): Services animation seamless transition
+      const sProgress = Math.max(0, Math.min(1, (progress - 0.58) / 0.42));
       setServicesProgress(sProgress);
     };
 
@@ -324,6 +327,7 @@ const WorkCards = () => {
 
     return () => {
       clearTimeout(timer);
+      if (ro) ro.disconnect();
       window.removeEventListener('resize', calculateTranslate);
       window.removeEventListener('scroll', handleScroll);
     };
@@ -340,8 +344,8 @@ const WorkCards = () => {
     );
     setActiveIndex(idx);
 
-    // Phase 3 (0.76 -> 1.0): Services background & 3D stone animation
-    const sProgress = Math.max(0, Math.min(1, (clamped - 0.76) / 0.24));
+    // Phase 2 & 3 (0.58 -> 1.0): Services background & 3D stone animation
+    const sProgress = Math.max(0, Math.min(1, (clamped - 0.58) / 0.42));
     setServicesProgress(sProgress);
   });
 
@@ -349,16 +353,16 @@ const WorkCards = () => {
   const cardsX = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslateX]);
   const cardsY = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslateY]);
 
-  // Phase 2 (0.58 -> 0.76): Curtain slides out (Desktop: to left, Mobile: upwards/above), revealing Services underneath
-  const curtainX = useTransform(smoothProgress, [0.58, 0.76], ['0vw', '-100vw']);
-  const curtainY = useTransform(smoothProgress, [0.58, 0.76], ['0vh', '-100vh']);
+  // Phase 2 (0.58 -> 0.70): Curtain slides out cleanly without dead empty scroll space
+  const curtainX = useTransform(smoothProgress, [0.58, 0.70], ['0vw', '-100vw']);
+  const curtainY = useTransform(smoothProgress, [0.58, 0.70], ['0vh', '-100vh']);
 
   const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
 
   return (
     <div id="work" ref={targetRef} className="wc__outer-wrapper">
       <div className="wc__sticky-scene">
-        
+
         {/* ── UNDERNEATH LAYER: Full Animated Services Section (Desktop & Mobile) ── */}
         <div className="wc__services-underlay">
           <ServicesView

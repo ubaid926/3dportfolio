@@ -177,20 +177,28 @@ const StoneCanvas = ({ progress = 0 }) => {
 
     stone.visible = true;
 
+    // Check if mobile screen
+    const isMobile = window.innerWidth <= 768 || (mountRef.current && mountRef.current.clientWidth <= 768);
+
     // Stone completes travel between progress 0.10 and 0.50
     const t = Math.max(0, Math.min(1, (progress - 0.10) / 0.40));
 
     // Ease-out deceleration
     const eased = 1 - Math.pow(1 - t, 2.8);
 
-    // Z: from -70 → 1.8 (centered, perfect size behind cards)
-    stone.position.z = -70 + eased * 71.8;
+    // Target Z, Y, and Scale (compact on mobile so it fits gracefully above cards)
+    const targetZ = isMobile ? 1.4 : 1.8;
+    const targetY = isMobile ? 0.72 : 0.4;
+    const maxScale = isMobile ? 1.05 : 1.75;
 
-    // Y: settles in center
-    stone.position.y = 0.4 - (1 - eased) * 0.2;
+    // Z: from -70 → targetZ
+    stone.position.z = -70 + eased * (70 + targetZ);
 
-    // Scale: from tiny to large central monolith
-    const sc = 0.01 + eased * 1.75;
+    // Y: settles in optimal visual center
+    stone.position.y = targetY - (1 - eased) * 0.2;
+
+    // Scale: from tiny to maxScale
+    const sc = 0.01 + eased * maxScale;
     stone.scale.setScalar(sc);
 
     // Opacity fade-in over first 30% of travel

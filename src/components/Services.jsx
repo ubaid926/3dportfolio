@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import StoneCanvas from './StoneCanvas';
 import LightningStorm from './LightningStorm';
@@ -307,7 +307,14 @@ export const ServiceDetailModal = ({ selectedService, setSelectedService, onClos
 /* ─────────────────────────────────────────────── */
 export const ServicesView = ({ progress = 0, onOpenModal }) => {
   const [hoveredWord, setHoveredWord] = useState(null);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
   const p = Math.max(0, Math.min(1, progress));
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // ── PHASE 1 & 2: Background crossfade from White → Dark Storm (p: 0.08 -> 0.45) ──
   const bgTransition = Math.min(Math.max((p - 0.08) / 0.37, 0), 1);
@@ -339,44 +346,48 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
   const viewLinkColor = `rgb(${rLnk}, ${gLnk}, ${bLnk})`;
 
   // ── PHASE 3: Cards Activate AFTER the 3D model settles (p: 0.48 -> 1.0) ──
-  // Cards fade in once the stone completes arrival
   const cardsPhase = Math.max(0, Math.min(1, (p - 0.46) / 0.54));
   const cardsOpacity = Math.min(cardsPhase * 3.2, 1);
   const cardsScale = 0.94 + cardsOpacity * 0.06;
 
-  // ── DYNAMIC BIDIRECTIONAL PARALLAX & MOVEMENT EFFECTS ──
-  // As user scrolls from 0.48 to 1.0:
-  // 1. Left column scrolls UPWARD with dynamic lateral sway and progressive tilt
-  // 2. Right column scrolls DOWNWARD with opposing lateral sway and progressive tilt
-  const leftTranslateY = (0.5 - cardsPhase) * 440; // +220px -> -220px
-  const leftSwayX = Math.sin(cardsPhase * Math.PI) * 12; // subtle organic float
-  const leftRotateZ = -1.2 + cardsPhase * 2.4; // -1.2deg -> +1.2deg
+  // ── MOBILE: Scroll-driven card index & within-card progress ──
+  // Each card occupies 1/N of the cardsPhase range
+  const N = SERVICES_DATA.length;
+  const cardSlot = cardsPhase * N;               // 0 → N (continuous)
+  const activeIdx = Math.min(Math.floor(cardSlot), N - 1);
+  // How far the current card has progressed into its slot (0 → 1)
+  const cardProgress = cardSlot - Math.floor(cardSlot);
 
-  const rightTranslateY = (cardsPhase - 0.5) * 440; // -220px -> +220px
-  const rightSwayX = -Math.sin(cardsPhase * Math.PI) * 12; // opposing organic float
-  const rightRotateZ = 1.2 - cardsPhase * 2.4; // +1.2deg -> -1.2deg
+  // ── DESKTOP PARALLAX ──
+  const leftTranslateY = (0.5 - cardsPhase) * 440;
+  const leftSwayX = Math.sin(cardsPhase * Math.PI) * 12;
+  const leftRotateZ = -1.2 + cardsPhase * 2.4;
+
+  const rightTranslateY = (cardsPhase - 0.5) * 440;
+  const rightSwayX = -Math.sin(cardsPhase * Math.PI) * 12;
+  const rightRotateZ = 1.2 - cardsPhase * 2.4;
 
   const leftCards = SERVICES_DATA.filter((s) => s.side === 'left');
   const rightCards = SERVICES_DATA.filter((s) => s.side === 'right');
 
   return (
     <div id="services" className="srv__scene-wrap">
-      {/* ── 1. Pristine White Base Layer (Active initially) ── */}
+      {/* ── 1. Pristine White Base Layer ── */}
       <div className="srv__white-base" />
 
-      {/* ── 2. Dark Storm Clouds with Lightning Flashing Background ── */}
+      {/* ── 2. Dark Storm Background ── */}
       <div className="srv__storm-video-wrap" style={{ opacity: bgOpacity }}>
         <LightningStorm progress={p} />
         <div className="srv__storm-overlay" />
       </div>
       <div className="srv__fog-overlay" style={{ opacity: fogOpacity }} />
 
-      {/* ── 3. Central 3D Stone Canvas (Flies in and stops in center) ── */}
+      {/* ── 3. Central 3D Stone Canvas ── */}
       <StoneCanvas progress={p} />
 
       {/* ── 4. Content Layer ── */}
       <div className="srv__content-layer">
-        
+
         {/* Top Header Bar */}
         <div className="srv__top-bar">
           <span className="srv__eyebrow" style={{ color: eyebrowColor }}>
@@ -384,7 +395,7 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
           </span>
         </div>
 
-        {/* ── INITIAL MONUMENTAL TYPOGRAPHY (Visible on White, Fades out as Storm Arrives) ── */}
+        {/* ── INITIAL MONUMENTAL TYPOGRAPHY ── */}
         <div
           className="srv__center-sculpture"
           style={{
@@ -414,68 +425,143 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
           </div>
         </div>
 
-        {/* ── DYNAMIC BIDIRECTIONAL CARDS STAGE (Activates once 3D stone stops) ── */}
-        <div
-          className="srv__cards-stage"
-          style={{
-            opacity: cardsOpacity,
-            transform: `scale(${cardsScale})`,
-            display: cardsOpacity > 0.01 ? 'flex' : 'none',
-          }}
-        >
-          {/* LEFT COLUMN — Moves UPWARD with lateral sway and tilt */}
+        {/* ── CARDS STAGE ── */}
+        {isMobile ? (
+          /* ── MOBILE: Scroll-driven cards rising upward from below, one by one ── */
           <div
-            className="srv__column srv__column--left"
+            className="srv__mobile-stage"
             style={{
-              transform: `translate3d(${leftSwayX}px, ${leftTranslateY}px, 0) rotateZ(${leftRotateZ}deg)`,
+              opacity: cardsOpacity,
+              display: cardsOpacity > 0.01 ? 'flex' : 'none',
             }}
           >
-            {leftCards.map((svc, idx) => (
-              <div
-                key={svc.id}
-                className="srv__card"
-                onClick={() => onOpenModal?.(svc)}
-                style={{
-                  transitionDelay: `${idx * 40}ms`,
-                }}
-              >
-                <div className="srv__card-header">
-                  <h3 className="srv__card-title">{svc.title}</h3>
-                  <ServiceIcon type={svc.icon} />
-                </div>
-                <p className="srv__card-desc">{svc.description}</p>
-              </div>
-            ))}
+            <div className="srv__mobile-cards-viewport">
+              {SERVICES_DATA.map((svc, idx) => {
+                // Continuous scroll offset: ranges from 0 to SERVICES_DATA.length - 1
+                const targetScroll = cardsPhase * (SERVICES_DATA.length - 1);
+                const offset = idx - targetScroll;
+
+                // Only render cards within active view window
+                if (Math.abs(offset) > 1.3) return null;
+
+                // Animate upward from below:
+                // offset > 0: Card is below, rising up into view
+                // offset = 0: Card is active in center of viewport
+                // offset < 0: Card is moving upward and exiting
+                const translateY = offset * 115;
+                const scale = 1 - Math.min(0.08, Math.abs(offset) * 0.08);
+                const opacity = Math.max(0, 1 - Math.abs(offset) * 1.25);
+                const rotateX = offset * -6;
+                const isInteractive = Math.abs(offset) < 0.45;
+
+                return (
+                  <div
+                    key={svc.id}
+                    className="srv__mobile-scroll-card"
+                    style={{
+                      transform: `translate3d(0, ${translateY}%, 0) scale(${scale}) perspective(800px) rotateX(${rotateX}deg)`,
+                      opacity,
+                      zIndex: Math.round(20 - Math.abs(offset) * 10),
+                      pointerEvents: isInteractive ? 'auto' : 'none',
+                    }}
+                    onClick={() => onOpenModal?.(svc)}
+                  >
+                    <div className="srv__mobile-card-top">
+                      <div className="srv__mobile-badge-group">
+                        <span className="srv__mobile-index">
+                          {String(idx + 1).padStart(2, '0')} / {String(SERVICES_DATA.length).padStart(2, '0')}
+                        </span>
+                        <span className="srv__mobile-category">{svc.category}</span>
+                      </div>
+                      <div className="srv__mobile-icon-wrap">
+                        <ServiceIcon type={svc.icon} />
+                      </div>
+                    </div>
+
+                    <h3 className="srv__mobile-card-title">{svc.title}</h3>
+                    <p className="srv__mobile-card-desc">{svc.description}</p>
+
+                    <div className="srv__mobile-card-action">
+                      <span>EXPLORE CAPABILITIES</span>
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-
-          {/* Central spacer keeping 3D Stone prominent in the middle */}
-          <div className="srv__center-spacer" aria-hidden="true" />
-
-          {/* RIGHT COLUMN — Moves DOWNWARD with opposing lateral sway and tilt */}
+        ) : (
+          /* ── DESKTOP: Bidirectional dual-column parallax ── */
           <div
-            className="srv__column srv__column--right"
+            className="srv__cards-stage"
             style={{
-              transform: `translate3d(${rightSwayX}px, ${rightTranslateY}px, 0) rotateZ(${rightRotateZ}deg)`,
+              opacity: cardsOpacity,
+              transform: `scale(${cardsScale})`,
+              display: cardsOpacity > 0.01 ? 'flex' : 'none',
             }}
           >
-            {rightCards.map((svc, idx) => (
-              <div
-                key={svc.id}
-                className="srv__card"
-                onClick={() => onOpenModal?.(svc)}
-                style={{
-                  transitionDelay: `${idx * 40}ms`,
-                }}
-              >
-                <div className="srv__card-header">
-                  <h3 className="srv__card-title">{svc.title}</h3>
-                  <ServiceIcon type={svc.icon} />
+            {/* LEFT COLUMN */}
+            <div
+              className="srv__column srv__column--left"
+              style={{
+                transform: `translate3d(${leftSwayX}px, ${leftTranslateY}px, 0) rotateZ(${leftRotateZ}deg)`,
+              }}
+            >
+              {leftCards.map((svc, idx) => (
+                <div
+                  key={svc.id}
+                  className="srv__card"
+                  onClick={() => onOpenModal?.(svc)}
+                  style={{ transitionDelay: `${idx * 40}ms` }}
+                >
+                  <div className="srv__card-header">
+                    <h3 className="srv__card-title">{svc.title}</h3>
+                    <ServiceIcon type={svc.icon} />
+                  </div>
+                  <p className="srv__card-desc">{svc.description}</p>
                 </div>
-                <p className="srv__card-desc">{svc.description}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Central spacer */}
+            <div className="srv__center-spacer" aria-hidden="true" />
+
+            {/* RIGHT COLUMN */}
+            <div
+              className="srv__column srv__column--right"
+              style={{
+                transform: `translate3d(${rightSwayX}px, ${rightTranslateY}px, 0) rotateZ(${rightRotateZ}deg)`,
+              }}
+            >
+              {rightCards.map((svc, idx) => (
+                <div
+                  key={svc.id}
+                  className="srv__card"
+                  onClick={() => onOpenModal?.(svc)}
+                  style={{ transitionDelay: `${idx * 40}ms` }}
+                >
+                  <div className="srv__card-header">
+                    <h3 className="srv__card-title">{svc.title}</h3>
+                    <ServiceIcon type={svc.icon} />
+                  </div>
+                  <p className="srv__card-desc">{svc.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Bottom Bar */}
         <div className="srv__bottom-bar">
@@ -496,16 +582,7 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
               onClick={() => onOpenModal?.(SERVICES_DATA[0])}
             >
               <span>VIEW SERVICES</span>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>
@@ -517,6 +594,9 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
     </div>
   );
 };
+
+
+/* ─────────────────────────────────────────────── */
 
 /* ─────────────────────────────────────────────── */
 /*  STANDALONE SERVICES WRAPPER                     */

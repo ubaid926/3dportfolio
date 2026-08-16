@@ -79,12 +79,10 @@
 .wc__backdrop-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(250, 250, 252, 0.82) 0%,
-    rgba(245, 245, 248, 0.65) 45%,
-    rgba(250, 250, 252, 0.84) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(250, 250, 252, 0.82) 0%,
+      rgba(245, 245, 248, 0.65) 45%,
+      rgba(250, 250, 252, 0.84) 100%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -320,12 +318,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.45) 0%,
-    rgba(0, 0, 0, 0.02) 40%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.02) 40%,
+      rgba(0, 0, 0, 0.7) 100%);
   pointer-events: none;
 }
 
@@ -674,7 +670,7 @@
 @media (max-width: 768px) {
 
   .wc__outer-wrapper {
-    height: 480vh;
+    height: 380vh;
   }
 
   .wc__sticky-scene {
@@ -727,7 +723,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    gap: 0.8rem;
+    gap: 0.6rem;
   }
 
   /* Header Top Panel */
@@ -739,7 +735,7 @@
   }
 
   .wc__title-block {
-    gap: 0.4rem;
+    gap: 0.35rem;
     max-width: 100%;
   }
 
@@ -751,7 +747,7 @@
 
   .wc__active-card-info {
     min-height: auto;
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
   }
 
   .wc__active-badge {
@@ -778,7 +774,7 @@
     min-height: 0;
     height: auto;
     overflow: hidden;
-    padding: 0.4rem 1.4rem 1rem 1.4rem;
+    padding: 0.2rem 1.4rem 0.8rem 1.4rem;
     position: relative;
     box-sizing: border-box;
   }
@@ -786,7 +782,7 @@
   .wc__track {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.2rem;
     width: 100%;
     will-change: transform;
     align-items: stretch;
@@ -796,7 +792,9 @@
   .wc__card {
     flex: unset;
     width: 100%;
-    gap: 0.8rem;
+    gap: 0.7rem;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .wc__card-media {
@@ -826,10 +824,7 @@
   }
 
   .wc__finale-card {
-    flex: unset;
-    width: 100%;
-    padding: 1.8rem 1.4rem;
-    border-radius: 16px;
+    display: none;
   }
 
   .wc__finale-title {
