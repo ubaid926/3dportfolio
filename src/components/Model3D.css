@@ -1,4 +1,4 @@
-/* ===== 3D Artist Hero — Dark Panels with Orange Core Glow ===== */
+/* ===== 3D Artist Hero — Monochrome Black & White ===== */
 
 .model3d__wrapper {
   position: relative;
@@ -11,19 +11,19 @@
 }
 
 @keyframes model3d-float {
-  0%,  100% { transform: translateY(0px); }
-  40%        { transform: translateY(-12px); }
-  70%        { transform: translateY(-5px); }
+  0%, 100% { transform: translateY(0px); }
+  40%       { transform: translateY(-12px); }
+  70%       { transform: translateY(-5px); }
 }
 
-/* Very subtle cyan/blue centre glow behind canvas */
+/* Subtle monochrome centre glow behind canvas */
 .model3d__glow-bg {
   position: absolute;
   inset: -20%;
   background: radial-gradient(
     ellipse 60% 55% at 55% 55%,
-    rgba(14, 165, 233, 0.18) 0%,
-    rgba(29, 78, 216, 0.1) 45%,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 45%,
     transparent 70%
   );
   pointer-events: none;
@@ -32,8 +32,8 @@
 }
 
 @keyframes glow-pulse {
-  0%,  100% { opacity: 0.6; transform: scale(1); }
-  50%        { opacity: 1;   transform: scale(1.08); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1; transform: scale(1.08); }
 }
 
 /* The Three.js renderer div fills the col */
@@ -44,11 +44,9 @@
   height: 100%;
   cursor: grab;
   touch-action: none;
-  /* Outer drop-shadow in cyan/blue */
   filter:
-    drop-shadow(0 0 25px rgba(56, 189, 248, 0.28))
-    drop-shadow(0 0 65px rgba(37, 99, 235, 0.18))
-    drop-shadow(0 24px 50px rgba(0, 0, 0, 0.85));
+    drop-shadow(0 0 25px rgba(255, 255, 255, 0.12))
+    drop-shadow(0 24px 50px rgba(0, 0, 0, 0.95));
 }
 
 .model3d__canvas-mount:active { cursor: grabbing; }
@@ -74,18 +72,18 @@
   pointer-events: none;
   white-space: nowrap;
 }
-.model3d__wrapper:hover .model3d__label { opacity: 0.65; }
+.model3d__wrapper:hover .model3d__label { opacity: 0.75; }
 
 .model3d__label-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(56, 189, 248, 0.9);
+  background: rgba(255, 255, 255, 0.9);
   animation: dot-pulse 2.4s ease-in-out infinite;
 }
 @keyframes dot-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5); }
-  50%       { box-shadow: 0 0 0 5px rgba(56, 189, 248, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(255, 255, 255, 0); }
 }
 
 .model3d__label-text {
@@ -94,7 +92,7 @@
   font-weight: 500;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(147, 197, 253, 0.85);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* ══════════════════════════════════════════════
@@ -103,43 +101,37 @@
 
 /* ── 1024px — tablet ── */
 @media (max-width: 1024px) {
-  .model3d__wrapper    { animation-duration: 8s; }
-  .model3d__frame      { width: clamp(150px, 20vw, 240px); }
+  .model3d__wrapper { animation-duration: 8s; }
+  .model3d__frame   { width: clamp(150px, 20vw, 240px); }
 }
 
 /* ── 768px — tablet portrait ── */
 @media (max-width: 768px) {
-  .model3d__wrapper    { animation-duration: 9s; }
-  .model3d__glow-bg    { inset: -15%; filter: blur(40px); opacity: 0.8; }
+  .model3d__wrapper { animation-duration: 9s; }
+  .model3d__glow-bg { inset: -15%; filter: blur(40px); opacity: 0.8; }
 
   .model3d__canvas-mount {
     touch-action: pan-y;
     filter:
-      drop-shadow(0 0 16px rgba(56, 189, 248, 0.25))
-      drop-shadow(0 14px 35px rgba(0, 0, 0, 0.8));
+      drop-shadow(0 0 16px rgba(255, 255, 255, 0.1))
+      drop-shadow(0 14px 35px rgba(0, 0, 0, 0.9));
   }
 
-  /* Label: hide on mobile/touch */
-  .model3d__label      { display: none; }
-
-  /* Frame: balanced proportional size on tablet */
-  .model3d__frame      { width: clamp(130px, 30vw, 175px); }
+  .model3d__label { display: none; }
+  .model3d__frame { width: clamp(130px, 30vw, 175px); }
 }
 
 /* ── 480px — small phones ── */
 @media (max-width: 480px) {
-  .model3d__glow-bg    { inset: -12%; filter: blur(30px); opacity: 0.75; }
+  .model3d__glow-bg { inset: -12%; filter: blur(30px); opacity: 0.75; }
 
   .model3d__canvas-mount {
     filter:
-      drop-shadow(0 0 12px rgba(56, 189, 248, 0.2))
-      drop-shadow(0 10px 25px rgba(0, 0, 0, 0.75));
+      drop-shadow(0 0 12px rgba(255, 255, 255, 0.08))
+      drop-shadow(0 10px 25px rgba(0, 0, 0, 0.85));
   }
 
-  /* Balanced proportional frame size on phones */
-  .model3d__frame      { width: clamp(110px, 32vw, 145px); }
-
-  /* Corner brackets scale gracefully */
+  .model3d__frame { width: clamp(110px, 32vw, 145px); }
   .model3d__frame-corner { width: 14px; height: 14px; }
   .model3d__frame-badge  { height: 24px; font-size: 0.44rem; }
   .model3d__frame-corner--bl,
@@ -148,13 +140,11 @@
 
 /* ── 360px — very small phones ── */
 @media (max-width: 360px) {
-  .model3d__frame      { width: clamp(95px, 30vw, 125px); }
+  .model3d__frame { width: clamp(95px, 30vw, 125px); }
 }
 
 /* ══════════════════════════════════════════════════════════════
    PORTFOLIO HOLOGRAPHIC CARD FRAME
-   CSS variables --tilt-x, --tilt-y, --sheen-x, --sheen-y
-   are written per-frame by the RAF loop in Model3D.jsx.
 ══════════════════════════════════════════════════════════════ */
 .model3d__frame-wrap {
   position: absolute;
@@ -173,50 +163,42 @@
   aspect-ratio: 3 / 4.2;
   will-change: transform, opacity;
 
-  /* Deep dark card backing */
-  background: rgba(4, 8, 22, 0.82);
-
-  /* Layered border: inner glow ring + mid rim + faint outer halo */
-  border: 1px solid rgba(56, 189, 248, 0.55);
+  background: rgba(14, 14, 14, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 8px;
 
   box-shadow:
-    0 0 0 1px rgba(56, 189, 248, 0.08),
-    inset 0 0 18px rgba(56, 189, 248, 0.07),
-    0 0 50px rgba(56, 189, 248, 0.18),
-    0 0 120px rgba(37, 99, 235, 0.12),
-    0 20px 80px rgba(0, 0, 0, 0.9);
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 18px rgba(255, 255, 255, 0.06),
+    0 0 40px rgba(255, 255, 255, 0.1),
+    0 20px 80px rgba(0, 0, 0, 0.95);
 
   overflow: hidden;
   padding: 5px;
   transform-style: preserve-3d;
 
-  /* Apply the live-tilt driven by JS CSS variables */
   transform:
     perspective(900px)
     rotateX(var(--tilt-x, 0deg))
     rotateY(var(--tilt-y, 0deg));
 
-  /* Animate the border/glow on idle */
   animation: card-breathe 5s ease-in-out infinite;
 }
 
 @keyframes card-breathe {
-  0%,  100% {
+  0%, 100% {
     box-shadow:
-      0 0 0 1px rgba(56, 189, 248, 0.08),
-      inset 0 0 18px rgba(56, 189, 248, 0.07),
-      0 0 50px rgba(56, 189, 248, 0.18),
-      0 0 120px rgba(37, 99, 235, 0.12),
-      0 20px 80px rgba(0, 0, 0, 0.9);
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      inset 0 0 18px rgba(255, 255, 255, 0.06),
+      0 0 40px rgba(255, 255, 255, 0.1),
+      0 20px 80px rgba(0, 0, 0, 0.95);
   }
   50% {
     box-shadow:
-      0 0 0 1px rgba(56, 189, 248, 0.18),
-      inset 0 0 28px rgba(56, 189, 248, 0.13),
-      0 0 80px rgba(56, 189, 248, 0.30),
-      0 0 180px rgba(37, 99, 235, 0.22),
-      0 20px 80px rgba(0, 0, 0, 0.9);
+      0 0 0 1px rgba(255, 255, 255, 0.18),
+      inset 0 0 28px rgba(255, 255, 255, 0.12),
+      0 0 70px rgba(255, 255, 255, 0.22),
+      0 20px 80px rgba(0, 0, 0, 0.95);
   }
 }
 
@@ -228,37 +210,27 @@
   object-fit: cover;
   object-position: center top;
   border-radius: 4px;
-  filter: grayscale(12%) contrast(1.08) brightness(0.88);
+  filter: grayscale(100%) contrast(1.1) brightness(0.9);
   transition: filter 0.6s ease;
 }
 .model3d__frame:hover .model3d__frame-img {
-  filter: grayscale(0%) contrast(1.04) brightness(0.96);
+  filter: grayscale(80%) contrast(1.15) brightness(1.0);
 }
 
-/* ── Holographic rainbow sheen ── */
+/* ── Holographic sheen (Monochrome silver glow) ── */
 .model3d__frame-holo {
   position: absolute;
   inset: 0;
   z-index: 4;
   pointer-events: none;
   border-radius: 4px;
-  /* Radial holo spot tracks mouse via --sheen-x/y */
   background: radial-gradient(
     ellipse 140% 140% at var(--sheen-x, 50%) var(--sheen-y, 50%),
-    rgba(100, 220, 255, 0.06) 0%,
-    rgba(168, 85, 247, 0.05) 25%,
-    rgba(56, 189, 248, 0.04) 50%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(200, 200, 200, 0.05) 30%,
     transparent 70%
   );
   mix-blend-mode: screen;
-  /* Sweeping rainbow shift on idle */
-  animation: holo-shift 8s linear infinite;
-}
-
-@keyframes holo-shift {
-  0%   { filter: hue-rotate(0deg)   brightness(1); }
-  50%  { filter: hue-rotate(180deg) brightness(1.12); }
-  100% { filter: hue-rotate(360deg) brightness(1); }
 }
 
 /* ── CRT scanlines ── */
@@ -270,10 +242,10 @@
   border-radius: 4px;
   background: repeating-linear-gradient(
     to bottom,
-    transparent               0px,
-    transparent               2px,
-    rgba(0, 0, 0, 0.07)       2px,
-    rgba(0, 0, 0, 0.07)       3px
+    transparent         0px,
+    transparent         2px,
+    rgba(0, 0, 0, 0.1)  2px,
+    rgba(0, 0, 0, 0.1)  3px
   );
   opacity: 0.55;
 }
@@ -287,7 +259,7 @@
   border-radius: 4px;
   background: radial-gradient(
     circle 90px at var(--sheen-x, 50%) var(--sheen-y, 50%),
-    rgba(255, 255, 255, 0.09) 0%,
+    rgba(255, 255, 255, 0.12) 0%,
     transparent 70%
   );
 }
@@ -302,32 +274,31 @@
   transition: width 0.3s, height 0.3s, opacity 0.3s;
 }
 
-/* Corner bracket glow on hover */
 .model3d__frame:hover .model3d__frame-corner {
   width: 22px;
   height: 22px;
-  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.9));
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
 }
 
 .model3d__frame-corner--tl {
   top: 4px; left: 4px;
-  border-top:  1.5px solid rgba(56, 189, 248, 0.95);
-  border-left: 1.5px solid rgba(56, 189, 248, 0.95);
+  border-top:  1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
 }
 .model3d__frame-corner--tr {
   top: 4px; right: 4px;
-  border-top:   1.5px solid rgba(56, 189, 248, 0.95);
-  border-right: 1.5px solid rgba(56, 189, 248, 0.95);
+  border-top:   1.5px solid rgba(255, 255, 255, 0.95);
+  border-right: 1.5px solid rgba(255, 255, 255, 0.95);
 }
 .model3d__frame-corner--bl {
   bottom: 30px; left: 4px;
-  border-bottom: 1.5px solid rgba(56, 189, 248, 0.95);
-  border-left:   1.5px solid rgba(56, 189, 248, 0.95);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left:   1.5px solid rgba(255, 255, 255, 0.95);
 }
 .model3d__frame-corner--br {
   bottom: 30px; right: 4px;
-  border-bottom: 1.5px solid rgba(56, 189, 248, 0.95);
-  border-right:  1.5px solid rgba(56, 189, 248, 0.95);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-right:  1.5px solid rgba(255, 255, 255, 0.95);
 }
 
 /* ── Left side accent bar ── */
@@ -341,17 +312,17 @@
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(56, 189, 248, 0.7) 20%,
-    rgba(56, 189, 248, 0.9) 50%,
-    rgba(56, 189, 248, 0.7) 80%,
+    rgba(255, 255, 255, 0.7) 20%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.7) 80%,
     transparent
   );
   animation: accent-travel 3.5s ease-in-out infinite;
 }
 
 @keyframes accent-travel {
-  0%,  100% { opacity: 0.3; }
-  50%        { opacity: 0.9; }
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.9; }
 }
 
 /* ── Availability chip (top right) ── */
@@ -363,18 +334,18 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  background: rgba(3, 7, 18, 0.82);
-  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 20px;
   padding: 3px 9px;
   font-family: var(--font-primary, sans-serif);
   font-size: 0.42rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  color: rgba(56, 248, 130, 0.88);
+  color: rgba(255, 255, 255, 0.95);
   text-transform: uppercase;
   backdrop-filter: blur(6px);
-  box-shadow: 0 0 12px rgba(56, 248, 130, 0.15);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
   pointer-events: none;
 }
 
@@ -382,14 +353,14 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(56, 248, 130, 0.9);
+  background: #ffffff;
   flex-shrink: 0;
   animation: chip-pulse 2s ease-in-out infinite;
 }
 
 @keyframes chip-pulse {
-  0%, 100% { box-shadow: 0 0 0 0   rgba(56, 248, 130, 0.6); opacity: 1; }
-  50%       { box-shadow: 0 0 0 5px rgba(56, 248, 130, 0);   opacity: 0.7; }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); opacity: 1; }
+  50%       { box-shadow: 0 0 0 5px rgba(255, 255, 255, 0); opacity: 0.7; }
 }
 
 /* ── Bottom badge strip ── */
@@ -397,10 +368,10 @@
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 28px;
-  background: rgba(3, 7, 18, 0.9);
+  background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(56, 189, 248, 0.22);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -409,7 +380,7 @@
   font-size: 0.46rem;
   font-weight: 600;
   letter-spacing: 0.2em;
-  color: rgba(56, 189, 248, 0.75);
+  color: rgba(255, 255, 255, 0.85);
   text-transform: uppercase;
   z-index: 8;
 }
@@ -418,7 +389,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: rgba(56, 189, 248, 0.85);
+  background: #ffffff;
   animation: dot-pulse 2.4s ease-in-out infinite;
 }
 
@@ -428,4 +399,3 @@
     width: clamp(120px, 35vw, 190px);
   }
 }
-

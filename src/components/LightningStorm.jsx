@@ -65,8 +65,8 @@ const LightningStorm = ({ progress = 0 }) => {
         segments,
         life: 1.0,
         decay: 0.055 + Math.random() * 0.045,
-        color: Math.random() > 0.3 ? '#a5d8ff' : '#d0bfff',
-        glow: Math.random() > 0.3 ? 'rgba(56, 189, 248, 0.85)' : 'rgba(192, 132, 252, 0.85)',
+        color: '#ffffff',
+        glow: 'rgba(255, 255, 255, 0.85)',
         intensity: 0.9 + Math.random() * 0.3,
         originX: startX,
         originY: startY,
@@ -158,13 +158,11 @@ const LightningStorm = ({ progress = 0 }) => {
         const cloudGrad = ctx.createRadialGradient(0, 0, c.radiusX * 0.1, 0, 0, c.radiusX);
         const cloudBrightness = flashIntensity * 140;
 
-        const cr = Math.min(255, Math.round(14 + cloudBrightness * 0.8));
-        const cg = Math.min(255, Math.round(18 + cloudBrightness * 0.95));
-        const cb = Math.min(255, Math.round(28 + cloudBrightness * 1.3));
+        const val = Math.min(255, Math.round(18 + cloudBrightness));
 
-        cloudGrad.addColorStop(0, `rgba(${cr}, ${cg}, ${cb}, ${c.alpha * (0.85 + flashIntensity * 0.3)})`);
-        cloudGrad.addColorStop(0.45, `rgba(${Math.round(cr * 0.7)}, ${Math.round(cg * 0.7)}, ${Math.round(cb * 0.75)}, ${c.alpha * 0.6})`);
-        cloudGrad.addColorStop(0.8, `rgba(${Math.round(cr * 0.3)}, ${Math.round(cg * 0.3)}, ${Math.round(cb * 0.35)}, ${c.alpha * 0.2})`);
+        cloudGrad.addColorStop(0, `rgba(${val}, ${val}, ${val}, ${c.alpha * (0.85 + flashIntensity * 0.3)})`);
+        cloudGrad.addColorStop(0.45, `rgba(${Math.round(val * 0.7)}, ${Math.round(val * 0.7)}, ${Math.round(val * 0.7)}, ${c.alpha * 0.6})`);
+        cloudGrad.addColorStop(0.8, `rgba(${Math.round(val * 0.3)}, ${Math.round(val * 0.3)}, ${Math.round(val * 0.3)}, ${c.alpha * 0.2})`);
         cloudGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         ctx.scale(1, c.radiusY / c.radiusX);

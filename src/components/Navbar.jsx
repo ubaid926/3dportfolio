@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,12 +19,29 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { label: 'Work', href: '#work' },
-    { label: 'Stories', href: '#stories' },
-    { label: 'Services', href: '#services' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Work', to: '/work' },
+    { label: 'About', to: '/about' },
+    { label: 'Stories', to: '/', hash: '#stories' },
+    { label: 'Contact', to: '/contact' },
   ];
+
+  const handleNavClick = (item) => {
+    setMenuOpen(false);
+    if (item.hash) {
+      if (location.pathname === '/') {
+        const el = document.querySelector(item.hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigate('/');
+        setTimeout(() => {
+          const el = document.querySelector(item.hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    } else {
+      navigate(item.to);
+    }
+  };
 
   return (
     <>
@@ -34,15 +54,10 @@ const Navbar = () => {
       >
         <div className="navbar__container">
           {/* Logo */}
-          <motion.a
-            href="#"
-            className="navbar__logo"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
+          <Link to="/" className="navbar__logo">
             <span className="navbar__logo-icon">◆</span>
             <span className="navbar__logo-text">STUDIO<sup>®</sup></span>
-          </motion.a>
+          </Link>
 
           {/* Top Right Action Controls */}
           <div className="navbar__actions">
@@ -53,7 +68,7 @@ const Navbar = () => {
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.92 }}
               aria-label="Toggle audio"
-              title={isMuted ? "Unmute audio" : "Mute audio"}
+              title={isMuted ? 'Unmute audio' : 'Mute audio'}
             >
               {isMuted ? (
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -70,14 +85,9 @@ const Navbar = () => {
             </motion.button>
 
             {/* Let's Talk CTA Pill */}
-            <motion.a
-              href="#contact"
-              className="navbar__cta-pill"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-            >
+            <Link to="/contact" className="navbar__cta-pill">
               LET'S TALK
-            </motion.a>
+            </Link>
 
             {/* Menu Toggle Button */}
             <motion.button
@@ -123,31 +133,28 @@ const Navbar = () => {
                 <div className="navbar__drawer-main">
                   <nav className="navbar__drawer-nav">
                     {navItems.map((item, index) => (
-                      <motion.a
+                      <motion.button
                         key={item.label}
-                        href={item.href}
                         className="navbar__drawer-link"
+                        style={{ textAlign: 'left', width: '100%', background: 'none', border: 'none', padding: 0 }}
                         initial={{ opacity: 0, x: 40 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.12 + index * 0.07, duration: 0.4 }}
-                        onClick={() => setMenuOpen(false)}
+                        onClick={() => handleNavClick(item)}
                       >
                         {item.label}
-                      </motion.a>
+                      </motion.button>
                     ))}
                   </nav>
 
                   {/* Story Badge Button */}
-                  <motion.a
-                    href="#about"
+                  <Link
+                    to="/about"
                     className="navbar__story-badge"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.45, duration: 0.4 }}
                     onClick={() => setMenuOpen(false)}
                   >
                     <span className="navbar__story-sparkle">✦</span> THE STUDIO NAME STORY
-                  </motion.a>
+                  </Link>
                 </div>
 
                 {/* Drawer Footer Details */}
@@ -182,4 +189,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

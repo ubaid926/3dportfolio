@@ -192,7 +192,7 @@
 }
 
 .wc__active-cat {
-  color: #0284c7;
+  color: #64748b;
   font-weight: 600;
 }
 
@@ -481,8 +481,8 @@
 
 .wc__finale-link:hover {
   gap: 1.2rem;
-  color: #38bdf8;
-  border-bottom-color: #38bdf8;
+  color: #ffffff;
+  border-bottom-color: #ffffff;
 }
 
 .wc__finale-link svg {
@@ -497,7 +497,7 @@
 .wc__modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(3, 7, 18, 0.82);
+  background: rgba(8, 8, 8, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   z-index: 9999;
@@ -575,7 +575,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #0284c7;
+  color: #64748b;
 }
 
 .wc__modal-title {

@@ -36,14 +36,14 @@ const StoneCanvas = ({ progress = 0 }) => {
     camera.position.set(0, 0.3, 5.5);
 
     /* ── Cinematic Lighting ──────────────────────────────────── */
-    // Key: warm dramatic light from upper right
-    const keyLight = new THREE.DirectionalLight(0xfff0d0, 3.5);
+    // Key: dramatic light from upper right
+    const keyLight = new THREE.DirectionalLight(0xffffff, 3.5);
     keyLight.position.set(5, 8, 4);
     keyLight.castShadow = true;
     scene.add(keyLight);
 
-    // Fill: cool blue-grey from lower left
-    const fillLight = new THREE.DirectionalLight(0x7799cc, 1.2);
+    // Fill: cool grey from lower left
+    const fillLight = new THREE.DirectionalLight(0x888888, 1.2);
     fillLight.position.set(-5, -2, 3);
     scene.add(fillLight);
 
@@ -52,11 +52,11 @@ const StoneCanvas = ({ progress = 0 }) => {
     rimLight.position.set(0, -4, -6);
     scene.add(rimLight);
 
-    // Storm atmosphere: subtle blue-electric ambient
-    scene.add(new THREE.AmbientLight(0x1a2240, 2.0));
+    // Storm atmosphere: subtle dark ambient
+    scene.add(new THREE.AmbientLight(0x222222, 2.0));
 
-    // Electric accent light (cyan-blue flash under the stone)
-    const electricLight = new THREE.PointLight(0x40a8ff, 1.8, 20);
+    // Accent light under the stone
+    const electricLight = new THREE.PointLight(0xffffff, 1.8, 20);
     electricLight.position.set(0, -3, 2);
     scene.add(electricLight);
 

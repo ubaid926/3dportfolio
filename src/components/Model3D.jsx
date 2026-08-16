@@ -255,8 +255,8 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       uLight2Dir:   { value: new THREE.Vector3(  0.6,  0.6, -0.8).normalize() },
       uLight1Int:   { value: 0.0 },
       uLight2Int:   { value: 0.0 },
-      uLight1Color: { value: new THREE.Color('#38bdf8') }, // Electric Cyan/Blue Spotlight
-      uLight2Color: { value: new THREE.Color('#60a5fa') }, // Soft Blue Spotlight
+      uLight1Color: { value: new THREE.Color('#ffffff') }, // Pure White Spotlight
+      uLight2Color: { value: new THREE.Color('#e0e0e0') }, // Soft Silver Spotlight
     };
 
     // ── Load Texture Pool directly from src/assets ──────────────────────
@@ -375,12 +375,12 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       return m;
     };
 
-    const blueGlow1 = makeGlow('#38bdf8', 4.0, new THREE.Vector3( 0.6, 0.6,-0.8));
-    const blueGlow2 = makeGlow('#60a5fa', 4.0, new THREE.Vector3(-0.6,-0.6,-0.8));
+    const blueGlow1 = makeGlow('#ffffff', 4.0, new THREE.Vector3( 0.6, 0.6,-0.8));
+    const blueGlow2 = makeGlow('#d0d0d0', 4.0, new THREE.Vector3(-0.6,-0.6,-0.8));
 
     // ── ANIMATED DYNAMIC 3D CYBER NET GRID ─────────────────────────────────────
     const lineMat = new THREE.LineBasicMaterial({
-      color: 0x38bdf8,
+      color: 0xffffff,
       transparent: true,
       opacity: 0.08,
       blending: THREE.AdditiveBlending,
@@ -441,7 +441,7 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
     nodeGeo.setAttribute('position', new THREE.Float32BufferAttribute(nodePositions, 3));
 
     const nodeMat = new THREE.PointsMaterial({
-      color: 0x38bdf8,
+      color: 0xffffff,
       size: 0.13,
       transparent: true,
       opacity: 0.45,
@@ -453,7 +453,7 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
     // ── ELECTRIC CURRENT PULSES TRAVELING ALONG NET LINES ──────────────────────
     const NUM_PULSES = 16;
     const currentPulses = [];
-    const PULSE_COLORS = [0x00f0ff, 0x38bdf8, 0xffaa00, 0xffffff, 0x60a5fa, 0xff7700];
+    const PULSE_COLORS = [0xffffff, 0xdddddd, 0xcccccc, 0xeeeeee, 0xffffff, 0xaaaaaa];
 
     const getInterpolatedPointOnLine = (lineData, tNorm) => {
       const { initialCoords } = lineData;
@@ -615,11 +615,11 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
     ];
 
     const ALL_COLORS = [
-      '#38bdf8',
-      '#2563eb',
-      '#60a5fa',
-      '#00bfff',
-      '#93c5fd',
+      '#ffffff',
+      '#f0f0f0',
+      '#e0e0e0',
+      '#cccccc',
+      '#ffffff',
     ];
 
     const pickRandomPos = (currentIdx) => {
@@ -642,8 +642,8 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       FADEOUT:    35,
     });
 
-    const ls1 = createLightState(0, 0,  '#38bdf8');
-    const ls2 = createLightState(2, 60, '#60a5fa');
+    const ls1 = createLightState(0, 0,  '#ffffff');
+    const ls2 = createLightState(2, 60, '#e0e0e0');
 
     const tickLight = (ls) => {
       ls.frame++;
