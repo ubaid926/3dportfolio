@@ -1002,15 +1002,15 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
             {/* Data badge row */}
             <div className="model3d__frame-badge">
               <span className="model3d__frame-badge-dot" />
-              <span>PORTFOLIO OWNER</span>
+              <span>PBR TEXTURE BAKER</span>
               <span className="model3d__frame-badge-sep">|</span>
-              <span className="model3d__frame-badge-tag">FULL STACK</span>
+              <span className="model3d__frame-badge-tag">GPU ACCELERATED</span>
             </div>
 
             {/* Top floating chip */}
             <div className="model3d__frame-chip">
               <span className="model3d__frame-chip-dot" />
-              <span>AVAILABLE</span>
+              <span>BAKING ACTIVE</span>
             </div>
           </div>
         </div>
@@ -1018,7 +1018,7 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
 
       <div className="model3d__label">
         <span className="model3d__label-dot" />
-        <span className="model3d__label-text">DRAG TO EXPLORE</span>
+        <span className="model3d__label-text">DRAG TO ROTATE 3D CONFIGURATOR</span>
       </div>
     </div>
   );

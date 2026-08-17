@@ -24,111 +24,111 @@ const EXPLORATION_CARDS = [
     id: 'exp-headphone',
     type: 'headphone',
     number: '02',
-    title: 'DESIGNED FOR EVERY NOISE',
-    subtitle: 'Acoustic Engineering & Spatial UI',
-    tagline: 'ACOUSTIC FIDELITY',
-    category: 'Spatial Audio / 3D',
+    title: 'RAY-TRACED AO & NORMAL CAGES',
+    subtitle: 'High-Poly Mesh Surface Projection',
+    tagline: 'HIGH-TO-LOW CAGE BAKING',
+    category: 'Normal & AO Baking',
     year: '2025',
     client: 'Aether Soundworks',
     description:
-      'A spatial sound visualizer that translates acoustic frequency sweeps into real-time WebGL mesh deformation with custom audio-reactive shaders.',
-    tags: ['WebGL', 'Spatial Audio', 'Three.js', 'Shader Graph'],
+      'A multi-pass normal map cage baker that projects 20M micro-bevel polygon details onto a 4K low-poly game asset with zero tangent distortion.',
+    tags: ['Normal Baking', 'AO Cage', 'Tangent Vectors', 'GLSL Shaders'],
     bgType: 'dark',
   },
   {
     id: 'exp-novaglam',
     type: 'novaglam',
     number: '03',
-    title: 'NOVAGLAM VINTAGE FASHION STUDIO',
-    subtitle: 'Direct-to-Avatar Editorial',
-    tagline: 'VINTAGE EDITORIAL',
-    category: 'Fashion & Identity',
+    title: 'MICRO-FIBER ANISOTROPIC WEAVE',
+    subtitle: 'Procedural Fabric Normal Synthesis',
+    tagline: 'TEXTURE LAB',
+    category: 'Anisotropic PBR',
     year: '2026',
     client: 'NovaGlam Paris',
     image: avatarLuxury,
     description:
-      'An interactive digital fashion house blending vintage 1970s couture aesthetics with generative neural rendering and realtime fabric physics.',
-    tags: ['Digital Couture', 'Generative AI', 'Lookbook UI'],
+      'Real-time anisotropic tangent calculation for high-end silk, velvet, and brushed metallic fabrics with pre-baked roughness gradients.',
+    tags: ['Anisotropy', 'Procedural PBR', 'Roughness Map'],
     bgType: 'pink',
   },
   {
     id: 'exp-orange-ai',
     type: 'orange-ai',
     number: '04',
-    title: 'LOOSE SKETCHES TO VISUALIZATIONS',
-    subtitle: 'Generative Latent Workspace',
-    tagline: 'AI LATENT PIPELINE',
-    category: 'Generative AI & Interface',
+    title: 'HIGH-POLY SCULPTS TO BAKED GLTF',
+    subtitle: 'Automated GPU Texture Synthesizer',
+    tagline: 'GPU BAKING ENGINE',
+    category: 'Procedural Baking Lab',
     year: '2026',
-    client: 'Trionn Creative Lab',
+    client: 'BAKE3D Creative Lab',
     image: cardOrangeAi,
     description:
-      'A multi-modal AI design tool that transforms raw hand-drawn wireframes and loose napkin sketches into high-fidelity 3D spatial renders in real time.',
-    tags: ['Generative AI', 'Latent Diffusion', 'Creative Suite', 'React 19'],
+      'GPU-accelerated texture synthesizer that converts complex procedural noise graphs and curvature maps into consolidated 4K texture atlases in milliseconds.',
+    tags: ['GPU Baking', 'Texture Atlas', 'Curvature Maps', 'glTF 2.0'],
     bgType: 'orange-editorial',
   },
   {
     id: 'exp-imagination',
     type: 'beige-sculpture',
     number: '05',
-    title: 'WE BRING IMAGINATION TO LIFE',
-    subtitle: 'Spatial Architectural Deck',
-    tagline: 'SPATIAL ARCHITECTURE',
-    category: 'Spatial 3D & WebXR',
+    title: 'RADIOSITY LIGHTMAP BAKING',
+    subtitle: 'Global Illumination Precomputation',
+    tagline: 'PRE-COMPUTED RADIANCE',
+    category: 'Lightmap Engine',
     year: '2025',
     client: 'Studio Morph',
     image: avatarCredible,
     description:
-      'Immersive digital showcase exploring organic architectural forms, volumetric natural lighting, and tactile material interactions on the web.',
-    tags: ['Three.js', 'Spatial UI', 'Architecture', 'WebXR'],
+      'Immersive radiosity engine calculating photon bounces and soft contact shadows for ultra-lean architectural WebGL deployment.',
+    tags: ['Lightmaps', 'Radiosity GI', 'HDR Textures', 'WebXR'],
     bgType: 'beige',
   },
   {
     id: 'exp-cyberverse',
     type: 'cyberverse',
     number: '06',
-    title: 'CYBERVERSE DIGITAL AVATAR RUNWAY',
-    subtitle: 'Real-time Cloth Simulation & Metaverse',
-    tagline: 'DIGITAL IDENTITY',
-    category: 'Virtual Runway',
+    title: 'SKELETAL ANIMATION & MORPH TARGETS',
+    subtitle: 'Kinematic Blendshape Configurator',
+    tagline: 'KINETIC RIGS',
+    category: 'Animation Rigging',
     year: '2026',
     client: 'CyberVerse Lab',
     image: avatarVentigence,
     description:
-      'Interactive 3D runway presentation featuring high-density cloth simulation and procedural lighting choreography for next-gen digital fashion.',
-    tags: ['GLSL Shaders', 'Cloth Sim', 'Avatar Tech', 'WebGL'],
+      'Interactive 3D configurator with multi-bone dual quaternion skinning and 60+ FPS real-time facial blendshape playback in the browser.',
+    tags: ['Dual Quaternion', 'Morph Targets', 'Skeletal Rig', 'WebGL'],
     bgType: 'dark',
   },
   {
     id: 'exp-quantum',
     type: 'quantum',
     number: '07',
-    title: 'QUANTUM NEURAL GRAPH ENGINE',
-    subtitle: 'Node-Based Autonomous Intelligence',
-    tagline: 'NEURAL WORKFLOWS',
-    category: 'AI Platform',
+    title: 'SUBSURFACE SCATTERING PROXIES',
+    subtitle: 'Translucency & Depth Map Baking',
+    tagline: 'ORGANIC PBR',
+    category: 'SSS Baking Lab',
     year: '2026',
     client: 'Quantum AI Systems',
     image: avatarFastResume,
     description:
-      'Node-based generative engine empowering creative teams to orchestrate autonomous AI agents, latent pipelines, and real-time inference graphs.',
-    tags: ['Autonomous Agents', 'Node Graph', 'Data Visualization'],
+      'Pre-computed subsurface scattering lookup maps allowing organic skin, wax, and jade materials to exhibit light diffusion with zero raytracing overhead.',
+    tags: ['SSS Lookup', 'Translucency', 'Depth Maps'],
     bgType: 'dark',
   },
   {
     id: 'exp-vanguard',
     type: 'vanguard',
     number: '08',
-    title: 'VANGUARD SUSTAINABLE HABITAT',
-    subtitle: '3D Photorealistic Interactive Deck',
-    tagline: 'BIOPHILIC DESIGN',
-    category: 'Sustainable Tech',
+    title: 'DRAWCALL CONSOLIDATION & LODs',
+    subtitle: 'Mesh Decimation & Atlas Baking',
+    tagline: 'OPTIMIZATION PIPELINE',
+    category: 'Draw-Call Minimizer',
     year: '2025',
     client: 'Vanguard Group',
     image: avatarTechnis,
     description:
-      'Photorealistic WebGL walkthrough of zero-emission biophilic urban habitats with daylight simulation and live energy telemetry.',
-    tags: ['Interactive 3D', 'Sustainability', 'Digital Twin'],
+      'Automated LOD generation and multi-material atlas baking that merges 40 distinct material draw calls into a single unified render pass.',
+    tags: ['Texture Atlas', 'LOD Decimation', 'Zero Lag'],
     bgType: 'beige',
   },
 ];
@@ -216,13 +216,13 @@ const RibbonCard = ({ card, index, progress, isMobile, onSelectCard }) => {
           <div className="dm__card-content--orange">
             <div className="dm__orange-col-left">
               <div className="dm__orange-ai-badge">
-                <span>AI</span>
+                <span>3D</span>
                 <span className="dm__orange-ai-line" />
               </div>
               <div className="dm__orange-quote-box">
                 <span className="dm__quote-mark">“</span>
                 <p className="dm__orange-quote-text">
-                  CREATIVE EXPERIMENTS &amp; LATENT WORKFLOWS
+                  TEXTURE BAKING &amp; REALTIME SHADERS
                 </p>
               </div>
             </div>
@@ -238,13 +238,13 @@ const RibbonCard = ({ card, index, progress, isMobile, onSelectCard }) => {
 
             <div className="dm__orange-col-right">
               <div className="dm__orange-bold-heading">
-                LOOSE
+                HIGH
                 <br />
-                SKETCHES
+                POLY
                 <br />
                 TO
                 <br />
-                VISUALIZATIONS
+                BAKED GLTF
               </div>
               <div className="dm__orange-meta-bottom">
                 <span>2026</span>
@@ -411,34 +411,34 @@ const DesignMotionSection = () => {
 
 
 
-        {/* ── Typography Stage (DESIGN & MOTION in Opposing Directions) ── */}
+        {/* ── Typography Stage (BAKE & ANIMATE in Opposing Directions) ── */}
         <div className="dm__typo-stage">
-          {/* Top Word: DESIGN (Moves Left -> Right) */}
+          {/* Top Word: BAKE (Moves Left -> Right) */}
           <div className="dm__typo-row">
             <motion.span
               className="dm__typo-word dm__typo-word--design"
               style={{ x: designTranslateX }}
             >
-              DESIGN
+              BAKE
             </motion.span>
           </div>
 
           {/* Centered Subtitle Tagline */}
           <div className="dm__tagline-center">
             <span className="dm__tagline-text">
-              EXPLORING IDEAS THROUGH
+              EXPLORING PROCEDURAL TEXTURE PIPELINES
               <br />
-              DAILY DESIGN PRACTICE
+              &amp; 3D ANIMATION CONFIGURATIONS
             </span>
           </div>
 
-          {/* Bottom Word: MOTION (Moves Right -> Left) */}
+          {/* Bottom Word: ANIMATE (Moves Right -> Left) */}
           <div className="dm__typo-row">
             <motion.span
               className="dm__typo-word dm__typo-word--motion"
               style={{ x: motionTranslateX }}
             >
-              MOTION
+              ANIMATE
             </motion.span>
           </div>
         </div>
@@ -461,7 +461,7 @@ const DesignMotionSection = () => {
         <footer className="dm__bottom-bar">
           {/* Left Description */}
           <div className="dm__bottom-left-desc">
-            Concepts, explorations, and interface experiments shared openly as part of our creative process.
+            Shader labs, normal cage projections, and 3D animation rigs engineered for 60+ FPS web performance.
           </div>
 
           {/* Center Interactive Cookie Notification Banner */}

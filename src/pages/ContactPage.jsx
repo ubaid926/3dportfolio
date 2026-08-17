@@ -4,32 +4,34 @@ import Footer from '../components/Footer';
 import '../pages/pages.css';
 
 const SERVICES_OPTIONS = [
-  'AI & Intelligent Automation',
-  'Web & Software Development',
-  'Creative Tech & Spatial 3D',
-  'Website & Mobile Design',
-  'Brand Strategy & Systems',
-  'Cloud & DevOps',
+  'Real-Time GPU Texture Baking',
+  '3D WebGL Product Configurator',
+  'Skeletal Rigging & Animation',
+  'Global Illumination & Lightmaps',
+  'Custom GLSL Shaders & PBR Lab',
+  'Mesh Decimation & LOD Pipelines',
+  'Spatial 3D & WebXR Environments',
+  'glTF / USDZ Cloud Asset Pipeline',
 ];
 
 const BUDGET_OPTIONS = ['< $10,000', '$10,000 – $25,000', '$25,000 – $50,000', '$50,000+'];
 
 const FAQS = [
   {
-    q: 'How quickly can we kick off a new project?',
-    a: 'We typically start discovery sprints within 1–2 weeks of agreement finalization. For urgent timelines, accelerated sprints are available.',
+    q: 'What 3D file formats can you ingest for texture baking?',
+    a: 'We support all major 3D industry formats including FBX, OBJ, Alembic, STEP/IGES CAD, ZTL/ZPR (ZBrush), and Blender/Maya scenes.',
   },
   {
-    q: 'Do you collaborate with startups as well as enterprise brands?',
-    a: 'Yes. We partner with ambitious early-stage founders building category-defining products, as well as global enterprises needing high-velocity innovation labs.',
+    q: 'How fast does your GPU texture baking engine operate?',
+    a: 'Our hardware-accelerated pipeline bakes 4K/8K multi-pass texture atlases (Normal, AO, Curvature, Roughness) in under 10 seconds per high-poly asset.',
   },
   {
-    q: 'What does a typical project team look like?',
-    a: 'Every engagement is led by a dedicated creative director, a lead designer, and senior engineers with direct Slack/Teams access.',
+    q: 'Can the 3D configurator integrate into Shopify or WooCommerce?',
+    a: 'Yes. Our WebGL configurators are fully embeddable into Shopify, headless eCommerce, WordPress, Webflow, and custom React/Next.js storefronts.',
   },
   {
-    q: 'Can we book a short intro call first?',
-    a: 'Absolutely. Use the link on the right to grab a 30-minute discovery slot directly on our calendar.',
+    q: 'Do you deliver AR/WebXR compatible assets for mobile and Vision Pro?',
+    a: 'Every 3D model is exported in both optimized binary glTF (.glb) for Android/Web and Apple USDZ with QuickLook and visionOS spatial compatibility.',
   },
 ];
 
@@ -80,7 +82,7 @@ export default function ContactPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="page-hero__tag-dot" /> Contact &amp; Enquiries
+          <span className="page-hero__tag-dot" /> Contact &amp; 3D Baking Inquiries
         </motion.div>
 
         <motion.h1
@@ -89,8 +91,8 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
         >
-          Let's build<br />
-          something <em>bold</em>.
+          Let's bake<br />
+          your <em>3D models</em>.
         </motion.h1>
 
         <motion.p
@@ -99,13 +101,12 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          Have an idea, project, or partnership in mind? Fill in the brief below or book a direct
-          discovery call.
+          Have a 3D animation configurator project or need high-poly models baked for real-time web? Share your brief below.
         </motion.p>
 
         <div className="page-hero__meta">
           <span className="page-hero__meta-line">Typical reply in &lt; 24h</span>
-          <span className="page-hero__meta-line">Global Availability</span>
+          <span className="page-hero__meta-line">Global 3D Pipeline</span>
         </div>
       </section>
 
@@ -264,15 +265,15 @@ export default function ContactPage() {
 
               <div className="contact-direct-item">
                 <span className="contact-direct-title">EMAIL US</span>
-                <a href="mailto:hello@studio.com" className="contact-direct-val">
-                  hello@studio.com
+                <a href="mailto:hello@bake3d.studio" className="contact-direct-val">
+                  hello@bake3d.studio
                 </a>
               </div>
 
               <div className="contact-direct-item">
                 <span className="contact-direct-title">CALL US</span>
-                <a href="tel:+919824182099" className="contact-direct-val">
-                  +91 98241 82099
+                <a href="tel:+14158209900" className="contact-direct-val">
+                  +1 (415) 820-9900
                 </a>
               </div>
 

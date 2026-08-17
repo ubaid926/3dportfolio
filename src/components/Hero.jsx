@@ -4,27 +4,27 @@ import Model3D from './Model3D';
 import './Hero.css';
 
 // Words that rotate in the hero heading
-const ROTATING_WORDS = ['experiences', 'interfaces', 'products', 'solutions', 'visions'];
+const ROTATING_WORDS = ['texture maps', 'PBR materials', 'lightmaps', 'AO passes', 'normal cages', '3D animations'];
 
 // About section text items — scroll through these
 const ABOUT_TEXTS = [
   {
-    label: 'ABOUT',
-    heading: 'We are an independent digital studio crafting meaningful brand experiences through strategy, design, and technology.',
-    tag1: 'WE DESIGN FOR LONGEVITY\nCLARITY FIRST, CRAFT ALWAYS,\nBUILT TO SCALE.',
-    tag2: 'Our mission is to make technology feel human by designing digital products that are intuitive, purposeful, and meaningful to people.',
+    label: 'BAKING ENGINE',
+    heading: 'We build high-performance 3D animation configurators and GPU texture baking pipelines for real-time web and spatial computing.',
+    tag1: 'ZERO-LATENCY BAKING\nULTRA COMPACT GLTF ASSETS,\nENGINEERED FOR 120 FPS.',
+    tag2: 'Our baking engine bakes complex global illumination, subsurface scattering, and high-poly normal cages directly into lightweight PBR texture maps.',
   },
   {
-    label: 'PROCESS',
-    heading: 'Every pixel is intentional. Every interaction considered. We build systems that scale and stories that resonate.',
-    tag1: 'RESEARCH DRIVEN\nSTRATEGY FIRST, DESIGN ALWAYS,\nEXECUTED WITH PRECISION.',
-    tag2: 'We partner with ambitious brands to translate complex ideas into clear, beautiful digital experiences.',
+    label: 'CONFIGURATOR',
+    heading: 'From high-to-low poly cage baking to real-time GLSL shader compilation and kinetic skeletal animations.',
+    tag1: 'HARDWARE ACCELERATED\nRAY-TRACED AO & RADIOSITY,\nPIXEL-PERFECT UV SYNTHESIS.',
+    tag2: 'We empower brands to deploy interactive 3D configurators with instantaneous texture swapping, dynamic lighting, and cinematic motion.',
   },
   {
-    label: 'VISION',
-    heading: 'The future belongs to brands that think in systems — clear in purpose, sharp in execution, lasting in impact.',
-    tag1: 'BUILT FOR TOMORROW\nSCALABLE BY DESIGN,\nMEANINGFUL BY INTENT.',
-    tag2: 'We believe great design is invisible — felt not seen, experienced not explained, remembered not forgotten.',
+    label: 'SPATIAL 3D',
+    heading: 'Next-generation WebGL and WebXR 3D configuration with zero render lag and photorealistic material fidelity.',
+    tag1: 'BUILT FOR SPEED\n60+ FPS WEB ENGINES,\nPRODUCTION ASSETS.',
+    tag2: 'We turn heavy offline CGI renders into lightning-fast, baked real-time 3D interactive experiences.',
   },
 ];
 
@@ -191,8 +191,8 @@ const Hero = () => {
     }),
   };
 
-  const headingLine1 = "Crafting digital";
-  const headingLine2 = "that inspire";
+  const headingLine1 = "Baking procedural";
+  const headingLine2 = "into 3D motion";
 
   return (
     <section className="hero" ref={heroRef} id="hero">
@@ -298,13 +298,13 @@ const Hero = () => {
           {/* Eyebrow tag */}
           <motion.div className="hero__eyebrow" variants={itemVariants}>
             <span className="hero__eyebrow-dot" />
-            <span className="hero__eyebrow-text">CREATIVE DEVELOPER & DESIGNER</span>
+            <span className="hero__eyebrow-text">3D ANIMATION CONFIGURATOR &amp; TEXTURE BAKING</span>
           </motion.div>
 
           {/* Main heading */}
           <div className="hero__heading-wrapper">
             <h1 className="hero__heading">
-              {/* Line 1: "Crafting digital" */}
+              {/* Line 1: "Baking procedural" */}
               <span className="hero__heading-line">
                 {headingLine1.split(' ').map((word, wIdx) => {
                   const prevCharsCount = headingLine1.split(' ').slice(0, wIdx).join(' ').length + (wIdx > 0 ? 1 : 0);
@@ -356,7 +356,7 @@ const Hero = () => {
                 </span>
               </span>
 
-              {/* Line 3: "that inspire" */}
+              {/* Line 3: "into 3D motion" */}
               <span className="hero__heading-line">
                 {headingLine2.split(' ').map((word, wIdx) => {
                   const prevCharsCount = headingLine1.length + headingLine2.split(' ').slice(0, wIdx).join(' ').length + (wIdx > 0 ? 1 : 0);
@@ -388,7 +388,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05, gap: '1.2rem' }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="hero__cta-text">START A PROJECT</span>
+              <span className="hero__cta-text">EXPLORE 3D CONFIGURATOR</span>
               <span className="hero__cta-arrow">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12" />
@@ -441,20 +441,20 @@ const Hero = () => {
               </svg>
             </div>
             <div className="hero__stat-info">
-              <span className="hero__stat-label">EST. 2020</span>
+              <span className="hero__stat-label">120 FPS WEBGL</span>
             </div>
           </div>
           <div className="hero__stat-divider" />
           <div className="hero__stat">
-            <span className="hero__stat-value">5+ YEARS</span>
-            <span className="hero__stat-label">SHAPING DIGITAL DIRECTION</span>
+            <span className="hero__stat-value">GPU BAKED</span>
+            <span className="hero__stat-label">PBR TEXTURE ENGINE</span>
           </div>
           <div className="hero__stat-desc">
-            Websites, AI products, brands,
+            PBR lightmaps, normal cages,
             <br />
-            and systems built for clarity,
+            AO passes, and WebGL animation
             <br />
-            scale and impact.
+            pipelines built for hyper-speed.
           </div>
         </div>
       </motion.div>

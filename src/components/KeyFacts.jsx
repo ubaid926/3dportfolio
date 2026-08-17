@@ -90,29 +90,31 @@ const usePerspectiveTilt = (sectionRef, direction) => {
 /* ── Partners Logo Strip Component ── */
 const PartnersLogos = () => (
   <div className="kf__partners-logos">
-    <div className="kf__partner-logo kf__logo-credible"><span>credible</span></div>
+    <div className="kf__partner-logo kf__logo-credible"><span>UNREAL ENGINE</span></div>
     <div className="kf__partner-divider" />
-    <div className="kf__partner-logo kf__logo-yellowtail"><span>Yellowtail</span></div>
+    <div className="kf__partner-logo kf__logo-yellowtail"><span>THREE.JS</span></div>
     <div className="kf__partner-divider" />
     <div className="kf__partner-logo kf__logo-luxury">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" />
+        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+        <polyline points="2 17 12 22 22 17" />
+        <polyline points="2 12 12 17 22 12" />
       </svg>
       <div className="kf__luxury-text">
-        <span className="kf__luxury-top">LUXURY</span>
-        <span className="kf__luxury-bot">PRESENCE</span>
+        <span className="kf__luxury-top">BLENDER</span>
+        <span className="kf__luxury-bot">PIPELINE</span>
       </div>
     </div>
     <div className="kf__partner-divider" />
     <div className="kf__partner-logo kf__logo-technis">
-      <span className="kf__technis-dot">●</span><span>technis</span>
+      <span className="kf__technis-dot">●</span><span>WEBGL 2.0</span>
     </div>
     <div className="kf__partner-divider" />
     <div className="kf__partner-logo kf__logo-ockto">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
         <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4" />
       </svg>
-      <span>OCKTO</span>
+      <span>glTF / USDZ</span>
     </div>
   </div>
 );
@@ -221,7 +223,7 @@ const KeyFacts = () => {
               }}
               whileHover={{ y: -6, transition: { duration: 0.28, ease: 'easeOut' } }}
             >
-              <div className="kf__card-label">FEATURED &amp; AWARDS</div>
+              <div className="kf__card-label">TEXTURE MAPS BAKED</div>
 
               <div className="kf__card-img-wrap">
                 <motion.img
@@ -243,11 +245,11 @@ const KeyFacts = () => {
                     </svg>
                   </div>
                   <p className="kf__footer-desc">
-                    Featured on top design<br />platforms worldwide.
+                    4K PBR lightmaps &amp; normal<br />cages baked flawlessly.
                   </p>
                 </div>
                 <div className="kf__stat-number">
-                  <AnimatedCounter to={50} suffix="+" />
+                  <AnimatedCounter to={50} suffix="M+" />
                 </div>
               </div>
             </motion.div>
@@ -261,7 +263,7 @@ const KeyFacts = () => {
               }}
               whileHover={{ y: -6, transition: { duration: 0.28, ease: 'easeOut' } }}
             >
-              <div className="kf__card-label kf__card-label--dark">PROJECTS COMPLETED</div>
+              <div className="kf__card-label kf__card-label--dark">3D CONFIGURATORS DEPLOYED</div>
 
               <div className="kf__circle-wrap">
                 <motion.div
@@ -279,7 +281,7 @@ const KeyFacts = () => {
 
               <div className="kf__card-footer">
                 <p className="kf__footer-desc kf__footer-desc--dark">
-                  90% of our clients seek our<br />services for a second project.
+                  90% reduction in runtime draw<br />calls with pre-baked radiance.
                 </p>
               </div>
             </motion.div>
@@ -297,7 +299,7 @@ const KeyFacts = () => {
               }}
               whileHover={{ y: -6, transition: { duration: 0.28, ease: 'easeOut' } }}
             >
-              <div className="kf__card-label">OUR TEAM MEMBERS</div>
+              <div className="kf__card-label">BAKING CHANNELS &amp; FORMATS</div>
 
               <div className="kf__card-img-wrap">
                 <motion.img
@@ -314,7 +316,7 @@ const KeyFacts = () => {
               <div className="kf__card-footer">
                 <div className="kf__footer-left">
                   <p className="kf__footer-desc">
-                    Different skills.<br />One standard.
+                    Albedo, AO, Normal,<br />Roughness, GLTF, USDZ.
                   </p>
                 </div>
                 <div className="kf__stat-number">
@@ -333,7 +335,7 @@ const KeyFacts = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            <div className="kf__partners-label">OUR BUSINESS PARTNERS</div>
+            <div className="kf__partners-label">SUPPORTED ENGINES &amp; ECOSYSTEM</div>
             <PartnersLogos />
           </motion.div>
 
@@ -351,7 +353,7 @@ const KeyFacts = () => {
           <div className="kf__mobile-header">
             <h2 className="kf__mobile-title">Key facts</h2>
             <p className="kf__mobile-subtitle">
-              A snapshot of our<br />experience and impact.
+              A snapshot of our<br />baking power and scale.
             </p>
           </div>
 
@@ -365,7 +367,7 @@ const KeyFacts = () => {
 
               {/* ── Card 1: Featured & Awards ── */}
               <div className="kf__card kf__card--dark kf__mobile-card">
-                <div className="kf__card-label">FEATURED &amp; AWARDS</div>
+                <div className="kf__card-label">TEXTURE MAPS BAKED</div>
 
                 <div className="kf__card-img-wrap">
                   <img
@@ -384,18 +386,18 @@ const KeyFacts = () => {
                       </svg>
                     </div>
                     <p className="kf__footer-desc">
-                      Featured on top design<br />platforms worldwide.
+                      4K PBR lightmaps &amp; normal<br />cages baked flawlessly.
                     </p>
                   </div>
                   <div className="kf__stat-number">
-                    <AnimatedCounter to={50} suffix="+" trigger={activeCardIdx === 0} />
+                    <AnimatedCounter to={50} suffix="M+" trigger={activeCardIdx === 0} />
                   </div>
                 </div>
               </div>
 
               {/* ── Card 2: Projects Completed ── */}
               <div className="kf__card kf__card--light kf__mobile-card">
-                <div className="kf__card-label kf__card-label--dark">PROJECTS COMPLETED</div>
+                <div className="kf__card-label kf__card-label--dark">3D CONFIGURATORS DEPLOYED</div>
 
                 <div className="kf__circle-wrap">
                   <div className="kf__circle">
@@ -407,14 +409,14 @@ const KeyFacts = () => {
 
                 <div className="kf__card-footer">
                   <p className="kf__footer-desc kf__footer-desc--dark">
-                    90% of our clients seek our<br />services for a second project.
+                    90% reduction in runtime draw<br />calls with pre-baked radiance.
                   </p>
                 </div>
               </div>
 
               {/* ── Card 3: Our Team Members ── */}
               <div className="kf__card kf__card--dark kf__mobile-card">
-                <div className="kf__card-label">OUR TEAM MEMBERS</div>
+                <div className="kf__card-label">BAKING CHANNELS &amp; FORMATS</div>
 
                 <div className="kf__card-img-wrap">
                   <img
@@ -428,7 +430,7 @@ const KeyFacts = () => {
                 <div className="kf__card-footer">
                   <div className="kf__footer-left">
                     <p className="kf__footer-desc">
-                      Different skills.<br />One standard.
+                      Albedo, AO, Normal,<br />Roughness, GLTF, USDZ.
                     </p>
                   </div>
                   <div className="kf__stat-number">

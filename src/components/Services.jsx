@@ -10,141 +10,141 @@ import './Services.css';
 export const SERVICES_DATA = [
   // ── LEFT COLUMN SERVICES ──
   {
-    id: 'ai',
+    id: 'baking',
     side: 'left',
-    title: 'AI & Intelligent Automation',
-    category: 'INTELLIGENT AUTOMATION',
-    tagline: 'Supercharge workflows with autonomous intelligence and digital workers.',
+    title: 'Real-Time GPU Texture Baking & UVs',
+    category: 'TEXTURE SYNTHESIS & CAGES',
+    tagline: 'High-to-low poly cage baking and multi-channel PBR synthesis with zero artifacts.',
     description:
-      'AI-powered solutions designed to enhance products, automate workflows, and unlock smarter digital experiences.',
+      'Hardware-accelerated texture baking that projects 100M+ poly sculpts into micro-displacement, normal, AO, and curvature maps.',
     icon: 'bars',
     deliverables: [
-      'Autonomous AI Digital Workers',
-      'LLM Fine-Tuning & Custom Agents',
-      'Workflow Automation Pipelines',
-      'Predictive Analytics & Smart Models',
-      'Neural Canvas & Generative Interfaces',
+      'High-to-Low Poly Normal Cage Baking',
+      'Ambient Occlusion & Curvature Extraction',
+      'Automated UV Unwrapping & Seam Packing',
+      'Roughness & Metalness Map Compilation',
+      'Multi-Texture Atlas Channel Consolidation',
     ],
   },
   {
-    id: 'development',
+    id: 'configurator',
     side: 'left',
-    title: 'Custom Web & Software Development',
-    category: 'CREATIVE TECH & CODE',
-    tagline: 'Transforming visionary concepts into ultra-performant code.',
+    title: 'Interactive 3D Web Configurators',
+    category: 'WEBGL 3D CONFIGURATION',
+    tagline: 'Hyper-responsive, customized 3D product viewports for web and spatial commerce.',
     description:
-      'Scalable web applications, clean code architecture, and high-performance digital solutions engineered for scale.',
+      'Scalable WebGL 3D configurators with real-time part swapping, procedural material customization, and camera director controls.',
     icon: 'radar',
     deliverables: [
-      'Full-Stack Cloud Architecture & APIs',
-      'Next.js / React Enterprise Frontends',
-      'Performance Optimization & Core Vitals',
-      'Interactive Micro-Animations & State Systems',
-      'Resilient Security & Infrastructure Hardening',
+      'Three.js & WebGL 2.0 Configurator Engines',
+      'Instantaneous Texture & Material Swapping',
+      'Modular Part Assembly & Attachment Logic',
+      'Interactive Exploded View Presentations',
+      'Mobile-Optimized Touch Orbit Gestures',
     ],
   },
   {
-    id: 'spatial',
+    id: 'animation',
     side: 'left',
-    title: 'Creative Tech & Spatial 3D',
-    category: 'WEBGL & 3D EXPERIENCES',
-    tagline: 'Immersive, interactive 3D worlds that captivate audiences.',
+    title: 'Skeletal Rigging & 3D Animation',
+    category: 'KINETIC RIGS & MOTION',
+    tagline: 'Kinematic skeletal animation, blendshapes, and secondary physics.',
     description:
-      'Cutting-edge WebGL graphics, custom shader pipelines, and spatial canvas experiences that set brands apart.',
+      'Professional bone rigging, morph target facial animation, and physics-driven spring dynamics for interactive 3D web models.',
     icon: 'prism',
     deliverables: [
-      'Three.js & WebGL Interactive 3D',
-      'Custom GLSL Shader Engineering',
-      'Spatial Web & 3D Product Configurator',
-      'Physics Simulation & Particle Systems',
-      'WebXR & Immersive Web Environments',
+      'Dual-Quaternion Skeletal Rigging',
+      'ARKit 52 Facial Blendshape Calibration',
+      'Procedural Inverse Kinematics (IK) Rigs',
+      'Cinematic Camera Motion Choreography',
+      'Interactive State Machine Animation Graphs',
     ],
   },
   {
-    id: 'cloud',
+    id: 'lightmaps',
     side: 'left',
-    title: 'Autonomous Cloud Architecture',
-    category: 'INFRASTRUCTURE & DEVOPS',
-    tagline: 'Ultra-reliable distributed systems engineered for global scale.',
+    title: 'Global Illumination & Lightmap Baking',
+    category: 'RADIOSITY & LIGHTMAPS',
+    tagline: 'Pre-computed radiosity and raytraced bounce lighting for 120 FPS web playback.',
     description:
-      'High-availability cloud pipelines, containerized microservices, and serverless compute clusters with zero downtime.',
+      'Bake complex ray-traced lighting, contact shadow penumbras, and caustics into lightweight HDR lightmap textures.',
     icon: 'nodes',
     deliverables: [
-      'Kubernetes & Serverless Infrastructure',
-      'Realtime Telemetry & Microservices',
-      'Multi-Region Database Synchronization',
-      'Edge Compute & CDN Optimization',
-      'Automated CI/CD Delivery Pipelines',
+      'Multi-Bounce Radiosity GI Computation',
+      'Daylight & Artificial Lightmap Mixing',
+      'High-Dynamic Range (HDR) Lightmaps',
+      'Indirect Reflection Probe Precomputation',
+      'Zero-Overhead Static Scene Rendering',
     ],
   },
 
   // ── RIGHT COLUMN SERVICES ──
   {
-    id: 'wordpress',
+    id: 'shaders',
     side: 'right',
-    title: 'WordPress Development',
-    category: 'CMS ARCHITECTURE',
-    tagline: 'High-speed, scalable CMS solutions built for enterprise reliability.',
+    title: 'Custom GLSL Shaders & Material Lab',
+    category: 'PBR SHADER GRAPH',
+    tagline: 'Bespoke GLSL and Three.js custom shaders for exotic optical materials.',
     description:
-      'WordPress development focused on performance, clarity, and experiences that convert visitors into loyal users.',
+      'Custom shader development for anisotropic carbon fiber, clearcoat car paint, thin-film iridescence, and refractive dispersion.',
     icon: 'wave',
     deliverables: [
-      'Custom Headless WordPress Architecture',
-      'High-Conversion Enterprise CMS',
-      'Tailored Gutenberg Blocks & Themes',
-      'Speed Optimization & Security Hardening',
-      'Seamless Third-Party API Integrations',
+      'Custom GLSL Fragment & Vertex Shaders',
+      'Anisotropic Brushed Metal & Carbon Weaves',
+      'Clearcoat Lacquer & Orange-Peel Bump',
+      'Subsurface Scattering (SSS) Approximation',
+      'Refractive Glass Dispersion & Fresnel Rims',
     ],
   },
   {
-    id: 'design',
+    id: 'optimization',
     side: 'right',
-    title: 'Website & Mobile Design',
-    category: 'PRODUCT & SPATIAL UI',
-    tagline: 'Crafting digital products that feel intuitive, human, and unforgettable.',
+    title: 'Mesh Decimation & LOD Pipelines',
+    category: 'DRAWCALL MINIMIZATION',
+    tagline: 'Drastic draw call reduction and geometric decimation for instant load times.',
     description:
-      'High-quality website and app experiences designed to attract users and keep them coming back.',
+      'Transform heavy 500MB CAD files into snappy 5MB WebGL assets with intelligent polygon reduction and draw-call merging.',
     icon: 'arcs',
     deliverables: [
-      'Product UI/UX & Interaction Design',
-      'Spatial & 3D Web Interface Systems',
-      'Multi-Platform Design Systems & Tokens',
-      'User Journey Mapping & Wireframing',
-      'Interactive Prototypes & Micro-Animations',
+      'Quadric Error Metric Mesh Decimation',
+      'Automated Hierarchical LOD Generation',
+      'Draw-Call Batching & Material Merging',
+      'Draco & Meshopt Compression Pipelines',
+      'Sub-50ms Initial Asset Hydration',
     ],
   },
   {
-    id: 'branding',
+    id: 'spatial-webxr',
     side: 'right',
-    title: 'Brand Strategy & Visual Systems',
-    category: 'STRATEGY & IDENTITY',
-    tagline: 'Building bold, cohesive brand worlds that command attention.',
+    title: 'Spatial 3D & WebXR Environments',
+    category: 'SPATIAL COMPUTING',
+    tagline: 'Immersive AR product placement and browser-based VR showrooms.',
     description:
-      'Dynamic brand identity systems, typography guidelines, and digital narratives built to stand the test of time.',
+      'WebXR-enabled 3D product showrooms allowing users to place baked 3D models in their physical spaces with realistic scale and shadows.',
     icon: 'compass',
     deliverables: [
-      'Brand Strategy & Positioning',
-      'Visual Identity & Logo Systems',
-      'Custom Typography & Color Palettes',
-      'Motion Guidelines & Sound Identity',
-      'Comprehensive Brand Design Systems',
+      'WebXR Augmented Reality (AR) Placement',
+      'Virtual Reality 3D Showroom Walkthroughs',
+      'Real-Time Spatial Audio Spatialization',
+      'Environmental Lighting Adaptation (HDR)',
+      'Cross-Device Apple Vision Pro Compatibility',
     ],
   },
   {
-    id: 'interaction',
+    id: 'export',
     side: 'right',
-    title: 'Product UI/UX & Interaction Design',
-    category: 'HUMAN INTERACTION',
-    tagline: 'Every micro-interaction engineered for delight and high conversion.',
+    title: 'Multi-Format Export & Asset Pipeline',
+    category: 'PRODUCTION ASSET DELIVERY',
+    tagline: 'Production-ready glTF/GLB, USDZ, and FBX generation for web and game engines.',
     description:
-      'Intuitive user flows, behavioral psychology design, and frictionless checkout and onboarding experiences.',
+      'Seamless automated export pipelines generating production-grade 3D assets ready for Shopify, Unreal Engine, Unity, and iOS QuickLook.',
     icon: 'orbit',
     deliverables: [
-      'Behavioral UX Research & Usability Testing',
-      'Conversion Rate Optimization (CRO)',
-      'Design Sprint Prototyping',
-      'Design Token Libraries for Figma & Code',
-      'Accessibility (WCAG 2.1 AAA) Compliance',
+      'glTF 2.0 / GLB Binary Optimization',
+      'Apple iOS QuickLook USDZ Packaging',
+      'Unreal Engine & Unity Asset Presets',
+      'Automated Headless Cloud Baking API',
+      'Cloud CDN Texture Streaming Architecture',
     ],
   },
 ];
@@ -406,7 +406,7 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
           }}
         >
           <div className="srv__typo-grid">
-            {['A.I.', 'DESIGN', 'DEVELOPMENT', 'BRANDING'].map((word, idx) => (
+            {['BAKING', 'CONFIGURATOR', 'RIGGING', 'LIGHTMAPS'].map((word, idx) => (
               <div key={word} className="srv__typo-row">
                 <button
                   className={`srv__word-btn ${hoveredWord === word ? 'active' : ''}`}
@@ -568,7 +568,7 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
           <div className="srv__tag-wrapper">
             <span className="srv__sparkle">✦</span>
             <span className="srv__tag-text" style={{ color: tagColor }}>
-              DIFFERENT DISCIPLINES. ONE STANDARD OF CRAFT.
+              GPU TEXTURE BAKING PIPELINES. ZERO RUNTIME DRAW-CALL LAG.
             </span>
           </div>
 

@@ -13,17 +13,17 @@ import img8 from '../assets/(8).jpeg';
 import '../pages/pages.css';
 
 const ALL_PROJECTS = [
-  { id: 'myworker-ai',      title: 'MyWorker AI',          category: 'AI Platform',    year: '2026', client: 'MyWorker Global',    image: img1, tags: ['AI', 'Automation', 'Enterprise'],         description: 'An end-to-end AI workforce automation platform designed for high-scale enterprise teams.' },
-  { id: 'pulse-studio',     title: 'Pulse Studio',         category: '3D WebGL',       year: '2025', client: 'Pulse Soundworks',   image: img2, tags: ['Three.js', 'Audio Reactive', 'WebGL'],    description: 'Spatial audio visualization engine with procedural shader visuals reacting to live inputs.' },
-  { id: 'luxury-presence',  title: 'Luxury Presence',      category: 'Design System',  year: '2025', client: 'Luxury Presence Inc.',image: img3, tags: ['UI/UX', 'Architecture', 'Spatial UI'],  description: 'Spatial interface allowing buyers to explore ultra-luxury properties in interactive 3D.' },
-  { id: 'luminary-web3',    title: 'Luminary Capital',     category: 'Fintech',        year: '2026', client: 'Luminary Ltd',       image: img4, tags: ['Fintech', 'Dashboard', 'Data Viz'],      description: 'Ultra-low latency institutional crypto interface with 3D depth heatmaps.' },
-  { id: 'vanguard-arch',    title: 'Vanguard Living',      category: '3D WebGL',       year: '2025', client: 'Vanguard Dev',       image: img5, tags: ['Architecture', 'Real-Estate', '3D'],     description: 'Photorealistic 3D architectural walk-through for modern urban spaces.' },
-  { id: 'cyberverse-fashion',title: 'CyberVerse Studio',  category: 'Interactive',    year: '2026', client: 'Cyber Couture',      image: img6, tags: ['Fashion', 'WebGL', 'Metaverse'],          description: 'Direct-to-avatar digital fashion showroom with realtime cloth simulation.' },
-  { id: 'quantum-ai',       title: 'Quantum Intelligence', category: 'AI Platform',    year: '2026', client: 'Quantum Labs',       image: img7, tags: ['Generative AI', 'Canvas', 'Neural Net'], description: 'Node-based generative AI workflow engine for creative latent manipulation.' },
-  { id: 'nexus-robotics',   title: 'Nexus Robotics',       category: 'Interactive',    year: '2025', client: 'Nexus Heavy Tech',   image: img8, tags: ['Robotics', 'Digital Twin', 'Telemetry'], description: 'Cloud control portal for robotic industrial fleets with sub-millisecond telemetry.' },
+  { id: 'aerodynamic-hypercar', title: 'AeroDynamic GT Configurator', category: '3D Configurator',    year: '2026', client: 'AeroDynamic Motors',   image: img1, tags: ['WebGL', 'PBR Baking', 'Three.js', 'Anisotropy'],  description: 'Ultra-high fidelity automotive configurator with real-time clearcoat reflections and carbon fiber anisotropy.' },
+  { id: 'cybermech-studio',     title: 'CyberMech Rig & Motion',     category: 'Animation & Rigging', year: '2025', client: 'Apex Robotics',        image: img2, tags: ['Skeletal Animation', 'Normal Cages', 'IK'],       description: 'Interactive mech configurator with high-poly to low-poly baked normal maps and dynamic gait animations.' },
+  { id: 'spatial-archviz',      title: 'Spatial ArchViz Lightmaps',  category: 'Lightmap Baking',     year: '2025', client: 'Vanguard Architecture', image: img3, tags: ['Lightmap GI', 'Radiosity', '4K HDR'],            description: 'Architectural visualizer pre-computing radiosity bounce lighting into lightweight 4K HDR lightmaps.' },
+  { id: 'chronowatch-horology', title: 'ChronoWatch Horology Studio',category: '3D Configurator',    year: '2026', client: 'Chrono Genève',         image: img4, tags: ['Micro PBR', 'Exploded Animation', 'Jewels'],      description: 'Luxury timepiece configurator with micro-displacement normal baking and exploded mechanical gear animations.' },
+  { id: 'biosculpt-character',  title: 'BioSculpt Organic Avatar',   category: 'Texture Baking',      year: '2025', client: 'BioSculpt Media',       image: img5, tags: ['SSS Baking', 'Blendshapes', 'Skin Shader'],       description: 'Digital avatar suite featuring baked subsurface scattering irradiance maps and 52 ARKit blendshapes.' },
+  { id: 'exosuit-combat',       title: 'ExoSuit Armor Customizer',   category: '3D Configurator',    year: '2026', client: 'Aegis Armament',        image: img6, tags: ['Curvature Baking', 'Modular Rigs', 'Wear'],        description: 'Combat exoskeleton configurator simulating realistic armor wear degradation and modular plating swaps.' },
+  { id: 'quantum-visualizer',   title: 'Quantum Volumetric Engine',  category: 'Spatial WebGL',       year: '2026', client: 'Quantum Labs',          image: img7, tags: ['Volumetrics', 'Vector Fields', 'GPU Compute'],    description: 'Real-time simulation engine baking high-density fluid voxels and vector fields into 3D texture lookups.' },
+  { id: 'neurodrone-flight',    title: 'NeuroDrone Flight Twin',     category: 'Animation & Rigging', year: '2025', client: 'NeuroAero Dynamics',   image: img8, tags: ['Photogrammetry', 'Wind Tunnel', 'Twin OS'],       description: 'Industrial drone configurator with photogrammetric surface baking and aerodynamic streamline animations.' },
 ];
 
-const CATEGORIES = ['All', 'AI Platform', '3D WebGL', 'Design System', 'Fintech', 'Interactive'];
+const CATEGORIES = ['All', '3D Configurator', 'Texture Baking', 'Animation & Rigging', 'Lightmap Baking', 'Spatial WebGL'];
 
 const stagger = {
   hidden: {},
@@ -87,23 +87,23 @@ export default function WorkPage() {
         <div className="page-hero__glow" />
 
         <motion.div className="page-hero__tag" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <span className="page-hero__tag-dot" /> Selected Work
+          <span className="page-hero__tag-dot" /> 3D Configurators &amp; Baked Assets
         </motion.div>
 
         <motion.h1 className="page-hero__heading"
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}>
-          Projects that<br/><em>define</em> categories.
+          Configurators that<br/><em>redefine</em> real-time 3D.
         </motion.h1>
 
         <motion.p className="page-hero__subheading"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-          Hand-picked explorations and client engagements spanning AI, 3D WebGL, fintech, and immersive brand design.
+          Explore our collection of real-time 3D product configurators, high-to-low poly cage bakes, radiosity lightmaps, and skeletal animation systems.
         </motion.p>
 
         <div className="page-hero__meta">
-          <span className="page-hero__meta-line">{ALL_PROJECTS.length} Projects</span>
+          <span className="page-hero__meta-line">{ALL_PROJECTS.length} 3D Projects</span>
           <span className="page-hero__meta-line">2024–2026</span>
         </div>
       </section>

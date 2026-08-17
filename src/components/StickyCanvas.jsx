@@ -4,29 +4,29 @@ import Lenis from 'lenis';
 import Model3D from './Model3D';
 import ownerPortrait from '../assets/download.png';
 import './StickyCanvas.css';
-const ROTATING_WORDS = ['experiences', 'interfaces', 'products', 'solutions', 'visions'];
+const ROTATING_WORDS = ['texture maps', 'PBR materials', 'lightmaps', 'AO passes', 'normal cages', '3D animations'];
 
 const SECTIONS = [
   { id: 'hero' },
   {
     id: 'about',
-    label: 'ABOUT',
-    heading: 'We are an independent digital studio crafting meaningful brand experiences through strategy, design, and technology.',
-    tagLeft: 'WE DESIGN FOR LONGEVITY\nCLARITY FIRST, CRAFT ALWAYS,\nBUILT TO SCALE.',
-    tagRight: 'Our mission is to make technology feel human by designing digital products that are intuitive, purposeful, and meaningful to people.',
-    cta: 'MORE ABOUT US',
+    label: 'GPU TEXTURE BAKING',
+    heading: 'We build high-performance 3D animation configurators and GPU texture baking pipelines for real-time web and spatial computing.',
+    tagLeft: 'ZERO-LATENCY BAKING\nULTRA COMPACT GLTF ASSETS,\nENGINEERED FOR 120 FPS.',
+    tagRight: 'Our baking engine bakes complex global illumination, subsurface scattering, and high-poly normal cages directly into lightweight PBR texture maps.',
+    cta: 'EXPLORE PIPELINE',
   },
   {
     id: 'process',
-    label: 'PROCESS',
-    heading: 'Every pixel is intentional. Every interaction considered. We build systems that scale and stories that resonate.',
-    tagLeft: 'RESEARCH DRIVEN\nSTRATEGY FIRST, DESIGN ALWAYS,\nEXECUTED WITH PRECISION.',
-    tagRight: 'We partner with ambitious brands to translate complex ideas into clear, beautiful digital experiences that perform.',
-    cta: 'OUR PROCESS',
+    label: '3D CONFIGURATOR PROCESS',
+    heading: 'From high-to-low poly cage baking to real-time GLSL shader compilation and kinetic skeletal animations.',
+    tagLeft: 'HARDWARE ACCELERATED\nRAY-TRACED AO & RADIOSITY,\nPIXEL-PERFECT UV SYNTHESIS.',
+    tagRight: 'We empower brands to deploy interactive 3D configurators with instantaneous texture swapping, dynamic lighting, and cinematic motion.',
+    cta: 'OUR 3D PROCESS',
   },
   {
     id: 'vision',
-    label: 'VISION',
+    label: 'BAKE + ANIMATE',
   },
   {
     id: 'keyfacts',
@@ -169,11 +169,11 @@ const StickyCanvas = () => {
               >
                 <div className="sc__eyebrow">
                   <span className="sc__eyebrow-dot" />
-                  <span className="sc__eyebrow-txt">CREATIVE DEVELOPER &amp; DESIGNER</span>
+                  <span className="sc__eyebrow-txt">3D ANIMATION CONFIGURATOR &amp; TEXTURE BAKING</span>
                 </div>
 
                 <h1 className="sc__h1">
-                  <span className="sc__h1-line">Crafting digital</span>
+                  <span className="sc__h1-line">Baking procedural</span>
                   <span className="sc__h1-line sc__h1-word">
                     <AnimatePresence mode="wait">
                       <motion.span key={word} className="sc__word">
@@ -193,11 +193,11 @@ const StickyCanvas = () => {
                       </motion.span>
                     </AnimatePresence>
                   </span>
-                  <span className="sc__h1-line">that inspire</span>
+                  <span className="sc__h1-line">into 3D motion</span>
                 </h1>
 
                 <a href="#work" className="sc__cta">
-                  START A PROJECT
+                  EXPLORE 3D CONFIGURATOR
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
                   </svg>
@@ -220,19 +220,19 @@ const StickyCanvas = () => {
                 exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.42, ease: [0.55, 0.06, 0.68, 0.19] } }}
               >
                 <div className="sc__marquee-topleft">
-                  <span>FOCUSED VISION.</span>
-                  <span>MEASURED EXECUTION.</span>
+                  <span>GPU TEXTURE BAKING.</span>
+                  <span>120 FPS WEB CONFIGURATOR.</span>
                 </div>
 
                 <div className="sc__marquee-container">
                   <div className="sc__marquee-track">
                     {[...Array(6)].map((_, i) => (
                       <span key={i} className="sc__marquee-item">
-                        <span className="sc__marquee-word">IMPACT</span>
+                        <span className="sc__marquee-word">BAKE</span>
                         <span className="sc__marquee-plus">+</span>
-                        <span className="sc__marquee-word">INSPIRE</span>
+                        <span className="sc__marquee-word">CONFIGURE</span>
                         <span className="sc__marquee-plus">+</span>
-                        <span className="sc__marquee-word">INNOVATE</span>
+                        <span className="sc__marquee-word">ANIMATE</span>
                         <span className="sc__marquee-plus">+</span>
                       </span>
                     ))}
@@ -240,7 +240,7 @@ const StickyCanvas = () => {
                 </div>
 
                 <div className="sc__marquee-bottomtag">
-                  ✦ FROM IDEA TO OUTCOME.
+                  ✦ FROM HIGH-POLY SCULPT TO REAL-TIME WEB ASSET.
                 </div>
               </motion.div>
             )}
@@ -265,7 +265,7 @@ const StickyCanvas = () => {
                     {sec.tagLeft.split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}
                   </p>
                   <p className="sc__atag-right">{sec.tagRight}</p>
-                  <a href="#" className="sc__acta">
+                  <a href="#work" className="sc__acta">
                     {sec.cta}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
@@ -282,12 +282,12 @@ const StickyCanvas = () => {
         <div className="sc__statbar">
           <div className="sc__sdiv" />
           <div className="sc__stat">
-            <span className="sc__sval">5+ YEARS</span>
-            <span className="sc__slbl">SHAPING DIGITAL DIRECTION</span>
+            <span className="sc__sval">120 FPS</span>
+            <span className="sc__slbl">GPU TEXTURE BAKING ENGINE</span>
           </div>
           <div className="sc__sdiv" />
           <p className="sc__sdesc">
-            Websites, AI products, brands,<br />and systems built for clarity,<br />scale and impact.
+            PBR lightmaps, normal cages,<br />AO passes, and WebGL animation<br />pipelines built for hyper-speed.
           </p>
         </div>
 

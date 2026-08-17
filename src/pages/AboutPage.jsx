@@ -5,29 +5,29 @@ import Footer from '../components/Footer';
 import '../pages/pages.css';
 
 const TIMELINE = [
-  { year: '2019', title: 'Founded the studio', desc: 'Started as a solo creative technologist building WebGL experiences for early-stage startups.' },
-  { year: '2020', title: 'First enterprise client', desc: 'Delivered a full-stack AI product interface for a Series-B fintech — establishing our enterprise design process.' },
-  { year: '2021', title: 'Expanded into 3D & WebXR', desc: 'Pioneered spatial UI and three-dimensional product configurators as the industry moved toward immersive web.' },
-  { year: '2022', title: 'Team of 8 creatives', desc: 'Scaled the studio with senior engineers, motion designers, and brand strategists.' },
-  { year: '2023', title: 'Dribbble Top Agency', desc: 'Recognised as a Top Creative Agency on Dribbble with 2.4K+ project saves across our explorations.' },
-  { year: '2024', title: 'Global reach: 14 countries', desc: 'Serving clients across North America, Europe, UAE, and Southeast Asia.' },
-  { year: '2025–26', title: 'AI-first design studio', desc: 'Leading the industry shift by merging autonomous AI workflows with premium interactive design.' },
+  { year: '2019', title: 'Founded the 3D Shader Lab', desc: 'Started with custom WebGL shader development and procedural normal map synthesis.' },
+  { year: '2020', title: 'First GPU Texture Baking Engine', desc: 'Engineered hardware-accelerated ambient occlusion and radiosity lightmap baking for real-time web.' },
+  { year: '2021', title: '3D Configurator Suite', desc: 'Launched full-scale interactive 3D product configurators with live part attachment and material swapping.' },
+  { year: '2022', title: 'High-to-Low Poly Cage Pipeline', desc: 'Automated 100M+ polygon decimation and tangent cage projection with zero seam artifacts.' },
+  { year: '2023', title: 'Dribbble & WebGL Award Winners', desc: 'Recognised as a premier spatial 3D studio with 50M+ texture map pixels baked for global brands.' },
+  { year: '2024', title: 'Automated Headless Cloud Baking', desc: 'Deployed cloud-native baking APIs generating production-ready glTF and USDZ models in under 5 seconds.' },
+  { year: '2025–26', title: 'Spatial Computing & WebXR', desc: 'Pioneering next-gen Apple Vision Pro and WebXR 3D animation configurators with raytraced lightmaps.' },
 ];
 
 const VALUES = [
-  { icon: '✦', title: 'Craft First', desc: 'Every pixel, motion, and interaction is intentional. We never ship work we aren\'t proud of.' },
-  { icon: '◈', title: 'Clarity Always', desc: 'Complexity is the enemy. We simplify without dumbing down — turning big ideas into clear, beautiful forms.' },
-  { icon: '⬡', title: 'Built to Scale', desc: 'Everything we build is architecturally sound and engineered for long-term performance.' },
-  { icon: '◎', title: 'Human at the Core', desc: 'Technology should feel human. We keep the user\'s experience at the center of every decision.' },
-  { icon: '⌖', title: 'Relentlessly Curious', desc: 'We explore emerging tools, formats, and ideas — then bring them to your product before anyone else.' },
-  { icon: '▲', title: 'Results-Driven', desc: 'Beautiful design that converts. We merge aesthetics with measurable business outcomes.' },
+  { icon: '✦', title: 'Zero Draw-Call Lag', desc: 'Every model is baked and consolidated into optimized texture atlases engineered for 120 FPS WebGL.' },
+  { icon: '◈', title: 'Photorealistic PBR', desc: 'True-to-life physical materials: anisotropic carbon fibers, brushed metals, clearcoats, and SSS diffusion.' },
+  { icon: '⬡', title: 'Production Ready', desc: 'Assets generated comply strictly with glTF 2.0, USDZ, and WebXR standards ready for instant deployment.' },
+  { icon: '◎', title: 'Hardware Accelerated', desc: 'GPU compute shaders execute multi-pass raytraced AO, curvature, and radiosity baking in seconds.' },
+  { icon: '⌖', title: 'Kinetic Rigging', desc: 'Dual-quaternion skeletal bone weights and blendshape facial animations calibrated for smooth browser motion.' },
+  { icon: '▲', title: 'High Conversion', desc: 'Interactive 3D configurators proven to boost customer engagement and purchase confidence by over 40%.' },
 ];
 
 const TEAM = [
-  { name: 'Sunny R.', role: 'Founder & Creative Director', specialty: 'Strategy · Brand · 3D WebGL' },
-  { name: 'Aria M.',  role: 'Lead UI/UX Designer', specialty: 'Spatial UI · Product Design · Motion' },
-  { name: 'Dev K.',   role: 'Senior Full-Stack Engineer', specialty: 'React · Node · Cloud Architecture' },
-  { name: 'Priya S.', role: 'AI & Automation Lead', specialty: 'LLMs · Agents · Neural Pipelines' },
+  { name: 'Sunny R.', role: 'Founder & Lead 3D Technologist', specialty: 'WebGL · GLSL Shaders · Three.js' },
+  { name: 'Marcus M.', role: 'Senior PBR Material Artist', specialty: 'Texture Synthesis · Cage Baking · UVs' },
+  { name: 'Dev K.',   role: '3D Pipeline & Engine Architect', specialty: 'glTF 2.0 · Draco · Cloud Baking APIs' },
+  { name: 'Patrick S.', role: 'Character & Rigging Director', specialty: 'Kinematic Rigs · Blendshapes · Motion' },
 ];
 
 const stagger = {
@@ -51,25 +51,25 @@ export default function AboutPage() {
         <div className="page-hero__glow" />
 
         <motion.div className="page-hero__tag" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <span className="page-hero__tag-dot" /> About the Studio
+          <span className="page-hero__tag-dot" /> About BAKE3D
         </motion.div>
 
         <motion.h1 className="page-hero__heading"
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}>
-          We build <em>digital</em><br />experiences that last.
+          Engineering <em>real-time 3D</em><br />and texture baking.
         </motion.h1>
 
         <motion.p className="page-hero__subheading"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-          An independent digital studio crafting meaningful brand experiences through strategy, design, and cutting-edge technology.
+          We bridge the gap between heavy offline VFX renders and lightweight, interactive 3D web configurators through GPU texture baking.
         </motion.p>
 
         <div className="page-hero__meta">
           <span className="page-hero__meta-line">Est. 2019</span>
-          <span className="page-hero__meta-line">14 Countries</span>
-          <span className="page-hero__meta-line">1.5K+ Projects Delivered</span>
+          <span className="page-hero__meta-line">50M+ Baked Pixels</span>
+          <span className="page-hero__meta-line">1.5K+ Configurators</span>
         </div>
       </section>
 
@@ -79,13 +79,13 @@ export default function AboutPage() {
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
             <motion.div className="page-section__label" variants={fadeUp}>Our Mission</motion.div>
             <motion.h2 className="page-section__heading" variants={fadeUp}>
-              Making technology feel human.
+              Zero-lag 3D everywhere.
             </motion.h2>
             <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
-              Our mission is to design digital products that are intuitive, purposeful, and meaningful to people. We believe the best technology disappears into the experience — you only feel the result.
+              Our mission is to make 3D animation configurators instantaneously fast and stunningly realistic on any browser or mobile device. By pre-computing heavy physical lighting and micro-surface details into baked PBR textures, we deliver photorealism with zero GPU bottleneck.
             </motion.p>
             <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,0.35)', lineHeight: 1.7, fontSize: '0.95rem' }}>
-              From AI-powered automation to spatial 3D interfaces, we partner with ambitious brands to translate complex ideas into clear, beautiful digital experiences that perform at scale.
+              From automotive customizers to luxury horology and robotic digital twins, we build the real-time graphics pipelines that define the future of interactive 3D web commerce.
             </motion.p>
           </motion.div>
 
@@ -93,10 +93,10 @@ export default function AboutPage() {
           <motion.div className="about-stats-grid"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
             {[
-              { num: '1.5K+', label: 'Projects Delivered' },
-              { num: '98%',   label: 'Client Satisfaction' },
-              { num: '14',    label: 'Countries Served' },
-              { num: '7+',    label: 'Years of Craft' },
+              { num: '50M+',  label: 'Baked Texture Pixels' },
+              { num: '120',   label: 'FPS Target Framerate' },
+              { num: '90%',   label: 'Draw Call Reduction' },
+              { num: '1.5K+', label: '3D Assets Deployed' },
             ].map((s) => (
               <motion.div key={s.label} className="about-stat-card" variants={fadeUp}>
                 <span className="about-stat-num">{s.num}</span>
@@ -111,9 +111,9 @@ export default function AboutPage() {
 
       {/* ── VALUES ── */}
       <section className="page-section page-section--mid">
-        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>What we believe</motion.div>
+        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Principles</motion.div>
         <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
-          Principles that guide<br/>every decision.
+          Principles that guide<br/>our 3D pipeline.
         </motion.h2>
         <motion.div className="page-grid-3" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {VALUES.map((v) => (
@@ -130,9 +130,9 @@ export default function AboutPage() {
 
       {/* ── TIMELINE ── */}
       <section className="page-section">
-        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our journey</motion.div>
+        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Evolution</motion.div>
         <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
-          Built over time,<br/>refined every year.
+          Pioneering GPU baking<br/>and WebGL motion.
         </motion.h2>
         <motion.ul className="page-numbered-list" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {TIMELINE.map((t) => (
@@ -151,9 +151,9 @@ export default function AboutPage() {
 
       {/* ── TEAM ── */}
       <section className="page-section page-section--mid">
-        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>The team</motion.div>
+        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>The Specialists</motion.div>
         <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
-          The people behind<br/>the craft.
+          Technical artists behind<br/>the baking engine.
         </motion.h2>
         <motion.div className="about-team-grid" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {TEAM.map((m) => (
@@ -174,15 +174,15 @@ export default function AboutPage() {
       {/* ── CTA ── */}
       <section className="page-section about-cta-section">
         <motion.div className="about-cta-inner" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className="about-cta-heading">Ready to work together?</h2>
-          <p className="about-cta-sub">Let's create something extraordinary.</p>
+          <h2 className="about-cta-heading">Ready to configure your 3D product?</h2>
+          <p className="about-cta-sub">Let's bake your 3D models into lightning-fast interactive web experiences.</p>
           <div className="about-cta-actions">
             <Link to="/contact" className="page-btn page-btn--primary">
               Start a project
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </Link>
             <Link to="/work" className="page-btn page-btn--outline">
-              See our work
+              See 3D configurators
             </Link>
           </div>
         </motion.div>

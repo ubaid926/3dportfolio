@@ -250,9 +250,9 @@ const Footer = () => {
   const headingRef = useRef(null);
   const isInView = useInView(footerRef, { once: true, margin: '-60px' });
 
-  // Split "Ready to build something bold?" into chars for stagger animation
-  const headingLine1 = 'Ready to build';
-  const headingLine2 = 'something bold?';
+  // Split "Ready to bake your 3D assets?" into chars for stagger animation
+  const headingLine1 = 'Ready to bake';
+  const headingLine2 = 'your 3D assets?';
 
   return (
     <footer id="contact" ref={footerRef} className="footer">
@@ -261,7 +261,7 @@ const Footer = () => {
 
       {/* ── Top Micro Strip ── */}
       <div className="footer__top-strip">
-        <span className="footer__tagline">LET'S BUILD WORK THAT INSPIRES.</span>
+        <span className="footer__tagline">REAL-TIME 3D ANIMATION CONFIGURATOR &amp; TEXTURE BAKING ENGINE.</span>
         <LiveClock />
       </div>
 
@@ -302,8 +302,8 @@ const Footer = () => {
 
         {/* RIGHT: CTA Rows */}
         <div className="footer__right">
-          <CtaRow label="DISCUSS YOUR PROJECT" href="#contact" delay={0.2} />
-          <CtaRow label="BOOK A 30-MINUTE CALL" href="https://cal.com" delay={0.32} />
+          <CtaRow label="START A 3D BAKING PROJECT" href="#contact" delay={0.2} />
+          <CtaRow label="BOOK A 3D TECHNICAL DEMO" href="https://cal.com" delay={0.32} />
         </div>
       </div>
 
@@ -327,7 +327,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            ◆STUDIO<sup>®</sup> 2026
+            ◆BAKE3D<sup>®</sup> 2026
           </motion.div>
           <motion.div
             className="footer__sound-notice"
@@ -337,7 +337,7 @@ const Footer = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <span className="footer__sound-dot" />
-            SOUND ON ♪ HOVER THE LINES.
+            GPU BAKING ENGINE ACTIVE · HOVER THE FREQUENCY WAVEFORM.
           </motion.div>
         </div>
 
@@ -353,12 +353,12 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.15, duration: 0.5 }}
           >
-            <div className="footer__col-heading">BUSINESS ENQUIRY</div>
-            <a href="mailto:hello@studio.com" className="footer__contact-link">
-              <span className="footer__prefix">E.</span> hello@studio.com
+            <div className="footer__col-heading">BAKING ENQUIRY</div>
+            <a href="mailto:hello@bake3d.studio" className="footer__contact-link">
+              <span className="footer__prefix">E.</span> hello@bake3d.studio
             </a>
-            <a href="tel:+919824182099" className="footer__contact-link">
-              <span className="footer__prefix">P.</span> +91 98241 82099
+            <a href="tel:+14158209900" className="footer__contact-link">
+              <span className="footer__prefix">P.</span> +1 (415) 820-9900
             </a>
           </motion.div>
 

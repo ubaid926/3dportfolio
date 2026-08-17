@@ -17,48 +17,48 @@ import './ClientStories.css';
 
 const STORIES = [
   {
-    id: 'luxury-presence',
-    name: 'LUXURY PRESENCE',
+    id: 'aerodynamic-motors',
+    name: 'AERODYNAMIC MOTORS',
     quote:
-      'Working with Sunny and his team transformed how our ultra-luxury properties are experienced online. The spatial 3D interfaces and attention to micro-details are second to none.',
+      'The GPU texture baking engine reduced our automotive configurator payload from 450MB to just 28MB while preserving ray-traced lacquer reflections. Customers configure vehicles in 120 FPS smoothly across mobile and desktop.',
     author: 'Alexander Vance',
-    role: 'VP of Product · USA',
+    role: 'VP of Digital Product · Detroit, USA',
     avatar: avatarLuxury,
   },
   {
-    id: 'credible',
-    name: 'CREDIBLE',
+    id: 'apex-robotics',
+    name: 'APEX ROBOTICS',
     quote:
-      'An exceptional blend of cutting-edge technology and aesthetic perfection. They delivered beyond expectations, on time, with remarkable craft and attention to performance.',
-    author: 'Sarah Jenkins',
-    role: 'Head of Brand · UK',
+      'Their cage baking pipeline transformed our 12-million polygon robotic cad files into ultra-lean, animatable WebGL assets. The normal map precision and kinematic joint animations are stunning.',
+    author: 'Arthur Jenkins',
+    role: 'Lead 3D Visualizer · London, UK',
     avatar: avatarCredible,
   },
   {
-    id: 'fast-resume',
-    name: 'FAST RESUME',
+    id: 'chrono-geneve',
+    name: 'CHRONO GENÈVE',
     quote:
-      'From initial concept to deployment, their generative AI capabilities and interactive design elevated our platform to enterprise scale seamlessly.',
+      'Capturing micro-machined titanium finishes and jewel bearings in a real-time web configurator was thought impossible. BAKE3D baked our micro-displacement maps with zero visible UV seams.',
     author: 'David Chen',
-    role: 'Founder & CEO · Singapore',
+    role: 'Head of eCommerce & 3D · Geneva, Switzerland',
     avatar: avatarFastResume,
   },
   {
-    id: 'technis',
-    name: 'TECHNIS',
+    id: 'technis-3d',
+    name: 'TECHNIS SPATIAL',
     quote:
-      'Sunny and his team is a very professional, with whom I am used to working on different projects. listening, versatile, very smart, I recommend without hesitation.',
+      'We rely on their texture baking pipeline for all our WebXR interactive projects. Pre-computed radiosity and ambient occlusion lightmaps give our scenes cinematic realism with zero GPU frame drops.',
     author: 'Jean-Baptiste Biolay',
-    role: 'General Manager · UAE',
+    role: 'Creative Technologist · Paris / Dubai',
     avatar: avatarTechnis,
   },
   {
-    id: 'ventigence',
-    name: 'VENTIGENCE',
+    id: 'ventigence-vfx',
+    name: 'VENTIGENCE VFX',
     quote:
-      'Unmatched precision and dedication. Their team brought our complex algorithmic vision to life with fluid animations and flawless performance.',
-    author: 'Elena Rostova',
-    role: 'Director of Engineering · Switzerland',
+      'Unmatched precision in normal map baking, SSS approximation, and procedural animation choreography. Their tools streamline the gap between high-end Maya/Houdini pipelines and real-time WebGL.',
+    author: 'Viktor Rostov',
+    role: 'VFX Technical Director · Zurich, Switzerland',
     avatar: avatarVentigence,
   },
 ];

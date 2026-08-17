@@ -22,132 +22,132 @@ import './WorkCards.css';
 
 const PROJECTS = [
   {
-    id: 'myworker-ai',
-    title: 'MyWorker AI',
+    id: 'aerodynamic-hypercar',
+    title: 'AeroDynamic GT Configurator',
     subtitle:
-      'AI platform simplifying hiring, management, and workforce scaling.',
-    category: 'AI Platform',
+      'Real-time hypercar configurator with raytraced paint baking and carbon fiber anisotropy.',
+    category: '3D Configurator',
     year: '2026',
-    client: 'MyWorker Global',
+    client: 'AeroDynamic Motors',
     image: img1,
-    tagline: 'BOOST YOUR WORKFORCE WITH AI DIGITAL WORKERS',
-    heroText: "Hi, I'm Alex.",
-    tags: ['AI Digital Workers', 'Automation', 'Enterprise'],
+    tagline: 'RAY-TRACED PBR PAINT & ANISOTROPIC BAKING',
+    heroText: 'Configure Hypercar',
+    tags: ['WebGL', 'PBR Baking', 'Three.js', 'Anisotropy'],
     theme: 'light',
     description:
-      'An end-to-end artificial intelligence workforce automation platform designed for high-scale enterprise teams.',
+      'Ultra-high fidelity automotive configurator featuring real-time clearcoat lacquer reflection, baked carbon fiber weave anisotropy, and instant rim swapping.',
   },
   {
-    id: 'pulse-studio',
-    title: 'Pulse Studio',
+    id: 'cybermech-studio',
+    title: 'CyberMech Rig & Motion Studio',
     subtitle:
-      'A motion-led studio website showcasing artists, projects, and culture.',
-    category: '3D WebGL',
+      'Kinematic skeletal rigging and normal cage baking for high-mobility robotic exoskeletons.',
+    category: 'Animation & Rigging',
     year: '2025',
-    client: 'Pulse Soundworks',
+    client: 'Apex Robotics',
     image: img2,
-    tagline: 'SPATIAL SOUND & REALTIME GRAPHICS',
-    heroText: 'Enter the Sound',
-    tags: ['Three.js', 'Audio Reactive', 'WebGL'],
+    tagline: 'HIGH-TO-LOW CAGE BAKING & SKELETAL RIGS',
+    heroText: 'Robotic Motion',
+    tags: ['Skeletal Animation', 'Normal Cages', 'Kinematics'],
     theme: 'dark',
     description:
-      'Web-based spatial audio visualization engine with procedural shader visuals reacting to live frequency inputs.',
+      'Interactive 3D mech configurator with high-poly to low-poly baked normal maps, procedural armor plating detachment, and dynamic hydraulic gait animations.',
   },
   {
-    id: 'luxury-presence',
-    title: 'Luxury Presence',
+    id: 'spatial-archviz',
+    title: 'Spatial ArchViz Lightmap Engine',
     subtitle:
-      'Real estate platform crafting immersive property showcases for luxury homes.',
-    category: 'Design System',
+      'Radiosity global illumination precomputation for photorealistic browser walkthroughs.',
+    category: 'Lightmap Baking',
     year: '2025',
-    client: 'Luxury Presence Inc.',
+    client: 'Vanguard Architecture',
     image: img3,
-    tagline: 'LIVE LIFE IN LUXURY',
-    heroText: 'Spatial Real Estate',
-    tags: ['UI/UX Design', 'Architecture', 'Spatial UI'],
+    tagline: 'GLOBAL ILLUMINATION & RADIOSITY BAKING',
+    heroText: 'Radiant ArchViz',
+    tags: ['Lightmap GI', 'Radiosity', '4K HDR', 'Spatial UI'],
     theme: 'light',
     description:
-      'High-end architectural spatial interface allowing buyers to explore ultra-luxury properties in interactive 3D.',
+      'Architectural visualizer that pre-computes complex bounce lighting, soft shadow penumbras, and ambient occlusion into lightweight 4K HDR lightmaps for 60+ FPS web walkthroughs.',
   },
   {
-    id: 'luminary-web3',
-    title: 'Luminary Capital',
+    id: 'chronowatch-horology',
+    title: 'ChronoWatch Horology Studio',
     subtitle:
-      'DeFi dashboard & high-frequency asset visualizer with real-time WebGL analytics.',
-    category: 'Fintech',
+      'Micro-displacement normal baking and exploded mechanical escapement gear animation.',
+    category: '3D Configurator',
     year: '2026',
-    client: 'Luminary Ltd',
+    client: 'Chrono Horology Genève',
     image: img4,
-    tagline: 'DECENTRALIZED ASSET VISUALIZER',
-    heroText: 'Realtime Data',
-    tags: ['Fintech', 'Dashboard', 'Data Viz'],
+    tagline: 'MICRO-DISPLACEMENT & EXPLODED GEAR MOTION',
+    heroText: 'Mechanical Precision',
+    tags: ['Micro PBR', 'Exploded Animation', 'Jeweled Movement'],
     theme: 'dark',
     description:
-      'Ultra-low latency institutional cryptocurrency trading interface with 3D depth heatmaps and predictive analytics.',
+      'Luxury timepiece configurator with baked brushed titanium roughness maps, procedural sapphire crystal refraction, and exploded mechanical escapement gear animations.',
   },
   {
-    id: 'vanguard-arch',
-    title: 'Vanguard Living',
+    id: 'biosculpt-character',
+    title: 'BioSculpt Organic Character Lab',
     subtitle:
-      'Photorealistic 3D architectural walk-through app for modern urban spaces.',
-    category: '3D WebGL',
+      'Subsurface scattering (SSS) texture baking and facial blendshape animation rig.',
+    category: 'Texture Baking',
     year: '2025',
-    client: 'Vanguard Dev',
+    client: 'BioSculpt Media',
     image: img5,
-    tagline: 'SUSTAINABLE FUTURE LIVING',
-    heroText: 'Urban Architecture',
-    tags: ['Architecture', 'Real-Estate', '3D Walkthrough'],
+    tagline: 'SUBSURFACE SCATTERING & BLENDSHAPE BAKING',
+    heroText: 'Organic Realism',
+    tags: ['SSS Baking', 'Blendshapes', 'Facial Rig', 'Skin Shader'],
     theme: 'light',
     description:
-      'Interactive architectural presentation deck allowing users to customize lighting, materials, and layouts in real time.',
+      'High-end digital avatar suite featuring baked subsurface scattering irradiance maps, micro-pore normal distribution, and 52 ARKit facial blendshape animations.',
   },
   {
-    id: 'cyberverse-fashion',
-    title: 'CyberVerse Studio',
+    id: 'exosuit-combat',
+    title: 'ExoSuit Armor Customizer',
     subtitle:
-      'Hyper-immersive web experience showcasing digital fashion and virtual avatars.',
-    category: 'Interactive',
+      'Multi-channel curvature and procedural weather wear baking with modular attachment rigging.',
+    category: '3D Configurator',
     year: '2026',
-    client: 'Cyber Couture',
+    client: 'Aegis Armament',
     image: img6,
-    tagline: 'VIRTUAL REALITY & DIGITAL FASHION',
-    heroText: 'Cyber Culture',
-    tags: ['Digital Fashion', 'WebGL', 'Metaverse'],
+    tagline: 'CURVATURE WEAR & MODULAR ATTACHMENT RIGS',
+    heroText: 'Tactical Armor',
+    tags: ['Curvature Baking', 'Modular Attachments', 'Weathering'],
     theme: 'dark',
     description:
-      'Direct-to-avatar digital fashion showroom with realtime cloth simulation and high-fidelity 3D garment rendering.',
+      'Military-grade combat exoskeleton configurator allowing users to simulate realistic armor scratch degradation, heat discolouration, and swap modular plating in real time.',
   },
   {
-    id: 'quantum-ai',
-    title: 'Quantum Intelligence',
+    id: 'quantum-visualizer',
+    title: 'Quantum Volumetric Engine',
     subtitle:
-      'Generative AI suite powering real-time synthetic media and neural canvas creation.',
-    category: 'AI Platform',
+      'Volumetric density baking and vector field particle animation visualizer.',
+    category: 'Spatial WebGL',
     year: '2026',
     client: 'Quantum Labs',
     image: img7,
-    tagline: 'GENERATIVE NEURAL CANVAS',
-    heroText: 'Neural Flow',
-    tags: ['Generative AI', 'Canvas', 'Neural Net'],
+    tagline: 'VOLUMETRIC DENSITY & VECTOR FIELD MOTION',
+    heroText: 'Vector Fields',
+    tags: ['Volumetrics', 'Vector Fields', 'GPU Compute'],
     theme: 'light',
     description:
-      'Next-gen node-based generative AI workflow engine enabling creators to manipulate complex latent models effortlessly.',
+      'Real-time simulation engine that bakes high-density fluid voxels and electromagnetic vector fields into compact 3D texture lookup tables with zero performance drop.',
   },
   {
-    id: 'nexus-robotics',
-    title: 'Nexus Robotics',
+    id: 'neurodrone-flight',
+    title: 'NeuroDrone Flight Visualizer',
     subtitle:
-      'Autonomous fleet management console featuring 3D digital twin monitoring.',
-    category: 'Interactive',
+      'Photogrammetry texture baking and aerodynamic wind tunnel streamline animations.',
+    category: 'Animation & Rigging',
     year: '2025',
-    client: 'Nexus Heavy Tech',
+    client: 'NeuroAero Dynamics',
     image: img8,
-    tagline: 'AUTONOMOUS FLEET CONTROL',
-    heroText: 'Digital Twin OS',
-    tags: ['Robotics', 'Digital Twin', 'Telemetry'],
+    tagline: 'PHOTOGRAMMETRY BAKING & STREAMLINE MOTION',
+    heroText: 'Aerodynamic Flow',
+    tags: ['Photogrammetry', 'Wind Tunnel', 'Telemetry Twin'],
     theme: 'dark',
     description:
-      'Cloud control portal for robotic industrial fleets with sub-millisecond telemetry stream visualization.',
+      'Industrial drone configurator with photogrammetric surface baking, live rotor kinematic animations, and interactive aerodynamic airflow streamlines.',
   },
 ];
 
@@ -410,9 +410,9 @@ const WorkCards = () => {
                 {/* Static Section Title - Always Visible in Position */}
                 <div className="wc__static-header">
                   <h2 className="wc__main-title">
-                    Selected work
+                    3D Configurators
                     <br />
-                    &amp; explorations
+                    &amp; Baked Renders
                   </h2>
                 </div>
 
@@ -448,7 +448,7 @@ const WorkCards = () => {
 
                 {/* Action Link */}
                 <a href="#all-work" className="wc__all-link">
-                  <span>VIEW ALL PROJECTS</span>
+                  <span>VIEW ALL 3D PROJECTS</span>
                   <svg
                     width="16"
                     height="16"
@@ -486,29 +486,48 @@ const WorkCards = () => {
 
                 {/* Finale End Card: Discover Our Complete Collection */}
                 <div className="wc__finale-card">
-                  <h3 className="wc__finale-title">
-                    Discover our complete collection
-                    <br />
-                    of digital experiences, brands,
-                    <br />
-                    and platforms.
-                  </h3>
-                  <a href="#all-work" className="wc__finale-link">
-                    <span>VIEW ALL PROJECTS</span>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </a>
+                  {/* Media Frame — matches .wc__card-media */}
+                  <div className="wc__finale-card-media">
+                    <div className="wc__finale-card-inner">
+                      {/* Top badge — mirrors .wc__media-badge */}
+                      <div className="wc__finale-badge">
+                        <span className="wc__finale-badge-dot" />
+                        <span>FULL ARCHIVE</span>
+                      </div>
+                      {/* Hero text — mirrors .wc__media-hero-text */}
+                      <p className="wc__finale-hero-text">
+                        Explore our full archive
+                        <br />
+                        of baked 3D&nbsp;models,
+                        <br />
+                        GLTF&nbsp;&amp;&nbsp;shaders.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Footer — mirrors .wc__card-info */}
+                  <div className="wc__finale-footer">
+                    <div className="wc__finale-footer-left">
+                      <h3 className="wc__finale-footer-title">Full 3D Showcase Archive</h3>
+                      <p className="wc__finale-footer-sub">Configurators, lightmaps & animations.</p>
+                    </div>
+                    <a href="#all-work" className="wc__finale-link">
+                      <span>VIEW ALL</span>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             </div>
