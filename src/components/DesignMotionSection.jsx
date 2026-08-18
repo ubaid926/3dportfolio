@@ -60,7 +60,7 @@ const EXPLORATION_CARDS = [
     tagline: 'GPU BAKING ENGINE',
     category: 'Procedural Baking Lab',
     year: '2026',
-    client: 'BAKE3D Creative Lab',
+    client: 'Nexora Creative Lab',
     image: cardOrangeAi,
     description:
       'GPU-accelerated texture synthesizer that converts complex procedural noise graphs and curvature maps into consolidated 4K texture atlases in milliseconds.',

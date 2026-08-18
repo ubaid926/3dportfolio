@@ -82,7 +82,7 @@ export default function ContactPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="page-hero__tag-dot" /> Contact &amp; 3D Baking Inquiries
+          <span className="page-hero__tag-dot" /> Contact &amp; Studio Inquiries
         </motion.div>
 
         <motion.h1
@@ -91,8 +91,8 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
         >
-          Let's bake<br />
-          your <em>3D models</em>.
+          Let's build<br />
+          your <em>3D vision</em>.
         </motion.h1>
 
         <motion.p
@@ -101,7 +101,7 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          Have a 3D animation configurator project or need high-poly models baked for real-time web? Share your brief below.
+          Have a 3D animation configurator project or need high-poly models optimized for real-time web? Share your brief with Nexora Studio below.
         </motion.p>
 
         <div className="page-hero__meta">
@@ -241,7 +241,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Submit */}
-                <button type="submit" className="page-btn page-btn--primary" style={{ alignSelf: 'flex-start', marginTop: '0.5rem' }}>
+                <button type="submit" className="page-btn page-btn--primary contact-submit-btn">
                   Send Project Brief
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <line x1="5" y1="12" x2="19" y2="12" />
@@ -265,8 +265,8 @@ export default function ContactPage() {
 
               <div className="contact-direct-item">
                 <span className="contact-direct-title">EMAIL US</span>
-                <a href="mailto:hello@bake3d.studio" className="contact-direct-val">
-                  hello@bake3d.studio
+                <a href="mailto:hello@nexora.studio" className="contact-direct-val">
+                  hello@nexora.studio
                 </a>
               </div>
 
@@ -283,8 +283,7 @@ export default function ContactPage() {
                   href="https://cal.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-direct-val"
-                  style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}
+                  className="contact-direct-val contact-calendar-link"
                 >
                   Book a 30-min discovery call ↗
                 </a>
@@ -299,12 +298,12 @@ export default function ContactPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="contact-sidebar-heading">Studio Locations</div>
-              <p style={{ margin: 0, fontSize: '0.88rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.7)' }}>
+              <p className="contact-locations-text">
                 <strong>San Francisco</strong> · California, USA<br />
                 <strong>London</strong> · United Kingdom<br />
                 <strong>Dubai</strong> · United Arab Emirates
               </p>
-              <span style={{ fontSize: '0.74rem', color: 'rgba(255,255,255,0.35)', letterSpacing: '0.04em' }}>
+              <span className="contact-locations-sub">
                 Remote-first team distributed across 6 time zones.
               </span>
             </motion.div>
@@ -319,11 +318,11 @@ export default function ContactPage() {
         <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
           Frequently Asked
         </motion.div>
-        <motion.h2 className="page-section__heading" style={{ marginBottom: '2.5rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+        <motion.h2 className="page-section__heading page-section__heading--spaced" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
           Common questions.
         </motion.h2>
 
-        <motion.div className="page-grid-2" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
+        <motion.div className="contact-faq-grid" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {FAQS.map((faq) => (
             <motion.div key={faq.q} className="contact-faq-card" variants={fadeUp}>
               <h4 className="contact-faq-question">{faq.q}</h4>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
+import logoImg from '../assets/logo.jpeg';
 import './Footer.css';
 
 /* =========================================================
@@ -250,9 +251,9 @@ const Footer = () => {
   const headingRef = useRef(null);
   const isInView = useInView(footerRef, { once: true, margin: '-60px' });
 
-  // Split "Ready to bake your 3D assets?" into chars for stagger animation
-  const headingLine1 = 'Ready to bake';
-  const headingLine2 = 'your 3D assets?';
+  // Split "Ready to build with Nexora Studio?" into chars for stagger animation
+  const headingLine1 = 'Ready to build';
+  const headingLine2 = 'with Nexora Studio?';
 
   return (
     <footer id="contact" ref={footerRef} className="footer">
@@ -261,7 +262,7 @@ const Footer = () => {
 
       {/* ── Top Micro Strip ── */}
       <div className="footer__top-strip">
-        <span className="footer__tagline">REAL-TIME 3D ANIMATION CONFIGURATOR &amp; TEXTURE BAKING ENGINE.</span>
+        <span className="footer__tagline">NEXORA STUDIO™ — REAL-TIME 3D ANIMATION CONFIGURATOR &amp; SPATIAL EXPERIENCES.</span>
         <LiveClock />
       </div>
 
@@ -302,8 +303,8 @@ const Footer = () => {
 
         {/* RIGHT: CTA Rows */}
         <div className="footer__right">
-          <CtaRow label="START A 3D BAKING PROJECT" href="#contact" delay={0.2} />
-          <CtaRow label="BOOK A 3D TECHNICAL DEMO" href="https://cal.com" delay={0.32} />
+          <CtaRow label="START A 3D PROJECT" href="#contact" delay={0.2} />
+          <CtaRow label="BOOK A TECHNICAL DEMO" href="https://cal.com" delay={0.32} />
         </div>
       </div>
 
@@ -327,7 +328,8 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.5 }}
           >
-            ◆BAKE3D<sup>®</sup> 2026
+            <img src={logoImg} alt="Nexora Studio" className="footer__logo-img" />
+            <span>NEXORA STUDIO<sup>®</sup> 2026</span>
           </motion.div>
           <motion.div
             className="footer__sound-notice"
@@ -337,7 +339,7 @@ const Footer = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <span className="footer__sound-dot" />
-            GPU BAKING ENGINE ACTIVE · HOVER THE FREQUENCY WAVEFORM.
+            NEXORA 3D ENGINE ACTIVE · HOVER THE FREQUENCY WAVEFORM.
           </motion.div>
         </div>
 
@@ -353,9 +355,9 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.15, duration: 0.5 }}
           >
-            <div className="footer__col-heading">BAKING ENQUIRY</div>
-            <a href="mailto:hello@bake3d.studio" className="footer__contact-link">
-              <span className="footer__prefix">E.</span> hello@bake3d.studio
+            <div className="footer__col-heading">STUDIO ENQUIRY</div>
+            <a href="mailto:hello@nexora.studio" className="footer__contact-link">
+              <span className="footer__prefix">E.</span> hello@nexora.studio
             </a>
             <a href="tel:+14158209900" className="footer__contact-link">
               <span className="footer__prefix">P.</span> +1 (415) 820-9900

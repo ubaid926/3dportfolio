@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import '../pages/pages.css';
 
 const TIMELINE = [
-  { year: '2019', title: 'Founded the 3D Shader Lab', desc: 'Started with custom WebGL shader development and procedural normal map synthesis.' },
+  { year: '2019', title: 'Founded Nexora Studio Lab', desc: 'Started with custom WebGL shader development and procedural normal map synthesis.' },
   { year: '2020', title: 'First GPU Texture Baking Engine', desc: 'Engineered hardware-accelerated ambient occlusion and radiosity lightmap baking for real-time web.' },
   { year: '2021', title: '3D Configurator Suite', desc: 'Launched full-scale interactive 3D product configurators with live part attachment and material swapping.' },
   { year: '2022', title: 'High-to-Low Poly Cage Pipeline', desc: 'Automated 100M+ polygon decimation and tangent cage projection with zero seam artifacts.' },
@@ -51,13 +51,13 @@ export default function AboutPage() {
         <div className="page-hero__glow" />
 
         <motion.div className="page-hero__tag" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <span className="page-hero__tag-dot" /> About BAKE3D
+          <span className="page-hero__tag-dot" /> About NEXORA STUDIO
         </motion.div>
 
         <motion.h1 className="page-hero__heading"
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}>
-          Engineering <em>real-time 3D</em><br />and texture baking.
+          Engineering <em>real-time 3D</em><br />and spatial experiences.
         </motion.h1>
 
         <motion.p className="page-hero__subheading"
@@ -75,16 +75,16 @@ export default function AboutPage() {
 
       {/* ── MISSION ── */}
       <section className="page-section about-mission">
-        <div className="page-grid-2" style={{ alignItems: 'center', gap: '4rem' }}>
+        <div className="about-mission-grid">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
             <motion.div className="page-section__label" variants={fadeUp}>Our Mission</motion.div>
             <motion.h2 className="page-section__heading" variants={fadeUp}>
               Zero-lag 3D everywhere.
             </motion.h2>
-            <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, fontSize: '1.05rem', marginBottom: '1.5rem' }}>
-              Our mission is to make 3D animation configurators instantaneously fast and stunningly realistic on any browser or mobile device. By pre-computing heavy physical lighting and micro-surface details into baked PBR textures, we deliver photorealism with zero GPU bottleneck.
+            <motion.p className="about-mission-lead" variants={fadeUp}>
+              Our mission is to make 3D animation configurators instantaneously fast and stunningly realistic on any browser or mobile device. By pre-computing heavy physical lighting and micro-surface details into baked PBR textures, Nexora Studio delivers photorealism with zero GPU bottleneck.
             </motion.p>
-            <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,0.35)', lineHeight: 1.7, fontSize: '0.95rem' }}>
+            <motion.p className="about-mission-text" variants={fadeUp}>
               From automotive customizers to luxury horology and robotic digital twins, we build the real-time graphics pipelines that define the future of interactive 3D web commerce.
             </motion.p>
           </motion.div>
@@ -112,7 +112,7 @@ export default function AboutPage() {
       {/* ── VALUES ── */}
       <section className="page-section page-section--mid">
         <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Principles</motion.div>
-        <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+        <motion.h2 className="page-section__heading page-section__heading--spaced" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
           Principles that guide<br/>our 3D pipeline.
         </motion.h2>
         <motion.div className="page-grid-3" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
@@ -131,14 +131,14 @@ export default function AboutPage() {
       {/* ── TIMELINE ── */}
       <section className="page-section">
         <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Evolution</motion.div>
-        <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+        <motion.h2 className="page-section__heading page-section__heading--spaced" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
           Pioneering GPU baking<br/>and WebGL motion.
         </motion.h2>
         <motion.ul className="page-numbered-list" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {TIMELINE.map((t) => (
             <motion.li key={t.year} className="page-numbered-item" variants={fadeUp}>
               <span className="page-numbered-item__num">{t.year}</span>
-              <div>
+              <div className="page-numbered-item__body">
                 <h4 className="page-numbered-item__title">{t.title}</h4>
                 <p className="page-numbered-item__desc">{t.desc}</p>
               </div>
@@ -152,8 +152,8 @@ export default function AboutPage() {
       {/* ── TEAM ── */}
       <section className="page-section page-section--mid">
         <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>The Specialists</motion.div>
-        <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
-          Technical artists behind<br/>the baking engine.
+        <motion.h2 className="page-section__heading page-section__heading--spaced" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+          Technical artists behind<br/>Nexora Studio.
         </motion.h2>
         <motion.div className="about-team-grid" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {TEAM.map((m) => (
@@ -175,7 +175,7 @@ export default function AboutPage() {
       <section className="page-section about-cta-section">
         <motion.div className="about-cta-inner" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
           <h2 className="about-cta-heading">Ready to configure your 3D product?</h2>
-          <p className="about-cta-sub">Let's bake your 3D models into lightning-fast interactive web experiences.</p>
+          <p className="about-cta-sub">Let's transform your 3D models into lightning-fast interactive web experiences.</p>
           <div className="about-cta-actions">
             <Link to="/contact" className="page-btn page-btn--primary">
               Start a project

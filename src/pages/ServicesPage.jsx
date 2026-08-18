@@ -122,7 +122,7 @@ function ServiceRow({ service }) {
       variants={fadeUp}
       layout
     >
-      <button className="srv-row__header" onClick={() => setExpanded(!expanded)}>
+      <button className="srv-row__header" onClick={() => setExpanded(!expanded)} aria-expanded={expanded}>
         <div className="srv-row__left">
           <span className="srv-row__num">{service.number}</span>
           <div className="srv-row__titles">
@@ -134,7 +134,7 @@ function ServiceRow({ service }) {
           <span className="srv-row__pricing">{service.pricing}</span>
           <span className="srv-row__timeline">{service.timeline}</span>
           <span className={`srv-row__toggle ${expanded ? 'srv-row__toggle--open' : ''}`}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <line x1="5" y1="12" x2="19" y2="12" />
               {!expanded && <line x1="12" y1="5" x2="12" y2="19" />}
             </svg>
@@ -149,14 +149,19 @@ function ServiceRow({ service }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="srv-row__content">
               <div className="srv-row__desc-col">
                 <p className="srv-row__tagline">{service.tagline}</p>
                 <p className="srv-row__desc">{service.description}</p>
-                <Link to="/contact" className="page-btn page-btn--primary" style={{ marginTop: '1.5rem', display: 'inline-flex', fontSize: '0.76rem' }}>
-                  Get a quote →
+                <div className="srv-row__mobile-meta">
+                  <span className="srv-row__mobile-badge">{service.pricing}</span>
+                  <span className="srv-row__mobile-badge">{service.timeline}</span>
+                </div>
+                <Link to="/contact" className="page-btn page-btn--primary srv-row__cta-btn">
+                  Get a quote
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </Link>
               </div>
               <div className="srv-row__deliverables-col">
@@ -165,7 +170,7 @@ function ServiceRow({ service }) {
                   {service.deliverables.map((d) => (
                     <li key={d} className="srv-row__deliv-item">
                       <span className="srv-row__deliv-dot">→</span>
-                      {d}
+                      <span>{d}</span>
                     </li>
                   ))}
                 </ul>
@@ -212,7 +217,7 @@ export default function ServicesPage() {
 
       {/* ── SERVICES LIST ── */}
       <section className="page-section">
-        <div className="page-rule" style={{ marginBottom: '0' }}>
+        <div className="page-rule page-rule--tight">
           <div className="page-rule__line" />
           <span className="page-rule__text">All 3D Disciplines</span>
           <div className="page-rule__line" />
@@ -235,7 +240,7 @@ export default function ServicesPage() {
       {/* ── PROCESS ── */}
       <section className="page-section page-section--mid">
         <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Baking Pipeline</motion.div>
-        <motion.h2 className="page-section__heading" style={{ marginBottom: '3rem' }} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
+        <motion.h2 className="page-section__heading page-section__heading--spaced" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
           The 3D baking &amp;<br/>animation process.
         </motion.h2>
         <motion.ul className="page-numbered-list" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
@@ -248,7 +253,7 @@ export default function ServicesPage() {
           ].map((step) => (
             <motion.li key={step.n} className="page-numbered-item" variants={fadeUp}>
               <span className="page-numbered-item__num">{step.n}</span>
-              <div>
+              <div className="page-numbered-item__body">
                 <h4 className="page-numbered-item__title">{step.title}</h4>
                 <p className="page-numbered-item__desc">{step.desc}</p>
               </div>
@@ -260,8 +265,8 @@ export default function ServicesPage() {
       {/* ── CTA ── */}
       <section className="page-section about-cta-section">
         <motion.div className="about-cta-inner" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className="about-cta-heading">Ready to bake your 3D models?</h2>
-          <p className="about-cta-sub">Tell us about your 3D assets — we'll tailor an optimization pipeline.</p>
+          <h2 className="about-cta-heading">Ready to build with Nexora Studio?</h2>
+          <p className="about-cta-sub">Tell us about your 3D vision — we'll tailor a custom real-time pipeline.</p>
           <div className="about-cta-actions">
             <Link to="/contact" className="page-btn page-btn--primary">
               Start a project →

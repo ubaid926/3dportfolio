@@ -38,7 +38,7 @@ const STORIES = [
     id: 'chrono-geneve',
     name: 'CHRONO GENÈVE',
     quote:
-      'Capturing micro-machined titanium finishes and jewel bearings in a real-time web configurator was thought impossible. BAKE3D baked our micro-displacement maps with zero visible UV seams.',
+      'Capturing micro-machined titanium finishes and jewel bearings in a real-time web configurator was thought impossible. Nexora Studio delivered our micro-displacement maps with zero visible UV seams.',
     author: 'David Chen',
     role: 'Head of eCommerce & 3D · Geneva, Switzerland',
     avatar: avatarFastResume,

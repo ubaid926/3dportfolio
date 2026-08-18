@@ -179,10 +179,23 @@
 }
 
 .footer__copyright {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   font-size: 0.78rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
   letter-spacing: 0.04em;
+}
+
+.footer__logo-img {
+  height: 24px;
+  width: auto;
+  max-width: 70px;
+  object-fit: contain;
+  border-radius: 3px;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
 }
 
 .footer__copyright sup {
@@ -350,5 +363,51 @@
 
   .footer__waveform-section {
     height: 130px;
+  }
+}
+
+/* ── 480px — phones ── */
+@media (max-width: 480px) {
+  .footer__top-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 0.9rem 1.1rem;
+  }
+
+  .footer__main-grid {
+    padding: 2.2rem 1.1rem 1.8rem;
+    gap: 2rem;
+  }
+
+  .footer__hero-heading {
+    font-size: clamp(1.9rem, 12vw, 3rem);
+    letter-spacing: -0.03em;
+  }
+
+  .footer__cta-row {
+    padding: 1.1rem 0;
+  }
+
+  .footer__cta-label {
+    font-size: 0.78rem;
+  }
+
+  .footer__info-bar {
+    padding: 1.5rem 1.1rem 2rem;
+    gap: 1.2rem;
+  }
+
+  .footer__logo-img {
+    height: 22px;
+  }
+
+  .footer__social-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 1rem;
+  }
+
+  .footer__waveform-section {
+    height: 100px;
   }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import logoImg from '../assets/logo.jpeg';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -54,9 +55,9 @@ const Navbar = () => {
       >
         <div className="navbar__container">
           {/* Logo */}
-          <Link to="/" className="navbar__logo">
-            <span className="navbar__logo-icon">◆</span>
-            <span className="navbar__logo-text">BAKE3D<sup>®</sup></span>
+          <Link to="/" className="navbar__logo" aria-label="Nexora Studio Home">
+            <img src={logoImg} alt="Nexora Studio" className="navbar__logo-img" />
+            <span className="navbar__logo-text">NEXORA <span>STUDIO</span><sup>®</sup></span>
           </Link>
 
           {/* Top Right Action Controls */}
@@ -86,7 +87,7 @@ const Navbar = () => {
 
             {/* Let's Talk CTA Pill */}
             <Link to="/contact" className="navbar__cta-pill">
-              BAKE A MODEL
+              START A PROJECT
             </Link>
 
             {/* Menu Toggle Button */}
@@ -153,7 +154,7 @@ const Navbar = () => {
                     className="navbar__story-badge"
                     onClick={() => setMenuOpen(false)}
                   >
-                    <span className="navbar__story-sparkle">✦</span> THE TEXTURE BAKING STORY
+                    <span className="navbar__story-sparkle">✦</span> THE NEXORA STUDIO STORY
                   </Link>
                 </div>
 
@@ -161,9 +162,9 @@ const Navbar = () => {
                 <div className="navbar__drawer-footer">
                   {/* Business Enquiry */}
                   <div className="navbar__footer-block">
-                    <div className="navbar__footer-heading">BAKING ENQUIRY</div>
+                    <div className="navbar__footer-heading">STUDIO ENQUIRY</div>
                     <div className="navbar__footer-content">
-                      <p><span className="navbar__prefix">E.</span> <a href="mailto:hello@bake3d.studio">hello@bake3d.studio</a></p>
+                      <p><span className="navbar__prefix">E.</span> <a href="mailto:hello@nexora.studio">hello@nexora.studio</a></p>
                       <p><span className="navbar__prefix">P.</span> <a href="tel:+14158209900">+1 (415) 820-9900</a></p>
                     </div>
                   </div>
