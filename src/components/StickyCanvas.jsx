@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import Lenis from 'lenis';
 import Model3D from './Model3D';
-import ownerPortrait from '../assets/download.png';
 import './StickyCanvas.css';
 const ROTATING_WORDS = ['texture maps', 'PBR materials', 'lightmaps', 'AO passes', 'normal cages', '3D animations'];
 
@@ -38,10 +37,10 @@ const StickyCanvas = () => {
   const [active, setActive] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [word, setWord] = useState(0);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const wrapperRef = useRef(null);
   const lenisRef = useRef(null);
   const rafRef = useRef(null);
+  const cursorRef = useRef(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -97,7 +96,10 @@ const StickyCanvas = () => {
     const h = (e) => {
       mouseX.set((e.clientX / window.innerWidth - 0.5) * 2);
       mouseY.set((e.clientY / window.innerHeight - 0.5) * 2);
-      setMousePos({ x: e.clientX, y: e.clientY });
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
+      }
     };
     window.addEventListener('mousemove', h);
     return () => window.removeEventListener('mousemove', h);
@@ -140,7 +142,7 @@ const StickyCanvas = () => {
 
         {/* ── 3D MODEL — absolute center ── */}
         <div className="sc__model-wrap">
-          <Model3D scrollProgress={scrollProgress} portfolioImage={ownerPortrait} />
+          <Model3D scrollProgress={scrollProgress} />
         </div>
 
         {/* ── TEXT LAYER — full viewport, over model ── */}
@@ -292,7 +294,7 @@ const StickyCanvas = () => {
         </div>
 
         {/* cursor */}
-        <div className="sc__cursor" style={{ left: mousePos.x, top: mousePos.y }} />
+        <div ref={cursorRef} className="sc__cursor" />
 
       </div>{/* scene */}
 

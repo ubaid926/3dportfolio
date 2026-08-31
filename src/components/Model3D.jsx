@@ -1,5 +1,8 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import helvetikerBold from 'three/examples/fonts/helvetiker_bold.typeface.json';
 import './Model3D.css';
 
 import img1 from '../assets/(1).jpeg';
@@ -142,67 +145,124 @@ const glowFrag = /* glsl */`
   }
 `;
 
+// ─── 3D TEXT "NEXORA" SHADERS ────────────────────────────────────────────────
+const textVertexShader = /* glsl */`
+  varying vec3 vNormal;
+  varying vec3 vWorldPos;
+  varying vec3 vViewDir;
+
+  void main() {
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vWorldPos     = worldPos.xyz;
+    vNormal       = normalize(mat3(transpose(inverse(modelMatrix))) * normal);
+    vViewDir      = normalize(cameraPosition - worldPos.xyz);
+    gl_Position   = projectionMatrix * viewMatrix * worldPos;
+  }
+`;
+
+const textFragmentShader = /* glsl */`
+  // Dynamic scene lights (optional bonus contribution when active)
+  uniform vec3  uLight1Pos;
+  uniform vec3  uLight2Pos;
+  uniform float uLight1Int;
+  uniform float uLight2Int;
+  uniform vec3  uLight1Color;
+  uniform vec3  uLight2Color;
+
+  varying vec3 vNormal;
+  varying vec3 vWorldPos;
+  varying vec3 vViewDir;
+
+  // GGX specular for metallic surfaces
+  float ggxSpec(vec3 N, vec3 H, float roughness) {
+    float a  = roughness * roughness;
+    float a2 = a * a;
+    float NdH = max(dot(N, H), 0.0);
+    float d = NdH * NdH * (a2 - 1.0) + 1.0;
+    return a2 / (3.14159 * d * d + 0.0001);
+  }
+
+  // Schlick Fresnel
+  float schlick(float cosA, float F0) {
+    return F0 + (1.0 - F0) * pow(1.0 - cosA, 5.0);
+  }
+
+  // Metallic area-light contribution
+  vec3 areaLight(vec3 N, vec3 V, vec3 L, vec3 lColor, float intensity, float roughness) {
+    float NdL = max(dot(N, L), 0.0);
+    if (NdL < 0.0001) return vec3(0.0);
+    vec3  H   = normalize(L + V);
+    float spec = ggxSpec(N, H, roughness);
+    float F    = schlick(max(dot(H, V), 0.0), 0.72);
+    return lColor * spec * F * intensity * NdL;
+  }
+
+  void main() {
+    vec3 N = normalize(vNormal);
+    vec3 V = normalize(vViewDir);
+
+    // Base: dark charcoal #16181A, metalness 0.85
+    vec3  baseColor  = vec3(0.086, 0.094, 0.102);
+    float roughness  = 0.32;
+    float metalness  = 0.85;
+    vec3  metallicAlbedo = mix(vec3(0.04), baseColor, metalness);
+
+    // EMBEDDED ALWAYS-ON AREA LIGHTS
+    // These are static — always visible regardless of the dynamic light state machine.
+
+    // A: Soft top-front fill (neutral-warm)
+    vec3 lA = normalize(vec3(0.2, 0.9, 1.0));
+    vec3 sA = areaLight(N, V, lA, vec3(0.82, 0.85, 0.90) * metallicAlbedo, 2.2, roughness);
+
+    // B: Front-left key (neutral white — illuminates front face clearly)
+    vec3 lB = normalize(vec3(-0.55, 0.35, 0.8));
+    vec3 sB = areaLight(N, V, lB, vec3(0.78, 0.80, 0.82) * metallicAlbedo, 2.8, roughness);
+
+    // C: Cool cyan-blue rim from upper-right (futuristic edge language)
+    vec3 lC = normalize(vec3(0.8, 0.4, 0.5));
+    vec3 sC = areaLight(N, V, lC, vec3(0.20, 0.62, 0.90), 1.8, roughness * 0.55);
+
+    // D: Subtle warm back-fill (keeps text separated from dark grid behind)
+    vec3 lD = normalize(vec3(-0.3, -0.5, -0.8));
+    vec3 sD = areaLight(N, V, lD, vec3(0.55, 0.55, 0.58) * metallicAlbedo, 0.6, roughness * 1.4);
+
+    // Fresnel rim — silver edge on geometry
+    float NdV       = max(dot(N, V), 0.0);
+    float fresnel   = pow(1.0 - NdV, 3.5);
+    vec3 silverRim  = vec3(0.38, 0.40, 0.44) * fresnel * 0.55;
+    // Cool blue silhouette edge (futuristic) — very subtle
+    vec3 cyanRim    = vec3(0.08, 0.30, 0.55) * pow(fresnel, 1.6) * 0.65;
+
+    // Optional bonus from dynamic scene spotlights (very low weight — for 3D box lights)
+    vec3 dynBonus = vec3(0.0);
+    if (uLight1Int > 0.01) {
+      vec3 L1 = normalize(uLight1Pos - vWorldPos);
+      dynBonus += areaLight(N, V, L1, uLight1Color * metallicAlbedo, uLight1Int * 0.12, roughness);
+    }
+    if (uLight2Int > 0.01) {
+      vec3 L2 = normalize(uLight2Pos - vWorldPos);
+      dynBonus += areaLight(N, V, L2, uLight2Color * metallicAlbedo, uLight2Int * 0.10, roughness);
+    }
+
+    // Assemble: dark base stays dark, metallic specular gives edge life
+    vec3 finalColor = baseColor * (1.0 - metalness * 0.85)
+                    + sA + sB + sC + sD
+                    + silverRim + cyanRim
+                    + dynBonus;
+
+    gl_FragColor = vec4(finalColor, 1.0);
+  }
+`;
+
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
-const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
+const Model3D = ({ scrollProgress = 0 }) => {
   const mountRef  = useRef(null);
   const scrollRef = useRef(0);
-  // Reactive copy for the HTML frame (causes re-render on scroll, lightweight)
-  const [frameProgress, setFrameProgress] = useState(0);
-
-  // Mouse-tilt state for holographic card
-  const frameRef   = useRef(null);
-  const tiltRafRef = useRef(null);
-  const tiltTarget = useRef({ x: 0, y: 0 });
-  const tiltCurrent = useRef({ x: 0, y: 0 });
 
   // Sync scroll value into ref (no re-render needed in RAF loop)
-  // Also push into state for the HTML frame overlay
   useEffect(() => {
     scrollRef.current = scrollProgress;
-    setFrameProgress(scrollProgress);
   }, [scrollProgress]);
-
-  /* ── Mouse-tracking 3D tilt for holographic frame ── */
-  useEffect(() => {
-    const onMove = (e) => {
-      const el = frameRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width  / 2;
-      const cy = rect.top  + rect.height / 2;
-      const dx = (e.clientX - cx) / (rect.width  / 2);
-      const dy = (e.clientY - cy) / (rect.height / 2);
-      tiltTarget.current = { x: dy * -22, y: dx * 22 };
-    };
-    const onLeave = () => {
-      tiltTarget.current = { x: 0, y: 0 };
-    };
-
-    const lerp = (a, b, t) => a + (b - a) * t;
-    const tick = () => {
-      const el = frameRef.current;
-      if (el) {
-        tiltCurrent.current.x = lerp(tiltCurrent.current.x, tiltTarget.current.x, 0.08);
-        tiltCurrent.current.y = lerp(tiltCurrent.current.y, tiltTarget.current.y, 0.08);
-        el.style.setProperty('--tilt-x', `${tiltCurrent.current.x}deg`);
-        el.style.setProperty('--tilt-y', `${tiltCurrent.current.y}deg`);
-        // Move holographic sheen based on tilt
-        const sheenX = 50 + tiltCurrent.current.y * 1.2;
-        const sheenY = 50 + tiltCurrent.current.x * 1.2;
-        el.style.setProperty('--sheen-x', `${sheenX}%`);
-        el.style.setProperty('--sheen-y', `${sheenY}%`);
-      }
-      tiltRafRef.current = requestAnimationFrame(tick);
-    };
-    tiltRafRef.current = requestAnimationFrame(tick);
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseleave', onLeave);
-    return () => {
-      cancelAnimationFrame(tiltRafRef.current);
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseleave', onLeave);
-    };
-  }, []);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -218,6 +278,13 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       if (w <= 768) return 0.70;
       if (w <= 1024) return 0.80;
       return 0.85;
+    };
+    // 3D Typography scale: scales down cleanly on smaller screens while remaining behind the model
+    const getTextScale = (w) => {
+      if (w <= 480) return 0.45;
+      if (w <= 768) return 0.62;
+      if (w <= 1024) return 0.78;
+      return 0.98;
     };
     // Camera Z distance: optimal viewing distance
     const getCameraZ = (w) => {
@@ -289,6 +356,40 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       });
     });
 
+    // ── Build 3D "NEXORA" Background Typography ─────────────────────────
+    const font = new FontLoader().parse(helvetikerBold);
+
+    const textGeo = new TextGeometry('NEXORA', {
+      font: font,
+      size: 2.1,
+      depth: 0.38,
+      curveSegments: 8,
+      bevelEnabled: true,
+      bevelThickness: 0.05,
+      bevelSize: 0.025,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    });
+    textGeo.computeVertexNormals();
+    textGeo.center();
+
+    const textMat = new THREE.ShaderMaterial({
+      uniforms: {
+        ...uniforms,
+        uFade: { value: 1.0 },
+      },
+      vertexShader: textVertexShader,
+      fragmentShader: textFragmentShader,
+    });
+
+    const textMesh = new THREE.Mesh(textGeo, textMat);
+
+    const textGroup = new THREE.Group();
+    textGroup.position.set(0.0, 0.0, -2.0); // Layering: behind 3D box model (Z = 0) and in front of net grid (Z = -3.5)
+    textGroup.scale.setScalar(getTextScale(W));
+    textGroup.add(textMesh);
+    scene.add(textGroup);
+
     // ── Build 6 3D Face Panels that form Box at Home & Explode on Scroll ──
     const group = new THREE.Group();
     group.scale.setScalar(getGroupScale(W));
@@ -315,14 +416,20 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       { mesh: panelBack,   px:  0.00, py:  0.00, pz: -1.15, rx:  0.00, ry:  Math.PI,   rz: 0.00 },
     ];
 
-    // ── Explode / Collapse targets on scroll (TRIONN style) ────────────
+    // ── 5-Part Controlled Composition around NEXORA (Scroll Target) ─────────
     const slabExplode = [
-      { px:  4.8, py:  2.2, pz: -1.8, rx:  0.8, ry:  1.6, rz:  0.4 }, // panelRight → Top Right
-      { px: -5.2, py:  2.5, pz: -2.2, rx: -0.6, ry: -1.4, rz: -0.5 }, // panelLeft → Top Left
-      { px:  0.6, py:  5.2, pz: -3.2, rx:  1.4, ry:  0.3, rz:  0.6 }, // panelTop → Top Center
-      { px: -0.5, py: -5.2, pz: -2.8, rx: -1.2, ry: -0.4, rz: -0.5 }, // panelBottom → Bottom Center
-      { px:  3.8, py: -3.6, pz:  2.2, rx:  0.9, ry: -0.8, rz:  0.6 }, // panelFront → Bottom Right
-      { px: -4.2, py: -3.8, pz: -2.5, rx: -1.0, ry:  0.9, rz: -0.7 }, // panelBack → Bottom Left
+      // 0: panelRight → Part 3: Right side of NEXORA
+      { px:  4.4, py:  0.15, pz: -1.4, rx:  0.08, ry: -0.22, rz: -0.06, scale: 0.70 },
+      // 1: panelLeft → Part 2: Left side of NEXORA
+      { px: -4.3, py:  0.35, pz: -1.2, rx: -0.06, ry:  0.24, rz:  0.06, scale: 0.70 },
+      // 2: panelTop → Part 1: Upper area, slightly right of center
+      { px:  1.6, py:  2.10, pz: -0.6, rx:  0.08, ry: -0.12, rz: -0.04, scale: 0.72 },
+      // 3: panelBottom → Part 4: Lower area, slightly left
+      { px: -2.0, py: -2.10, pz: -0.8, rx: -0.10, ry:  0.14, rz:  0.04, scale: 0.72 },
+      // 4: panelFront → Part 5: Lower / right area (layered slightly behind NEXORA at -2.0)
+      { px:  2.5, py: -2.00, pz: -2.4, rx: -0.08, ry: -0.15, rz: -0.04, scale: 0.70 },
+      // 5: panelBack → 6th panel smoothly dissolves on scroll so exactly 5 parts frame NEXORA
+      { px:  0.0, py:  0.00, pz: -3.0, rx:  0.00, ry: Math.PI, rz:  0.00, scale: 0.00 },
     ];
 
     // ── Texture Transition State Tracker for 6 materials ─────────────
@@ -379,10 +486,11 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
     const blueGlow2 = makeGlow('#d0d0d0', 4.0, new THREE.Vector3(-0.6,-0.6,-0.8));
 
     // ── ANIMATED DYNAMIC 3D CYBER NET GRID ─────────────────────────────────────
+    // Grid opacity reduced ~35% to give the 3D NEXORA text visual breathing room
     const lineMat = new THREE.LineBasicMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0.08,
+      opacity: 0.05,  // was 0.08 → reduced ~38%
       blending: THREE.AdditiveBlending,
     });
 
@@ -442,9 +550,9 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
 
     const nodeMat = new THREE.PointsMaterial({
       color: 0xffffff,
-      size: 0.13,
+      size: 0.10,      // was 0.13 → slightly smaller
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.28,   // was 0.45 → reduced ~38%
       blending: THREE.AdditiveBlending,
     });
     const nodePoints = new THREE.Points(nodeGeo, nodeMat);
@@ -536,44 +644,44 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       const points = subdivideBolt(start, end, start.distanceTo(end) * 0.42, depth);
       const decay  = 0.045 + Math.random() * 0.055;
 
-      // Layer 1: wide cyan outer glow
+      // Layer 1: wide cyan outer glow — opacity reduced ~35% for subtlety
       const geoGlow = new THREE.BufferGeometry().setFromPoints(points);
       const matGlow = new THREE.LineBasicMaterial({
         color: 0x00bfff,
         transparent: true,
-        opacity: 0.28 * layerOpacityScale,
+        opacity: 0.18 * layerOpacityScale,  // was 0.28
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
       const meshGlow = new THREE.Line(geoGlow, matGlow);
       lightningGrp.add(meshGlow);
-      activeLightningBolts.push({ lineMesh: meshGlow, geo: geoGlow, life: 1.0, decay, baseOpacity: 0.28 * layerOpacityScale });
+      activeLightningBolts.push({ lineMesh: meshGlow, geo: geoGlow, life: 1.0, decay, baseOpacity: 0.18 * layerOpacityScale });
 
-      // Layer 2: medium bright cyan
+      // Layer 2: medium bright cyan — opacity reduced ~35%
       const geoMid = new THREE.BufferGeometry().setFromPoints(points);
       const matMid = new THREE.LineBasicMaterial({
         color: 0x55d4ff,
         transparent: true,
-        opacity: 0.55 * layerOpacityScale,
+        opacity: 0.36 * layerOpacityScale,  // was 0.55
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
       const meshMid = new THREE.Line(geoMid, matMid);
       lightningGrp.add(meshMid);
-      activeLightningBolts.push({ lineMesh: meshMid, geo: geoMid, life: 1.0, decay, baseOpacity: 0.55 * layerOpacityScale });
+      activeLightningBolts.push({ lineMesh: meshMid, geo: geoMid, life: 1.0, decay, baseOpacity: 0.36 * layerOpacityScale });
 
-      // Layer 3: tight white hot core
+      // Layer 3: tight white hot core — opacity reduced ~35%
       const geoCore = new THREE.BufferGeometry().setFromPoints(points);
       const matCore = new THREE.LineBasicMaterial({
         color: 0xffffff,
         transparent: true,
-        opacity: 0.9 * layerOpacityScale,
+        opacity: 0.60 * layerOpacityScale,  // was 0.90
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
       const meshCore = new THREE.Line(geoCore, matCore);
       lightningGrp.add(meshCore);
-      activeLightningBolts.push({ lineMesh: meshCore, geo: geoCore, life: 1.0, decay, baseOpacity: 0.9 * layerOpacityScale });
+      activeLightningBolts.push({ lineMesh: meshCore, geo: geoCore, life: 1.0, decay, baseOpacity: 0.60 * layerOpacityScale });
 
       // Spawn recursive branches off mid-points of the bolt (realistic fork lightning)
       if (isRoot) {
@@ -728,6 +836,8 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       renderer.setSize(W, H);
       // Rescale the 3D group so the box stays proportional on screen
       group.scale.setScalar(getGroupScale(W));
+      // Rescale the NEXORA text group proportionally
+      textGroup.scale.setScalar(getTextScale(W));
     };
 
     const resizeObserver = new ResizeObserver(() => onResize());
@@ -806,8 +916,16 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       // Parallax rotation & subtle opacity pulse on grid net
       linesGrp.rotation.x = Math.sin(t * 0.3) * 0.03 + mouse.y * 0.04;
       linesGrp.rotation.y = Math.cos(t * 0.25) * 0.03 + mouse.x * 0.04;
-      lineMat.opacity = 0.07 + Math.sin(t * 1.8) * 0.03;
-      nodeMat.opacity = 0.35 + Math.sin(t * 2.2) * 0.15;
+      // Grid opacity reduced ~35% from original values to give NEXORA text visual space
+      lineMat.opacity = 0.044 + Math.sin(t * 1.8) * 0.018;  // was 0.07 + sin*0.03
+      nodeMat.opacity = 0.22  + Math.sin(t * 2.2) * 0.08;   // was 0.35 + sin*0.15
+
+      // ── Subtle NEXORA text parallax (very gentle, does NOT affect model drag) ──
+      textGroup.rotation.x = mouse.y * 0.025;
+      textGroup.rotation.y = mouse.x * 0.025;
+      // Slow autonomous drift in background plane
+      textGroup.position.x = Math.sin(t * 0.18) * 0.06;
+      textGroup.position.y = Math.cos(t * 0.14) * 0.04;
 
       // ── Animate & fade out active electric current lightning arcs ──────
       for (let i = activeLightningBolts.length - 1; i >= 0; i--) {
@@ -855,9 +973,21 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       if (!drag) { vel.x *= 0.92; vel.y *= 0.92; }
       cur.rx += (tgt.rx - cur.rx) * 0.058;
       cur.ry += (tgt.ry - cur.ry) * 0.058;
-      group.rotation.x = cur.rx;
-      group.rotation.y = cur.ry;
-      group.position.y = Math.sin(t * 0.5) * 0.08;
+
+      // Scroll interpolation factor
+      const sp = scrollRef.current;
+      const ease = sp < 0.5
+        ? 4 * sp * sp * sp
+        : 1 - Math.pow(-2 * sp + 2, 3) / 2;
+
+      // Group orientation:
+      // At home (ease = 0): full interactive drag / autoSpin rotation
+      // On scroll (ease > 0): smoothly eases into a stable frontal orientation with subtle responsive mouse parallax
+      const groupRotX = cur.rx * (1 - ease) + (mouse.y * 0.04) * ease;
+      const groupRotY = cur.ry * (1 - ease) + (mouse.x * 0.04) * ease;
+      group.rotation.x = groupRotX;
+      group.rotation.y = groupRotY;
+      group.position.y = Math.sin(t * 0.5) * 0.08 * (1 - ease);
       uniforms.uTime.value = t;
 
       // Tick lights
@@ -896,23 +1026,36 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
       blueGlow2.material.uniforms.uIntensity.value = ls2.int * 0.28;
       blueGlow2.material.uniforms.uColor.value.copy(ls2.color);
 
-      // Scroll interpolation
-      const sp = scrollRef.current;
-      const ease = sp < 0.5
-        ? 4 * sp * sp * sp
-        : 1 - Math.pow(-2 * sp + 2, 3) / 2;
-
+      // ── Animate 5-Part Composition framing NEXORA ──
       slabHome.forEach((h, i) => {
         const e = slabExplode[i];
         const m = h.mesh;
-        m.position.x = h.px + (e.px - h.px) * ease;
-        m.position.y = h.py + (e.py - h.py) * ease;
-        m.position.z = h.pz + (e.pz - h.pz) * ease;
 
-        const osc = 1 - ease;
-        m.rotation.x = h.rx + (e.rx - h.rx) * ease + Math.sin(t * 0.48 + i) * 0.013 * osc;
-        m.rotation.y = h.ry + (e.ry - h.ry) * ease + Math.sin(t * 0.36 + i * 1.2) * 0.011 * osc;
-        m.rotation.z = h.rz + (e.rz - h.rz) * ease + Math.sin(t * 0.40 + i * 0.8) * 0.014 * osc;
+        // Position interpolation with subtle organic drift when settled
+        const posX = h.px + (e.px - h.px) * ease;
+        const posY = h.py + (e.py - h.py) * ease;
+        const posZ = h.pz + (e.pz - h.pz) * ease;
+
+        const driftY = Math.sin(t * 0.6 + i * 1.25) * 0.04 * ease;
+        const driftX = Math.cos(t * 0.5 + i * 0.95) * 0.03 * ease;
+
+        m.position.x = posX + driftX;
+        m.position.y = posY + driftY;
+        m.position.z = posZ;
+
+        // Rotation interpolation + subtle ambient breathing
+        const oscHome = 1 - ease;
+        const driftRotX = Math.sin(t * 0.4 + i * 0.8) * 0.02 * ease;
+        const driftRotY = Math.cos(t * 0.35 + i * 1.1) * 0.02 * ease;
+
+        m.rotation.x = h.rx + (e.rx - h.rx) * ease + Math.sin(t * 0.48 + i) * 0.013 * oscHome + driftRotX;
+        m.rotation.y = h.ry + (e.ry - h.ry) * ease + Math.sin(t * 0.36 + i * 1.2) * 0.011 * oscHome + driftRotY;
+        m.rotation.z = h.rz + (e.rz - h.rz) * ease + Math.sin(t * 0.40 + i * 0.8) * 0.014 * oscHome;
+
+        // Scale interpolation: 5 parts scale to targetScale, 6th part scales to 0
+        const targetScale = e.scale !== undefined ? e.scale : 0.72;
+        const currentScale = 1.0 + (targetScale - 1.0) * ease;
+        m.scale.setScalar(Math.max(0.0001, currentScale));
       });
 
       renderer.render(scene, camera);
@@ -933,88 +1076,10 @@ const Model3D = ({ scrollProgress = 0, portfolioImage }) => {
     };
   }, []);
 
-  // ── Derive frame transform from scrollProgress ────────────────────────────
-  // Same cubic-ease-in-out as the box panels for perfect sync
-  const sp = frameProgress;
-  const ease = sp < 0.5
-    ? 4 * sp * sp * sp
-    : 1 - Math.pow(-2 * sp + 2, 3) / 2;
-
-  // At ease=0: frame is tiny and dim, sitting inside the closed box.
-  // At ease=1: frame is full-size, centered, fully opaque.
-  const frameScale   = 0.16 + ease * 0.84;
-  const frameZ       = ease * 90;
-  const frameOpacity = 0.0 + ease * 1.0;
-  const frameRotY    = (1 - ease) * -24;
-  const frameRotX    = (1 - ease) * 10;
-
   return (
     <div className="model3d__wrapper">
       <div className="model3d__glow-bg" />
       <div ref={mountRef} className="model3d__canvas-mount" />
-
-      {/* ── Portfolio image frame — Holographic 3D card ── */}
-      {portfolioImage && (
-        <div className="model3d__frame-wrap">
-          <div
-            ref={frameRef}
-            className="model3d__frame"
-            style={{
-              '--tilt-x': '0deg',
-              '--tilt-y': '0deg',
-              '--sheen-x': '50%',
-              '--sheen-y': '50%',
-              transform: `
-                perspective(900px)
-                translateZ(${frameZ}px)
-                rotateY(${frameRotY}deg)
-                rotateX(${frameRotX}deg)
-                scale(${frameScale})
-              `,
-              opacity: frameOpacity,
-            }}
-          >
-            {/* Holographic shimmer overlay */}
-            <div className="model3d__frame-holo" />
-
-            {/* Scanline overlay */}
-            <div className="model3d__frame-scanlines" />
-
-            {/* Glare spot that follows mouse */}
-            <div className="model3d__frame-glare" />
-
-            {/* Decorative corner brackets */}
-            <span className="model3d__frame-corner model3d__frame-corner--tl" />
-            <span className="model3d__frame-corner model3d__frame-corner--tr" />
-            <span className="model3d__frame-corner model3d__frame-corner--bl" />
-            <span className="model3d__frame-corner model3d__frame-corner--br" />
-
-            {/* Side accent line */}
-            <div className="model3d__frame-side-accent" />
-
-            <img
-              src={portfolioImage}
-              alt="Portfolio owner"
-              className="model3d__frame-img"
-              draggable={false}
-            />
-
-            {/* Data badge row */}
-            <div className="model3d__frame-badge">
-              <span className="model3d__frame-badge-dot" />
-              <span>PBR TEXTURE BAKER</span>
-              <span className="model3d__frame-badge-sep">|</span>
-              <span className="model3d__frame-badge-tag">GPU ACCELERATED</span>
-            </div>
-
-            {/* Top floating chip */}
-            <div className="model3d__frame-chip">
-              <span className="model3d__frame-chip-dot" />
-              <span>BAKING ACTIVE</span>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="model3d__label">
         <span className="model3d__label-dot" />

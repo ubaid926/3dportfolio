@@ -115,10 +115,11 @@
    HERO CONTENT
 ══════════════════════════════════════════════ */
 .sc__hero-content {
-  pointer-events: all;
+  pointer-events: none;
   padding: 0 var(--section-padding);
   width: 100%;
   max-width: 720px;
+  user-select: none;
 }
 
 .sc__eyebrow {
@@ -126,6 +127,8 @@
   align-items: center;
   gap: 0.75rem;
   margin-bottom: clamp(1.2rem, 3.5vh, 2.2rem);
+  pointer-events: none;
+  user-select: none;
 }
 .sc__eyebrow-dot {
   width: 6px;
@@ -156,6 +159,8 @@
   overflow-wrap: break-word;
   word-break: normal;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  user-select: none;
 }
 .sc__h1-line {
   display: block;
@@ -225,9 +230,10 @@
    ABOUT / PROCESS CONTENT  — full width overlay
 ══════════════════════════════════════════════ */
 .sc__about-content {
-  pointer-events: all;
+  pointer-events: none;
   padding: 0 var(--section-padding);
   width: 100%;          /* full viewport width */
+  user-select: none;
 }
 
 .sc__alabel {
@@ -305,6 +311,7 @@
   white-space: nowrap;
   transition: color 0.3s, border-color 0.3s;
   align-self: flex-end;
+  pointer-events: auto;
 }
 .sc__acta:hover { color: #ffffff; border-color: rgba(255, 255, 255, 0.4); }
 .sc__acta svg { transition: transform 0.3s; }

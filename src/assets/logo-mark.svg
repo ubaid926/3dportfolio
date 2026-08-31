@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <defs>
+    <linearGradient id="chromeLightMark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="25%" stop-color="#f1f5f9" />
+      <stop offset="45%" stop-color="#94a3b8" />
+      <stop offset="65%" stop-color="#ffffff" />
+      <stop offset="85%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+
+    <linearGradient id="chromeDarkMark" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="30%" stop-color="#64748b" />
+      <stop offset="55%" stop-color="#e2e8f0" />
+      <stop offset="75%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+
+    <linearGradient id="chromeEdgeMark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#94a3b8" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.8" />
+    </linearGradient>
+
+    <filter id="softGlowMark" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- 3D Monogram Emblem 'N' -->
+  <g transform="translate(6, 4) scale(1.05)" filter="url(#softGlowMark)">
+    <!-- Left vertical bar with angled bottom facet -->
+    <path d="M 8,6 L 19,6 L 19,42 L 8,54 Z" fill="url(#chromeDarkMark)" stroke="url(#chromeEdgeMark)" stroke-width="0.75" />
+    <path d="M 13,6 L 19,6 L 19,42 L 13,47 Z" fill="url(#chromeLightMark)" opacity="0.85" />
+
+    <!-- Sharp Diagonal Cross-bar -->
+    <polygon points="10,6 23,6 48,54 35,54" fill="url(#chromeLightMark)" stroke="url(#chromeEdgeMark)" stroke-width="0.75" />
+    <polygon points="17,6 23,6 48,54 42,54" fill="url(#chromeDarkMark)" opacity="0.65" />
+
+    <!-- Right vertical bar with angled top facet -->
+    <path d="M 37,18 L 48,6 L 48,54 L 37,54 Z" fill="url(#chromeDarkMark)" stroke="url(#chromeEdgeMark)" stroke-width="0.75" />
+    <path d="M 37,18 L 43,12 L 43,54 L 37,54 Z" fill="url(#chromeLightMark)" opacity="0.85" />
+  </g>
+</svg>

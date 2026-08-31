@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import logoImg from '../assets/logo.jpeg';
+import logoImg from '../assets/logo.svg';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -57,7 +57,6 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="navbar__logo" aria-label="Nexora Studio Home">
             <img src={logoImg} alt="Nexora Studio" className="navbar__logo-img" />
-            <span className="navbar__logo-text">NEXORA <span>STUDIO</span><sup>®</sup></span>
           </Link>
 
           {/* Top Right Action Controls */}

@@ -184,8 +184,16 @@
 
 .hero__eyebrow,
 .hero__heading-wrapper,
-.hero__cta-wrapper,
 .hero__scroll {
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero__cta-wrapper {
+  pointer-events: none;
+}
+
+.hero__cta {
   pointer-events: auto;
 }
 
@@ -243,6 +251,8 @@
   letter-spacing: -0.035em;
   color: #ffffff;
   overflow-wrap: break-word;
+  pointer-events: none;
+  user-select: none;
 }
 
 .hero__heading-line {

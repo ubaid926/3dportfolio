@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import logoImg from '../assets/logo.jpeg';
+import logoImg from '../assets/logo.svg';
 import './Footer.css';
 
 /* =========================================================
@@ -255,6 +255,42 @@ const Footer = () => {
   const headingLine1 = 'Ready to build';
   const headingLine2 = 'with Nexora Studio?';
 
+  const renderHeadingLine = (text, lineKey, baseDelay) => {
+    let charOffset = 0;
+    const words = text.split(' ');
+
+    return (
+      <span className="footer__heading-line">
+        {words.map((word, wIdx) => {
+          const chars = word.split('');
+          const currentWordOffset = charOffset;
+          charOffset += chars.length + 1;
+
+          return (
+            <span key={`${lineKey}-w-${wIdx}`} className="footer__heading-word">
+              {chars.map((char, cIdx) => (
+                <motion.span
+                  key={`${lineKey}-c-${wIdx}-${cIdx}`}
+                  className="footer__heading-char"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{
+                    delay: baseDelay + (currentWordOffset + cIdx) * 0.028,
+                    duration: 0.55,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+              {wIdx < words.length - 1 && <span className="footer__heading-space">&nbsp;</span>}
+            </span>
+          );
+        })}
+      </span>
+    );
+  };
+
   return (
     <footer id="contact" ref={footerRef} className="footer">
       {/* ── Animated Background Canvas ── */}
@@ -271,33 +307,8 @@ const Footer = () => {
         {/* LEFT: Hero Heading */}
         <div className="footer__left">
           <h2 ref={headingRef} className="footer__hero-heading">
-            <span className="footer__heading-line">
-              {headingLine1.split('').map((char, i) => (
-                <motion.span
-                  key={`l1-${i}`}
-                  className="footer__heading-char"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.1 + i * 0.028, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {char === ' ' ? '\u00A0' : char}
-                </motion.span>
-              ))}
-            </span>
-            <br />
-            <span className="footer__heading-line">
-              {headingLine2.split('').map((char, i) => (
-                <motion.span
-                  key={`l2-${i}`}
-                  className="footer__heading-char"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.25 + i * 0.028, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {char === ' ' ? '\u00A0' : char}
-                </motion.span>
-              ))}
-            </span>
+            {renderHeadingLine(headingLine1, 'l1', 0.1)}
+            {renderHeadingLine(headingLine2, 'l2', 0.25 + headingLine1.length * 0.028)}
           </h2>
         </div>
 
