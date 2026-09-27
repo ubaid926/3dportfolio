@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import StickyCanvas from './components/StickyCanvas';
+import Hero from './components/Hero';
 import KeyFacts from './components/KeyFacts';
 import WorkCards from './components/WorkCards';
 import ClientStories from './components/ClientStories';
@@ -30,7 +30,7 @@ function ScrollToTop() {
 function HomePage() {
   return (
     <>
-      <StickyCanvas />
+      <Hero />
       <KeyFacts />
       <WorkCards />
       <ClientStories />

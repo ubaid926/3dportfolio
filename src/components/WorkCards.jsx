@@ -1,8 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import {
   motion,
   useScroll,
-  useTransform,
   useSpring,
   useMotionValueEvent,
   AnimatePresence,
@@ -31,9 +30,7 @@ const PROJECTS = [
     client: 'AeroDynamic Motors',
     image: img1,
     tagline: 'RAY-TRACED PBR PAINT & ANISOTROPIC BAKING',
-    heroText: 'Configure Hypercar',
     tags: ['WebGL', 'PBR Baking', 'Three.js', 'Anisotropy'],
-    theme: 'light',
     description:
       'Ultra-high fidelity automotive configurator featuring real-time clearcoat lacquer reflection, baked carbon fiber weave anisotropy, and instant rim swapping.',
   },
@@ -47,9 +44,7 @@ const PROJECTS = [
     client: 'Apex Robotics',
     image: img2,
     tagline: 'HIGH-TO-LOW CAGE BAKING & SKELETAL RIGS',
-    heroText: 'Robotic Motion',
     tags: ['Skeletal Animation', 'Normal Cages', 'Kinematics'],
-    theme: 'dark',
     description:
       'Interactive 3D mech configurator with high-poly to low-poly baked normal maps, procedural armor plating detachment, and dynamic hydraulic gait animations.',
   },
@@ -63,9 +58,7 @@ const PROJECTS = [
     client: 'Vanguard Architecture',
     image: img3,
     tagline: 'GLOBAL ILLUMINATION & RADIOSITY BAKING',
-    heroText: 'Radiant ArchViz',
     tags: ['Lightmap GI', 'Radiosity', '4K HDR', 'Spatial UI'],
-    theme: 'light',
     description:
       'Architectural visualizer that pre-computes complex bounce lighting, soft shadow penumbras, and ambient occlusion into lightweight 4K HDR lightmaps for 60+ FPS web walkthroughs.',
   },
@@ -79,9 +72,7 @@ const PROJECTS = [
     client: 'Chrono Horology Genève',
     image: img4,
     tagline: 'MICRO-DISPLACEMENT & EXPLODED GEAR MOTION',
-    heroText: 'Mechanical Precision',
     tags: ['Micro PBR', 'Exploded Animation', 'Jeweled Movement'],
-    theme: 'dark',
     description:
       'Luxury timepiece configurator with baked brushed titanium roughness maps, procedural sapphire crystal refraction, and exploded mechanical escapement gear animations.',
   },
@@ -95,9 +86,7 @@ const PROJECTS = [
     client: 'BioSculpt Media',
     image: img5,
     tagline: 'SUBSURFACE SCATTERING & BLENDSHAPE BAKING',
-    heroText: 'Organic Realism',
     tags: ['SSS Baking', 'Blendshapes', 'Facial Rig', 'Skin Shader'],
-    theme: 'light',
     description:
       'High-end digital avatar suite featuring baked subsurface scattering irradiance maps, micro-pore normal distribution, and 52 ARKit facial blendshape animations.',
   },
@@ -111,9 +100,7 @@ const PROJECTS = [
     client: 'Aegis Armament',
     image: img6,
     tagline: 'CURVATURE WEAR & MODULAR ATTACHMENT RIGS',
-    heroText: 'Tactical Armor',
     tags: ['Curvature Baking', 'Modular Attachments', 'Weathering'],
-    theme: 'dark',
     description:
       'Military-grade combat exoskeleton configurator allowing users to simulate realistic armor scratch degradation, heat discolouration, and swap modular plating in real time.',
   },
@@ -127,9 +114,7 @@ const PROJECTS = [
     client: 'Quantum Labs',
     image: img7,
     tagline: 'VOLUMETRIC DENSITY & VECTOR FIELD MOTION',
-    heroText: 'Vector Fields',
     tags: ['Volumetrics', 'Vector Fields', 'GPU Compute'],
-    theme: 'light',
     description:
       'Real-time simulation engine that bakes high-density fluid voxels and electromagnetic vector fields into compact 3D texture lookup tables with zero performance drop.',
   },
@@ -143,123 +128,30 @@ const PROJECTS = [
     client: 'NeuroAero Dynamics',
     image: img8,
     tagline: 'PHOTOGRAMMETRY BAKING & STREAMLINE MOTION',
-    heroText: 'Aerodynamic Flow',
     tags: ['Photogrammetry', 'Wind Tunnel', 'Telemetry Twin'],
-    theme: 'dark',
     description:
       'Industrial drone configurator with photogrammetric surface baking, live rotor kinematic animations, and interactive aerodynamic airflow streamlines.',
   },
 ];
 
-/* =========================================================
-   INDIVIDUAL CARD
-   ========================================================= */
-
-const CardItem = ({
-  project,
-  index,
-  isActive,
-  onSelectCard,
-  setSelectedProject,
-}) => {
-  return (
-    <div
-      key={`card-${index}`}
-      className={`wc__card ${isActive ? 'wc__card--active' : ''}`}
-      onClick={() => setSelectedProject(project)}
-      onMouseEnter={() => onSelectCard(index)}
-    >
-      {/* =====================================================
-          CARD MEDIA
-      ===================================================== */}
-      <div className="wc__card-media">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="wc__card-img"
-          loading="eager"
-        />
-
-        {/* Overlay */}
-        <div className="wc__media-overlay">
-          <div className="wc__media-badge">
-            <svg
-              width="18"
-              height="14"
-              viewBox="0 0 18 14"
-              fill="currentColor"
-              className="wc__badge-quote-icon"
-            >
-              <path d="M0 8.4C0 3.7 2.8 0.6 7.4 0L8 1.8C4.8 2.3 3.6 4.3 3.4 6.2C4 6 4.8 6 5.6 6.4C7 7.1 8 8.6 8 10.4C8 12.4 6.4 14 4.2 14C1.8 14 0 11.8 0 8.4ZM10 8.4C10 3.7 12.8 0.6 17.4 0L18 1.8C14.8 2.3 13.6 4.3 13.4 6.2C14 6 14.8 6 15.6 6.4C17 7.1 18 8.6 18 10.4C18 12.4 16.4 14 14.2 14C11.8 14 10 11.8 10 8.4Z" />
-            </svg>
-            <span className="wc__badge-text">{project.tagline}</span>
-          </div>
-          <div className="wc__media-hero-text">{project.heroText}</div>
-        </div>
-
-        {/* Hover Action */}
-        <div className="wc__card-hover-action">
-          <span>EXPLORE CASE STUDY</span>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
-          </svg>
-        </div>
-      </div>
-
-      {/* =====================================================
-          CARD FOOTER
-      ===================================================== */}
-      <div className="wc__card-info">
-        <div className="wc__card-content-left">
-          <h3 className="wc__card-title">{project.title}</h3>
-          <p className="wc__card-subtitle">{project.subtitle}</p>
-        </div>
-
-        <div className="wc__explore-link">
-          <span>EXPLORE PROJECT</span>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="5" y1="12" x2="19" y2="12" />
-            <polyline points="12 5 19 12 12 19" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-/* =========================================================
-   MAIN WORK CARDS & SEAMLESS SERVICES REVEAL
-   ========================================================= */
+/* ─────────────────────────────────────────────────────────
+   MAIN 3D WORK CARDS SHOWCASE
+   ───────────────────────────────────────────────────────── */
 
 const WorkCards = () => {
   const targetRef = useRef(null);
-  const trackRef = useRef(null);
-  const overflowRef = useRef(null);
+  const stageRef = useRef(null);
 
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
-  const [maxTranslateX, setMaxTranslateX] = useState(0);
-  const [maxTranslateY, setMaxTranslateY] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [floatIndex, setFloatIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [servicesProgress, setServicesProgress] = useState(0);
+  const [curtainTransform, setCurtainTransform] = useState('0vw');
+
+  // Mouse Parallax Ref
+  const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
+  const rafRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -267,103 +159,143 @@ const WorkCards = () => {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 85,
-    damping: 26,
-    restDelta: 0.001,
+    stiffness: 90,
+    damping: 28,
+    restDelta: 0.0005,
   });
 
-  useEffect(() => {
-    const calculateTranslate = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      if (!trackRef.current || !overflowRef.current) return;
-
-      // Desktop horizontal translation distance
-      const trackWidth = trackRef.current.scrollWidth;
-      const viewportWidth = overflowRef.current.clientWidth;
-      const maxScrollX = trackWidth - viewportWidth + 80;
-      setMaxTranslateX(Math.max(0, maxScrollX));
-
-      // Mobile vertical translation distance for stacked cards
-      const trackHeight = trackRef.current.scrollHeight;
-      const viewportHeight = overflowRef.current.clientHeight;
-      const maxScrollY = trackHeight - viewportHeight;
-      setMaxTranslateY(Math.max(0, maxScrollY));
-    };
-
-    calculateTranslate();
-    const timer = setTimeout(calculateTranslate, 250);
-    window.addEventListener('resize', calculateTranslate);
-
-    let ro;
-    if (typeof ResizeObserver !== 'undefined' && trackRef.current) {
-      ro = new ResizeObserver(calculateTranslate);
-      ro.observe(trackRef.current);
-      if (overflowRef.current) ro.observe(overflowRef.current);
-    }
-
-    const handleScroll = () => {
-      if (!targetRef.current) return;
-      const rect = targetRef.current.getBoundingClientRect();
-      const totalScroll = targetRef.current.offsetHeight - window.innerHeight;
-      if (totalScroll <= 0) return;
-      const current = -rect.top;
-      const progress = Math.max(0, Math.min(1, current / totalScroll));
-
-      // Phase 1 (0 -> 0.58): calculate active card index
-      const cardsProgress = Math.min(progress / 0.58, 1);
-      const idx = Math.min(
-        Math.floor(cardsProgress * PROJECTS.length),
-        PROJECTS.length - 1
-      );
-      setActiveIndex(Math.max(0, idx));
-
-      // Phase 2 & 3 (0.58 -> 1.0): Services animation seamless transition
-      const sProgress = Math.max(0, Math.min(1, (progress - 0.58) / 0.42));
-      setServicesProgress(sProgress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      clearTimeout(timer);
-      if (ro) ro.disconnect();
-      window.removeEventListener('resize', calculateTranslate);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
+  // Calculate card progress and curtain reveal
   useMotionValueEvent(smoothProgress, 'change', (latest) => {
     const clamped = Math.max(0, Math.min(1, latest));
 
-    // Phase 1 (0 -> 0.58): Active card
-    const cardsProgress = Math.min(clamped / 0.58, 1);
-    const idx = Math.min(
-      Math.floor(cardsProgress * PROJECTS.length),
-      PROJECTS.length - 1
-    );
-    setActiveIndex(idx);
+    // Phase 1 (0.0 -> 0.80): Carousel scroll through all projects
+    const carouselLimit = 0.80;
+    const cardsRatio = Math.min(clamped / carouselLimit, 1);
+    const continuousIdx = cardsRatio * (PROJECTS.length - 1);
+    setFloatIndex(continuousIdx);
 
-    // Phase 2 & 3 (0.58 -> 1.0): Services background & 3D stone animation
-    const sProgress = Math.max(0, Math.min(1, (clamped - 0.58) / 0.42));
-    setServicesProgress(sProgress);
+    const intIdx = Math.min(Math.round(continuousIdx), PROJECTS.length - 1);
+    setActiveIndex(intIdx);
+
+    // Phase 2 (0.80 -> 1.0): Slide curtain out cleanly to reveal Services section
+    if (clamped >= carouselLimit) {
+      const sProgress = (clamped - carouselLimit) / (1 - carouselLimit);
+      setServicesProgress(sProgress);
+      // Curtain slides to the left
+      const isMobile = window.innerWidth <= 768;
+      const slidePercent = sProgress * 100;
+      setCurtainTransform(isMobile ? `0 -${slidePercent}vh` : `-${slidePercent}vw 0`);
+    } else {
+      setServicesProgress(0);
+      setCurtainTransform('0vw');
+    }
   });
 
-  // Phase 1 (0 -> 0.58): Cards scroll (Desktop: horizontal, Mobile: vertical stacked)
-  const cardsX = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslateX]);
-  const cardsY = useTransform(smoothProgress, [0, 0.58], [0, -maxTranslateY]);
+  // Smooth 60FPS Mouse Parallax Loop
+  useEffect(() => {
+    const loop = () => {
+      const m = mouseRef.current;
+      m.x += (m.targetX - m.x) * 0.08;
+      m.y += (m.targetY - m.y) * 0.08;
 
-  // Phase 2 (0.58 -> 0.70): Curtain slides out cleanly without dead empty scroll space
-  const curtainX = useTransform(smoothProgress, [0.58, 0.70], ['0vw', '-100vw']);
-  const curtainY = useTransform(smoothProgress, [0.58, 0.70], ['0vh', '-100vh']);
+      const stage = stageRef.current;
+      if (stage) {
+        stage.style.setProperty('--mouse-rot-x', `${-m.y * 4.5}deg`);
+        stage.style.setProperty('--mouse-rot-y', `${m.x * 5.5}deg`);
+        stage.style.setProperty('--mouse-move-x', `${m.x * 9}px`);
+        stage.style.setProperty('--mouse-move-y', `${m.y * 7}px`);
+        stage.style.setProperty('--outer-para-x', `${m.x * 20}px`);
+        stage.style.setProperty('--outer-para-y', `${m.y * 14}px`);
+      }
+
+      rafRef.current = requestAnimationFrame(loop);
+    };
+
+    rafRef.current = requestAnimationFrame(loop);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const handleMouseMove = useCallback((e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    mouseRef.current.targetX = (clientX / innerWidth - 0.5) * 2;
+    mouseRef.current.targetY = (clientY / innerHeight - 0.5) * 2;
+  }, []);
+
+  // Programmatic scroll to a specific project index
+  const scrollToProject = useCallback((index) => {
+    if (!targetRef.current) return;
+    const rect = targetRef.current.getBoundingClientRect();
+    const scrollTop = window.scrollY + rect.top;
+    const totalScroll = targetRef.current.offsetHeight - window.innerHeight;
+    const carouselLimit = 0.80;
+    const targetProgress = (index / (PROJECTS.length - 1)) * carouselLimit;
+    const scrollTarget = scrollTop + targetProgress * totalScroll;
+    window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+  }, []);
+
+  const prevProject = () => {
+    if (activeIndex > 0) scrollToProject(activeIndex - 1);
+  };
+
+  const nextProject = () => {
+    if (activeIndex < PROJECTS.length - 1) scrollToProject(activeIndex + 1);
+  };
 
   const activeProject = PROJECTS[activeIndex] || PROJECTS[0];
 
+  // Helper to compute continuous 3D transform for any card at delta = i - floatIndex
+  const getCardTransform = (index) => {
+    const delta = index - floatIndex;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+    const isTablet = typeof window !== 'undefined' && window.innerWidth > 768 && window.innerWidth <= 1024;
+
+    // Spacing constants based on viewport
+    const stepX = isMobile ? 220 : isTablet ? 340 : 420;
+    const curveX = isMobile ? 25 : isTablet ? 35 : 45;
+
+    // Calculate X translation
+    let x = 0;
+    if (delta > 0) {
+      x = delta * stepX + Math.pow(Math.min(delta, 3), 1.15) * curveX;
+    } else if (delta < 0) {
+      const absD = Math.abs(delta);
+      x = -(absD * stepX + Math.pow(Math.min(absD, 3), 1.15) * curveX);
+    }
+
+    // Scale: 1 at delta=0, drops to ~0.76 at ±1, ~0.62 at ±2
+    const absDelta = Math.abs(delta);
+    const scale = Math.max(0.48, 1 - absDelta * (isMobile ? 0.26 : 0.22));
+
+    // RotateY: 0 at delta=0, -22deg at delta=+1, +22deg at delta=-1
+    const rotateY = -Math.max(-30, Math.min(30, delta * (isMobile ? 18 : 22)));
+
+    // TranslateZ: 0 at center, drops to background as distance increases
+    const translateZ = -absDelta * (isMobile ? 65 : 90);
+
+    // Opacity: 1 at 0, ~0.55 at ±1, ~0.26 at ±2, 0 at |delta| >= 2.6
+    let opacity = 1 - absDelta * 0.44;
+    if (absDelta > 2.2) opacity = Math.max(0, 1 - absDelta * 0.55);
+    opacity = Math.max(0, Math.min(1, opacity));
+
+    // Z-Index: Active card has highest z-index
+    const zIndex = Math.round(20 - Math.min(absDelta * 4, 18));
+
+    return {
+      transform: `translate3d(${x}px, 0px, ${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+      opacity,
+      zIndex,
+      pointerEvents: opacity < 0.2 ? 'none' : 'auto',
+    };
+  };
+
   return (
     <div id="work" ref={targetRef} className="wc__outer-wrapper">
-      <div className="wc__sticky-scene">
+      <div className="wc__sticky-scene" onMouseMove={handleMouseMove}>
 
-        {/* ── UNDERNEATH LAYER: Full Animated Services Section (Desktop & Mobile) ── */}
+        {/* ── UNDERNEATH LAYER: Full Animated Services Section ── */}
         <div className="wc__services-underlay">
           <ServicesView
             progress={servicesProgress}
@@ -372,86 +304,148 @@ const WorkCards = () => {
         </div>
 
         {/* ── FOREGROUND LAYER: WORK CARDS CURTAIN (SLIDES OUT TO REVEAL SERVICES) ── */}
-        <motion.div
+        <div
           className="wc__slide-curtain"
-          style={isMobile ? { y: curtainY } : { x: curtainX }}
+          style={{
+            transform: curtainTransform.includes('vh')
+              ? `translateY(${curtainTransform.split(' ')[1]})`
+              : `translateX(${curtainTransform})`,
+          }}
         >
-          {/* Full-bleed ambient background image that crossfades with active project */}
+          {/* Subtle Blurred Background Image (Active Project) */}
           <div className="wc__backdrop-wrap">
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={activeProject.id}
                 className="wc__backdrop-image-layer"
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, scale: 1.18 }}
+                animate={{ opacity: 1, scale: 1.12 }}
+                exit={{ opacity: 0, scale: 1.05 }}
+                transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
               >
                 <img
                   src={activeProject.image}
-                  alt={activeProject.title}
+                  alt=""
+                  aria-hidden="true"
                   className="wc__backdrop-img"
                 />
               </motion.div>
             </AnimatePresence>
             <div className="wc__backdrop-overlay" />
+            <div className="wc__backdrop-vignette" />
           </div>
 
-          {/* Top Grid Border Line with Center Crosshair */}
-          <div className="wc__top-border-line">
+          {/* Top Hairline Divider & Accent Crosshair */}
+          <div className="wc__top-hairline">
             <span className="wc__crosshair">+</span>
           </div>
 
-          {/* Split Screen Container */}
+          {/* Main Two-Part Split Layout */}
           <div className="wc__split-layout">
-            {/* LEFT SIDE: Heading & Dynamic Active Card Information */}
+
+            {/* =====================================================
+                LEFT PANEL: Section Heading & Dynamic Project Information
+            ===================================================== */}
             <div className="wc__left-panel">
-              <div className="wc__title-block">
-                {/* Static Section Title - Always Visible in Position */}
-                <div className="wc__static-header">
-                  <h2 className="wc__main-title">
-                    3D Configurators
-                    <br />
-                    &amp; Baked Renders
-                  </h2>
+              {/* Eyebrow with Section Label & Project Nav Counter */}
+              <div className="wc__eyebrow-row">
+                <div className="wc__section-badge">
+                  <span className="wc__badge-dot" />
+                  <span className="wc__badge-title">SELECTED WORK</span>
                 </div>
-
-                {/* Dynamic Active Card Heading & Category that updates with displayed card */}
-                <div className="wc__active-card-info">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeProject.id}
-                      className="wc__active-info-inner"
-                      initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                      exit={{ opacity: 0, y: -12, filter: 'blur(4px)' }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                <div className="wc__hairline-sep" />
+                <div className="wc__counter-box">
+                  <span className="wc__counter-curr">
+                    {String(activeIndex + 1).padStart(2, '0')}
+                  </span>
+                  <span className="wc__counter-slash">/</span>
+                  <span className="wc__counter-max">
+                    {String(PROJECTS.length).padStart(2, '0')}
+                  </span>
+                  {/* Arrow Buttons for Direct Carousel Nav */}
+                  <div className="wc__nav-arrows">
+                    <button
+                      className="wc__nav-btn"
+                      onClick={prevProject}
+                      disabled={activeIndex === 0}
+                      aria-label="Previous project"
                     >
-                      <div className="wc__active-badge">
-                        <span className="wc__active-index">
-                          {String(activeIndex + 1).padStart(2, '0')} / {String(PROJECTS.length).padStart(2, '0')}
-                        </span>
-                        <span className="wc__active-sep">—</span>
-                        <span className="wc__active-cat">{activeProject.category}</span>
-                      </div>
-
-                      <h3 className="wc__active-title">
-                        {activeProject.title}
-                      </h3>
-
-                      <p className="wc__active-subtitle">
-                        {activeProject.subtitle}
-                      </p>
-                    </motion.div>
-                  </AnimatePresence>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                      </svg>
+                    </button>
+                    <button
+                      className="wc__nav-btn"
+                      onClick={nextProject}
+                      disabled={activeIndex === PROJECTS.length - 1}
+                      aria-label="Next project"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
+              </div>
 
-                {/* Action Link */}
-                <a href="#all-work" className="wc__all-link">
+              {/* Main Section Heading */}
+              <div className="wc__heading-block">
+                <h2 className="wc__main-title">
+                  3D Configurators<br />
+                  <span className="wc__title-accent">&amp; Baked Renders</span>
+                </h2>
+              </div>
+
+              {/* Dynamic Project Details (Number, Category, Title, Subtitle) */}
+              <div className="wc__dynamic-info-block">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeProject.id}
+                    className="wc__info-content"
+                    initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -14, filter: 'blur(6px)' }}
+                    transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <div className="wc__project-meta-tag">
+                      <span className="wc__meta-idx">
+                        {String(activeIndex + 1).padStart(2, '0')} / {String(PROJECTS.length).padStart(2, '0')}
+                      </span>
+                      <span className="wc__meta-dash">—</span>
+                      <span className="wc__meta-category">{activeProject.category}</span>
+                    </div>
+
+                    <h3 className="wc__project-heading">
+                      {activeProject.title}
+                    </h3>
+
+                    <p className="wc__project-desc">
+                      {activeProject.subtitle}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Action Link: View All 3D Projects */}
+              <div className="wc__left-action-row">
+                <a
+                  href="#services"
+                  className="wc__explore-all-btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Scroll to the services reveal portion of this section
+                    if (targetRef.current) {
+                      const rect = targetRef.current.getBoundingClientRect();
+                      const scrollTop = window.scrollY + rect.top;
+                      const totalScroll = targetRef.current.offsetHeight - window.innerHeight;
+                      window.scrollTo({ top: scrollTop + totalScroll * 0.88, behavior: 'smooth' });
+                    }
+                  }}
+                >
                   <span>VIEW ALL 3D PROJECTS</span>
                   <svg
-                    width="16"
-                    height="16"
+                    width="15"
+                    height="15"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -464,78 +458,137 @@ const WorkCards = () => {
                   </svg>
                 </a>
               </div>
-            </div>
 
-            {/* RIGHT SIDE: Scrolling Cards Track (Horizontal on desktop, vertical on mobile) */}
-            <div className="wc__right-panel" ref={overflowRef}>
-              <motion.div
-                ref={trackRef}
-                className="wc__track"
-                style={isMobile ? { y: cardsY } : { x: cardsX }}
-              >
-                {PROJECTS.map((project, index) => (
-                  <CardItem
-                    key={project.id}
-                    project={project}
-                    index={index}
-                    isActive={index === activeIndex}
-                    onSelectCard={setActiveIndex}
-                    setSelectedProject={setSelectedProject}
-                  />
-                ))}
-
-                {/* Finale End Card: Discover Our Complete Collection */}
-                <div className="wc__finale-card">
-                  {/* Media Frame — matches .wc__card-media */}
-                  <div className="wc__finale-card-media">
-                    <div className="wc__finale-card-inner">
-                      {/* Top badge — mirrors .wc__media-badge */}
-                      <div className="wc__finale-badge">
-                        <span className="wc__finale-badge-dot" />
-                        <span>FULL ARCHIVE</span>
-                      </div>
-                      {/* Hero text — mirrors .wc__media-hero-text */}
-                      <p className="wc__finale-hero-text">
-                        Explore our full archive
-                        <br />
-                        of baked 3D&nbsp;models,
-                        <br />
-                        GLTF&nbsp;&amp;&nbsp;shaders.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Footer — mirrors .wc__card-info */}
-                  <div className="wc__finale-footer">
-                    <div className="wc__finale-footer-left">
-                      <h3 className="wc__finale-footer-title">Full 3D Showcase Archive</h3>
-                      <p className="wc__finale-footer-sub">Configurators, lightmaps & animations.</p>
-                    </div>
-                    <a href="#all-work" className="wc__finale-link">
-                      <span>VIEW ALL</span>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </a>
-                  </div>
+              {/* Scroll To Explore Pill */}
+              <div className="wc__scroll-pill-wrap" aria-hidden="true">
+                <div className="wc__scroll-pill">
+                  <span className="wc__scroll-dot" />
                 </div>
-              </motion.div>
+                <span className="wc__scroll-label">Scroll to explore</span>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      </div>
 
-      {/* PROJECT MODAL */}
+            {/* =====================================================
+                RIGHT PANEL: 3D Floating Project Boards Carousel
+            ===================================================== */}
+            <div className="wc__right-panel">
+              <div ref={stageRef} className="wc__3d-stage">
+                <div className="wc__3d-carousel-track">
+                  {PROJECTS.map((project, idx) => {
+                    const style = getCardTransform(idx);
+                    const isActive = idx === activeIndex;
+
+                    return (
+                      <div
+                        key={project.id}
+                        className={`wc__3d-card ${isActive ? 'wc__3d-card--active' : ''}`}
+                        style={style}
+                        onClick={() => {
+                          if (isActive) {
+                            setSelectedProject(project);
+                          } else {
+                            scrollToProject(idx);
+                          }
+                        }}
+                      >
+                        {/* Specular Edge Highlight */}
+                        <div className="wc__card-specular" />
+
+                        {/* Card Top Header */}
+                        <div className="wc__card-top-bar">
+                          <span className="wc__card-cat-badge">{project.category}</span>
+                          <span className="wc__card-num-badge">
+                            {String(idx + 1).padStart(2, '0')}
+                          </span>
+                        </div>
+
+                        {/* Image Showcase (Clean visual focus, NO repeating title overlay) */}
+                        <div className="wc__card-visual-frame">
+                          <img
+                            src={project.image}
+                            alt={project.title}
+                            className="wc__card-image"
+                            loading={idx <= 2 ? 'eager' : 'lazy'}
+                          />
+                          <div className="wc__card-image-gradient" />
+                        </div>
+
+                        {/* Card Bottom Meta & Direct Action */}
+                        <div className="wc__card-bottom-bar">
+                          <div className="wc__card-client-wrap">
+                            <span className="wc__card-client-title">{project.title}</span>
+                            <span className="wc__card-client-sub">{project.client} // {project.year}</span>
+                          </div>
+
+                          <button
+                            className="wc__card-arrow-btn"
+                            aria-label={`Open ${project.title}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedProject(project);
+                            }}
+                          >
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                              <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Active Card Bottom Under-Title & Explore Project Link */}
+                <div className="wc__active-card-caption">
+                  <div className="wc__caption-text-block">
+                    <span className="wc__caption-cat">{activeProject.category}</span>
+                    <h4 className="wc__caption-title">{activeProject.title}</h4>
+                    <p className="wc__caption-desc">{activeProject.subtitle}</p>
+                  </div>
+
+                  <button
+                    className="wc__explore-project-action"
+                    onClick={() => setSelectedProject(activeProject)}
+                  >
+                    <span>EXPLORE PROJECT</span>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Minimal Progress Dots Indicator */}
+              <div className="wc__progress-dots-bar">
+                {PROJECTS.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`wc__dot-indicator ${i === activeIndex ? 'wc__dot-indicator--active' : ''}`}
+                    onClick={() => scrollToProject(i)}
+                    aria-label={`Jump to project ${i + 1}`}
+                  >
+                    <span className="wc__dot-core" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </div>{/* .wc__split-layout */}
+        </div>{/* .wc__slide-curtain */}
+      </div>{/* .wc__sticky-scene */}
+
+      {/* PROJECT CASE STUDY MODAL */}
       <AnimatePresence>
         {selectedProject && (
           <div
@@ -544,9 +597,9 @@ const WorkCards = () => {
           >
             <motion.div
               className="wc__modal-content"
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              initial={{ opacity: 0, scale: 0.92, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              exit={{ opacity: 0, scale: 0.92, y: 30 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -590,11 +643,16 @@ const WorkCards = () => {
                   </div>
 
                   <a
-                    href="#"
+                    href="#contact"
                     className="wc__modal-btn"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedProject(null);
+                      const el = document.getElementById('contact') || document.querySelector('.footer');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
                   >
-                    <span>LAUNCH PROJECT CASE</span>
+                    <span>START SIMILAR PROJECT</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <line x1="5" y1="12" x2="19" y2="12" />
                       <polyline points="12 5 19 12 12 19" />

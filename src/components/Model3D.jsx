@@ -1,265 +1,426 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import helvetikerBold from 'three/examples/fonts/helvetiker_bold.typeface.json';
 import './Model3D.css';
 
-import img1 from '../assets/(1).jpeg';
-import img2 from '../assets/(2).jpeg';
 import img3 from '../assets/(3).jpeg';
-import img4 from '../assets/(4).jpeg';
-import img5 from '../assets/(5).jpeg';
 import img6 from '../assets/(6).jpeg';
-import img7 from '../assets/(7).jpeg';
-import img8 from '../assets/(8).jpeg';
 
-// ─── Rounded rect shape ───────────────────────────────────────────────────────
-function roundedRectShape(w, h, r) {
-  const s = new THREE.Shape();
-  const hw = w / 2, hh = h / 2;
-  s.moveTo(-hw + r, -hh);
-  s.lineTo(hw - r, -hh);
-  s.quadraticCurveTo(hw, -hh, hw, -hh + r);
-  s.lineTo(hw, hh - r);
-  s.quadraticCurveTo(hw, hh, hw - r, hh);
-  s.lineTo(-hw + r, hh);
-  s.quadraticCurveTo(-hw, hh, -hw, hh - r);
-  s.lineTo(-hw, -hh + r);
-  s.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
-  return s;
+/* ── Texture Generator: Primary Editorial Graphic Poster ── */
+function createPoster1Texture(imageSrc) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 1440;
+  const ctx = canvas.getContext('2d');
+
+  function render(loadedImg) {
+    // 1. Deep navy architectural gradient background
+    const grad = ctx.createLinearGradient(0, 0, 1024, 1440);
+    grad.addColorStop(0, '#030d1c');
+    grad.addColorStop(0.5, '#061730');
+    grad.addColorStop(1, '#020914');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1024, 1440);
+
+    // 2. Blueprint / fine microgrid
+    ctx.strokeStyle = 'rgba(37, 139, 255, 0.08)';
+    ctx.lineWidth = 1;
+    for (let x = 40; x < 1024; x += 48) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 1440);
+      ctx.stroke();
+    }
+    for (let y = 40; y < 1440; y += 48) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(1024, y);
+      ctx.stroke();
+    }
+
+    // 3. Top Header
+    ctx.fillStyle = '#F4F7FA';
+    ctx.font = '700 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('NEXORA STUDIO', 50, 80);
+
+    ctx.fillStyle = '#8290A3';
+    ctx.font = '500 20px monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('ARCHIVE // 2026', 974, 80);
+    ctx.textAlign = 'left';
+
+    // Hairline divider
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.beginPath();
+    ctx.moveTo(50, 105);
+    ctx.lineTo(974, 105);
+    ctx.stroke();
+
+    // 4. Featured Art Frame
+    const fx = 50, fy = 135, fw = 924, fh = 680;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(fx, fy, fw, fh);
+    ctx.clip();
+
+    if (loadedImg && loadedImg.complete && loadedImg.naturalWidth > 0) {
+      const imgAspect = loadedImg.naturalWidth / loadedImg.naturalHeight;
+      const frameAspect = fw / fh;
+      let sx = 0, sy = 0, sw = loadedImg.naturalWidth, sh = loadedImg.naturalHeight;
+      if (imgAspect > frameAspect) {
+        sw = sh * frameAspect;
+        sx = (loadedImg.naturalWidth - sw) / 2;
+      } else {
+        sh = sw / frameAspect;
+        sy = (loadedImg.naturalHeight - sh) / 2;
+      }
+      ctx.drawImage(loadedImg, sx, sy, sw, sh, fx, fy, fw, fh);
+
+      // Dark blue cinematic duotone wash
+      ctx.fillStyle = 'rgba(3, 12, 28, 0.35)';
+      ctx.fillRect(fx, fy, fw, fh);
+      const vGrad = ctx.createLinearGradient(fx, fy, fx, fy + fh);
+      vGrad.addColorStop(0, 'rgba(4, 18, 37, 0.15)');
+      vGrad.addColorStop(1, 'rgba(4, 18, 37, 0.85)');
+      ctx.fillStyle = vGrad;
+      ctx.fillRect(fx, fy, fw, fh);
+    } else {
+      const artGrad = ctx.createLinearGradient(fx, fy, fx + fw, fy + fh);
+      artGrad.addColorStop(0, '#051b38');
+      artGrad.addColorStop(0.5, '#020b18');
+      artGrad.addColorStop(1, '#0b2e59');
+      ctx.fillStyle = artGrad;
+      ctx.fillRect(fx, fy, fw, fh);
+
+      ctx.beginPath();
+      ctx.arc(fx + fw * 0.5, fy + fh * 0.5, 200, 0, Math.PI * 2);
+      ctx.strokeStyle = '#258BFF';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(fx + fw * 0.5, fy + fh * 0.5, 140, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(125, 196, 255, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(37, 139, 255, 0.35)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(fx, fy, fw, fh);
+
+    // Frame tag
+    ctx.fillStyle = '#258BFF';
+    ctx.font = '600 16px monospace';
+    ctx.fillText('FIG. 01 — IDENTITY SPEC', fx + 16, fy + 32);
+
+    // 5. Lower Content
+    ctx.fillStyle = '#F4F7FA';
+    ctx.font = '800 68px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('IDEAS, MADE VISUAL.', 50, 910);
+
+    ctx.fillStyle = '#258BFF';
+    ctx.font = '600 24px monospace';
+    ctx.fillText('SYSTEM ARCHITECTURE // BRAND IDENTITY', 50, 960);
+
+    // Metadata columns
+    ctx.fillStyle = '#8290A3';
+    ctx.font = '400 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('DISCIPLINE: ART DIRECTION · DIGITAL EXPERIENCES', 50, 1050);
+    ctx.fillText('CURATION: SELECTED WORKS 2024–2026', 50, 1085);
+    ctx.fillText('STUDIO: NEXORA RESEARCH & CREATIVE LABS', 50, 1120);
+
+    // Big decorative number
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+    ctx.font = '900 220px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('01', 974, 1150);
+    ctx.textAlign = 'left';
+
+    // Swiss Grid Footer
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.beginPath();
+    ctx.moveTo(50, 1200);
+    ctx.lineTo(974, 1200);
+    ctx.stroke();
+
+    // Barcode
+    let bx = 50;
+    const barWidths = [3, 1, 4, 2, 5, 1, 3, 2, 4, 1, 2, 3, 5, 2, 1, 4, 3, 2, 5];
+    ctx.fillStyle = 'rgba(244, 247, 250, 0.5)';
+    for (const bw of barWidths) {
+      ctx.fillRect(bx, 1230, bw, 36);
+      bx += bw + 3;
+    }
+
+    ctx.fillStyle = '#8290A3';
+    ctx.font = '500 16px monospace';
+    ctx.fillText('NXR-STUDIO-SYS-2026', 180, 1255);
+
+    ctx.textAlign = 'right';
+    ctx.fillText('48°51\'24"N 2°21\'07"E · ALL RIGHTS RESERVED', 974, 1255);
+    ctx.textAlign = 'left';
+  }
+
+  render(null);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+
+  if (imageSrc) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      render(img);
+      texture.needsUpdate = true;
+    };
+    img.src = imageSrc;
+  }
+
+  return texture;
 }
 
-// ─── USER PORTFOLIO IMAGES (from src/assets) ──────────────────────────────────
-const SCENERY_URLS = [
-  img1,
-  img2,
-  img3,
-  img4,
-  img5,
-  img6,
-  img7,
-  img8,
-];
+/* ── Texture Generator: Secondary Monograph Poster ── */
+function createPoster2Texture(imageSrc) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 1440;
+  const ctx = canvas.getContext('2d');
 
-// ─── VERTEX SHADER ────────────────────────────────────────────────────────────
-const vertexShader = /* glsl */`
-  varying vec3 vNormal;
-  varying vec3 vWorldPos;
-  varying vec3 vViewDir;
-  varying vec2 vUv;
+  function render(loadedImg) {
+    ctx.fillStyle = '#020610';
+    ctx.fillRect(0, 0, 1024, 1440);
 
-  void main() {
-    vUv = uv;
-    vec4 worldPos = modelMatrix * vec4(position, 1.0);
-    vWorldPos     = worldPos.xyz;
-    vNormal       = normalize(mat3(transpose(inverse(modelMatrix))) * normal);
-    vViewDir      = normalize(cameraPosition - worldPos.xyz);
-    gl_Position   = projectionMatrix * viewMatrix * worldPos;
-  }
-`;
+    const rGrad = ctx.createRadialGradient(800, 300, 50, 800, 300, 600);
+    rGrad.addColorStop(0, 'rgba(37, 139, 255, 0.16)');
+    rGrad.addColorStop(1, 'rgba(2, 6, 16, 0)');
+    ctx.fillStyle = rGrad;
+    ctx.fillRect(0, 0, 1024, 1440);
 
-// ─── FRAGMENT SHADER ──────────────────────────────────────────────────────────
-// Dark sleek graphite base + texture blend + corner spotlights (Yellow & White)
-const fragmentShader = /* glsl */`
-  uniform float uTime;
-  uniform sampler2D uMap;
-  uniform sampler2D uNextMap;
-  uniform float uBlend;
-  uniform bool uHasMap;
+    ctx.fillStyle = '#7DC4FF';
+    ctx.font = '700 24px monospace';
+    ctx.fillText('DIGITAL SYSTEMS // ARCHIVE', 60, 90);
 
-  uniform vec3  uLight1Pos;
-  uniform vec3  uLight2Pos;
-  uniform vec3  uLight1Dir;
-  uniform vec3  uLight2Dir;
-  uniform float uLight1Int;
-  uniform float uLight2Int;
-  uniform vec3  uLight1Color;
-  uniform vec3  uLight2Color;
+    ctx.fillStyle = '#8290A3';
+    ctx.font = '500 18px monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText('[VOL. 02]', 964, 90);
+    ctx.textAlign = 'left';
 
-  varying vec3 vNormal;
-  varying vec3 vWorldPos;
-  varying vec3 vViewDir;
-  varying vec2 vUv;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(60, 120);
+    ctx.lineTo(964, 120);
+    ctx.stroke();
 
-  vec3 calcSpotlight(vec3 N, vec3 V, vec3 lPos, vec3 lDir, float coneAngle, float lInt, vec3 lColor) {
-    vec3  L    = lPos - vWorldPos;
-    float dist = length(L);
-    L          = normalize(L);
-
-    float att  = exp(-dist * 0.22);
-    float spotEffect = dot(normalize(-lDir), L);
-    float spotFactor = smoothstep(cos(coneAngle), cos(coneAngle * 0.3), spotEffect);
-
-    float diff = pow(max(dot(N, L), 0.0), 5.5);
-
-    vec3  H    = normalize(L + V);
-    float spec = pow(max(dot(N, H), 0.0), 120.0);
-
-    float fresnel = pow(1.0 - max(dot(N, V), 0.0), 3.0);
-    float edgeGlow = fresnel * pow(max(dot(N, L), 0.0), 2.2) * 4.5;
-
-    return lColor * (diff * 0.25 + spec * 1.8 + edgeGlow * 2.0) * att * spotFactor * lInt;
-  }
-
-  void main() {
-    vec3 N = normalize(vNormal);
-    vec3 V = normalize(vViewDir);
-
-    vec3 base = vec3(0.015, 0.018, 0.022);
-    if (uHasMap) {
-      vec4 texColor1 = texture2D(uMap, vUv);
-      vec4 texColor2 = texture2D(uNextMap, vUv);
-      vec4 finalTex  = mix(texColor1, texColor2, uBlend);
-      base = mix(base, finalTex.rgb, 0.92);
+    const gx = 60, gy = 160, gw = 904, gh = 650;
+    if (loadedImg && loadedImg.complete && loadedImg.naturalWidth > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(gx, gy, gw, gh);
+      ctx.clip();
+      ctx.drawImage(loadedImg, 0, 0, loadedImg.naturalWidth, loadedImg.naturalHeight, gx, gy, gw, gh);
+      ctx.fillStyle = 'rgba(2, 6, 16, 0.45)';
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.restore();
+    } else {
+      ctx.fillStyle = '#051326';
+      ctx.fillRect(gx, gy, gw, gh);
+      ctx.strokeStyle = 'rgba(125, 196, 255, 0.25)';
+      ctx.lineWidth = 2;
+      for (let r = 40; r < 240; r += 40) {
+        ctx.beginPath();
+        ctx.arc(gx + gw / 2, gy + gh / 2, r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
     }
+    ctx.strokeStyle = 'rgba(37, 139, 255, 0.3)';
+    ctx.strokeRect(gx, gy, gw, gh);
 
-    float baseFresnel = pow(1.0 - max(dot(N, V), 0.0), 4.2);
-    vec3 metallicRim  = vec3(0.08, 0.10, 0.14) * baseFresnel;
+    ctx.fillStyle = '#F4F7FA';
+    ctx.font = '800 76px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('ART DIRECTION', 60, 920);
 
-    vec3 light1 = calcSpotlight(N, V, uLight1Pos, uLight1Dir, 0.32, uLight1Int, uLight1Color);
-    vec3 light2 = calcSpotlight(N, V, uLight2Pos, uLight2Dir, 0.28, uLight2Int, uLight2Color);
+    ctx.fillStyle = '#8290A3';
+    ctx.font = '400 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('& SPATIAL INTERACTION', 60, 970);
 
-    vec3 color = base + metallicRim + light1 + light2;
+    ctx.fillStyle = '#258BFF';
+    ctx.font = '600 20px monospace';
+    ctx.fillText('CREATIVE DIRECTION · EXPERIMENTAL LABS', 60, 1050);
 
-    float ambient = max(dot(N, vec3(0.0, 1.0, 0.5)), 0.0) * 0.015;
-    color += vec3(0.04, 0.05, 0.07) * ambient;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(900, 950); ctx.lineTo(940, 950);
+    ctx.moveTo(920, 930); ctx.lineTo(920, 970);
+    ctx.stroke();
 
-    gl_FragColor = vec4(color, 1.0);
-  }
-`;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.beginPath();
+    ctx.moveTo(60, 1260); ctx.lineTo(964, 1260);
+    ctx.stroke();
 
-// ─── GLOW SPRITE: additive soft bloom behind panels ──────────────────────────
-const glowVert = /* glsl */`
-  varying vec2 vUv;
-  void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }
-`;
-const glowFrag = /* glsl */`
-  uniform float uIntensity;
-  uniform vec3  uColor;
-  varying vec2 vUv;
-  void main(){
-    float d    = length(vUv - 0.5);
-    float glow = exp(-d * 4.5) * uIntensity;
-    gl_FragColor = vec4(uColor * glow, glow * 0.85);
-  }
-`;
-
-// ─── 3D TEXT "NEXORA" SHADERS ────────────────────────────────────────────────
-const textVertexShader = /* glsl */`
-  varying vec3 vNormal;
-  varying vec3 vWorldPos;
-  varying vec3 vViewDir;
-
-  void main() {
-    vec4 worldPos = modelMatrix * vec4(position, 1.0);
-    vWorldPos     = worldPos.xyz;
-    vNormal       = normalize(mat3(transpose(inverse(modelMatrix))) * normal);
-    vViewDir      = normalize(cameraPosition - worldPos.xyz);
-    gl_Position   = projectionMatrix * viewMatrix * worldPos;
-  }
-`;
-
-const textFragmentShader = /* glsl */`
-  // Dynamic scene lights (optional bonus contribution when active)
-  uniform vec3  uLight1Pos;
-  uniform vec3  uLight2Pos;
-  uniform float uLight1Int;
-  uniform float uLight2Int;
-  uniform vec3  uLight1Color;
-  uniform vec3  uLight2Color;
-
-  varying vec3 vNormal;
-  varying vec3 vWorldPos;
-  varying vec3 vViewDir;
-
-  // GGX specular for metallic surfaces
-  float ggxSpec(vec3 N, vec3 H, float roughness) {
-    float a  = roughness * roughness;
-    float a2 = a * a;
-    float NdH = max(dot(N, H), 0.0);
-    float d = NdH * NdH * (a2 - 1.0) + 1.0;
-    return a2 / (3.14159 * d * d + 0.0001);
+    ctx.fillStyle = '#8290A3';
+    ctx.font = '500 16px monospace';
+    ctx.fillText('NEXORA // VERIFIED GRAPHIC ARCHIVE', 60, 1300);
+    ctx.textAlign = 'right';
+    ctx.fillText('EDITION 02 / 50', 964, 1300);
+    ctx.textAlign = 'left';
   }
 
-  // Schlick Fresnel
-  float schlick(float cosA, float F0) {
-    return F0 + (1.0 - F0) * pow(1.0 - cosA, 5.0);
+  render(null);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+
+  if (imageSrc) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      render(img);
+      texture.needsUpdate = true;
+    };
+    img.src = imageSrc;
   }
 
-  // Metallic area-light contribution
-  vec3 areaLight(vec3 N, vec3 V, vec3 L, vec3 lColor, float intensity, float roughness) {
-    float NdL = max(dot(N, L), 0.0);
-    if (NdL < 0.0001) return vec3(0.0);
-    vec3  H   = normalize(L + V);
-    float spec = ggxSpec(N, H, roughness);
-    float F    = schlick(max(dot(H, V), 0.0), 0.72);
-    return lColor * spec * F * intensity * NdL;
+  return texture;
+}
+
+/* ── Texture Generator: Drafting Paper Sheet ── */
+function createPaperTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 1440;
+  const ctx = canvas.getContext('2d');
+
+  // Off-white tactile paper tone
+  ctx.fillStyle = '#f1f5fa';
+  ctx.fillRect(0, 0, 1024, 1440);
+
+  // Subtle paper grain
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.025)';
+  for (let i = 0; i < 3500; i++) {
+    const rx = Math.random() * 1024;
+    const ry = Math.random() * 1440;
+    ctx.fillRect(rx, ry, 1.5, 1.5);
   }
 
-  void main() {
-    vec3 N = normalize(vNormal);
-    vec3 V = normalize(vViewDir);
+  // Left margin drafting ruler
+  ctx.strokeStyle = '#94a3b8';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(80, 60);
+  ctx.lineTo(80, 1380);
+  ctx.stroke();
 
-    // Base: dark charcoal #16181A, metalness 0.85
-    vec3  baseColor  = vec3(0.086, 0.094, 0.102);
-    float roughness  = 0.32;
-    float metalness  = 0.85;
-    vec3  metallicAlbedo = mix(vec3(0.04), baseColor, metalness);
-
-    // EMBEDDED ALWAYS-ON AREA LIGHTS
-    // These are static — always visible regardless of the dynamic light state machine.
-
-    // A: Soft top-front fill (neutral-warm)
-    vec3 lA = normalize(vec3(0.2, 0.9, 1.0));
-    vec3 sA = areaLight(N, V, lA, vec3(0.82, 0.85, 0.90) * metallicAlbedo, 2.2, roughness);
-
-    // B: Front-left key (neutral white — illuminates front face clearly)
-    vec3 lB = normalize(vec3(-0.55, 0.35, 0.8));
-    vec3 sB = areaLight(N, V, lB, vec3(0.78, 0.80, 0.82) * metallicAlbedo, 2.8, roughness);
-
-    // C: Cool cyan-blue rim from upper-right (futuristic edge language)
-    vec3 lC = normalize(vec3(0.8, 0.4, 0.5));
-    vec3 sC = areaLight(N, V, lC, vec3(0.20, 0.62, 0.90), 1.8, roughness * 0.55);
-
-    // D: Subtle warm back-fill (keeps text separated from dark grid behind)
-    vec3 lD = normalize(vec3(-0.3, -0.5, -0.8));
-    vec3 sD = areaLight(N, V, lD, vec3(0.55, 0.55, 0.58) * metallicAlbedo, 0.6, roughness * 1.4);
-
-    // Fresnel rim — silver edge on geometry
-    float NdV       = max(dot(N, V), 0.0);
-    float fresnel   = pow(1.0 - NdV, 3.5);
-    vec3 silverRim  = vec3(0.38, 0.40, 0.44) * fresnel * 0.55;
-    // Cool blue silhouette edge (futuristic) — very subtle
-    vec3 cyanRim    = vec3(0.08, 0.30, 0.55) * pow(fresnel, 1.6) * 0.65;
-
-    // Optional bonus from dynamic scene spotlights (very low weight — for 3D box lights)
-    vec3 dynBonus = vec3(0.0);
-    if (uLight1Int > 0.01) {
-      vec3 L1 = normalize(uLight1Pos - vWorldPos);
-      dynBonus += areaLight(N, V, L1, uLight1Color * metallicAlbedo, uLight1Int * 0.12, roughness);
-    }
-    if (uLight2Int > 0.01) {
-      vec3 L2 = normalize(uLight2Pos - vWorldPos);
-      dynBonus += areaLight(N, V, L2, uLight2Color * metallicAlbedo, uLight2Int * 0.10, roughness);
-    }
-
-    // Assemble: dark base stays dark, metallic specular gives edge life
-    vec3 finalColor = baseColor * (1.0 - metalness * 0.85)
-                    + sA + sB + sC + sD
-                    + silverRim + cyanRim
-                    + dynBonus;
-
-    gl_FragColor = vec4(finalColor, 1.0);
+  for (let y = 80; y <= 1360; y += 20) {
+    const tickLen = (y % 100 === 0) ? 20 : (y % 50 === 0) ? 12 : 6;
+    ctx.beginPath();
+    ctx.moveTo(80 - tickLen, y);
+    ctx.lineTo(80, y);
+    ctx.stroke();
   }
-`;
 
-// ─── COMPONENT ───────────────────────────────────────────────────────────────
+  // Corner crop marks
+  const mark = (x, y, dx, dy) => {
+    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, y - dy); ctx.lineTo(x, y); ctx.lineTo(x - dx, y);
+    ctx.stroke();
+  };
+  mark(40, 40, 20, 20);
+  mark(984, 40, -20, 20);
+  mark(40, 1400, 20, -20);
+  mark(984, 1400, -20, -20);
+
+  // Header
+  ctx.fillStyle = '#0f172a';
+  ctx.font = '700 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.fillText('DESIGN SPECIFICATION // 04', 120, 120);
+
+  ctx.fillStyle = '#64748b';
+  ctx.font = '500 18px monospace';
+  ctx.fillText('GRID RATIO: 1.414 · SWISS ARCHITECTURE', 120, 160);
+
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.beginPath();
+  ctx.moveTo(120, 190);
+  ctx.lineTo(940, 190);
+  ctx.stroke();
+
+  // Fine architectural grid lines
+  ctx.strokeStyle = '#e2e8f0';
+  for (let y = 240; y < 1000; y += 40) {
+    ctx.beginPath();
+    ctx.moveTo(120, y);
+    ctx.lineTo(940, y);
+    ctx.stroke();
+  }
+
+  // Type Specimen Content
+  ctx.fillStyle = '#0f172a';
+  ctx.font = '800 52px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.fillText('NEXORA TYPE SPECIMEN', 120, 310);
+
+  ctx.font = '400 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  ctx.fillStyle = '#334155';
+  ctx.fillText('Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj', 120, 400);
+  ctx.fillText('Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt', 120, 455);
+  ctx.fillText('Uu Vv Ww Xx Yy Zz  0123456789', 120, 510);
+
+  // Layout color swatch blocks
+  ctx.fillStyle = '#258BFF';
+  ctx.fillRect(120, 580, 260, 160);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '600 20px monospace';
+  ctx.fillText('PRIMARY BLUE', 140, 630);
+  ctx.font = '400 16px monospace';
+  ctx.fillText('#258BFF / CORE RGB', 140, 665);
+
+  ctx.fillStyle = '#041225';
+  ctx.fillRect(410, 580, 260, 160);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '600 20px monospace';
+  ctx.fillText('DARK NAVY', 430, 630);
+  ctx.font = '400 16px monospace';
+  ctx.fillText('#041225 / BASE RGB', 430, 665);
+
+  // Approval Stamp
+  ctx.save();
+  ctx.translate(760, 850);
+  ctx.rotate(-0.15);
+  ctx.strokeStyle = '#258BFF';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(-120, -45, 240, 90);
+  ctx.fillStyle = '#258BFF';
+  ctx.font = '700 20px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('APPROVED', 0, -8);
+  ctx.font = '600 14px monospace';
+  ctx.fillText('NEXORA STUDIO LABS', 0, 18);
+  ctx.restore();
+
+  // Bottom specs
+  ctx.fillStyle = '#64748b';
+  ctx.font = '500 16px monospace';
+  ctx.fillText('APPROVED FOR PHYSICAL PRODUCTION // CLIENT REF: NXR-04', 120, 1340);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
 const Model3D = ({ scrollProgress = 0 }) => {
-  const mountRef  = useRef(null);
+  const mountRef = useRef(null);
   const scrollRef = useRef(0);
 
-  // Sync scroll value into ref (no re-render needed in RAF loop)
   useEffect(() => {
     scrollRef.current = scrollProgress;
   }, [scrollProgress]);
@@ -268,811 +429,358 @@ const Model3D = ({ scrollProgress = 0 }) => {
     const mount = mountRef.current;
     if (!mount) return;
 
-    let W = mount.clientWidth  || 520;
-    let H = mount.clientHeight || 520;
+    let W = mount.clientWidth || window.innerWidth;
+    let H = mount.clientHeight || window.innerHeight;
 
-    // ── Responsive helpers — recalculated on every resize ─────────────
-    // Group scale: balanced medium scale on mobile so it looks proportional behind text
-    const getGroupScale = (w) => {
-      if (w <= 480) return 0.62;
-      if (w <= 768) return 0.70;
-      if (w <= 1024) return 0.80;
-      return 0.85;
-    };
-    // 3D Typography scale: scales down cleanly on smaller screens while remaining behind the model
-    const getTextScale = (w) => {
-      if (w <= 480) return 0.45;
-      if (w <= 768) return 0.62;
-      if (w <= 1024) return 0.78;
-      return 0.98;
-    };
-    // Camera Z distance: optimal viewing distance
-    const getCameraZ = (w) => {
-      if (w <= 480) return 8.8;
-      if (w <= 768) return 8.4;
-      if (w <= 1024) return 8.2;
-      return 8.2;
-    };
-    // FOV: balanced perspective
-    const getCameraFov = (w) => {
-      if (w <= 480) return 42;
-      if (w <= 768) return 40;
-      if (w <= 1024) return 38;
-      return 38;
-    };
-
-    // ── Renderer ──────────────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // ── Renderer Setup ───────────────────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setSize(W, H);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.12;
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
-    // ── Scene & Camera ────────────────────────────────────────────────
-    const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(getCameraFov(W), W / H, 0.1, 100);
-    camera.position.set(0, 0, getCameraZ(W));
+    // ── Scene & Camera ───────────────────────────────────────────────
+    const scene = new THREE.Scene();
 
-    // ── Shared uniforms (all panels share same light values) ──────────
-    const uniforms = {
-      uTime:        { value: 0.0 },
-      uLight1Pos:   { value: new THREE.Vector3( 8.5,  7.5, 7.5) },
-      uLight2Pos:   { value: new THREE.Vector3(-8.0, -7.5, 7.5) },
-      uLight1Dir:   { value: new THREE.Vector3( -0.6, -0.6, -0.8).normalize() },
-      uLight2Dir:   { value: new THREE.Vector3(  0.6,  0.6, -0.8).normalize() },
-      uLight1Int:   { value: 0.0 },
-      uLight2Int:   { value: 0.0 },
-      uLight1Color: { value: new THREE.Color('#ffffff') }, // Pure White Spotlight
-      uLight2Color: { value: new THREE.Color('#e0e0e0') }, // Soft Silver Spotlight
-    };
+    // Studio Environment map for realistic PBR chrome & glass reflections
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
+    const roomEnv = new RoomEnvironment();
+    scene.environment = pmremGenerator.fromScene(roomEnv).texture;
 
-    // ── Load Texture Pool directly from src/assets ──────────────────────
-    const loader = new THREE.TextureLoader();
-    const poolTextures = SCENERY_URLS.map((url) => {
-      const tex = loader.load(url);
-      tex.colorSpace = THREE.SRGBColorSpace;
-      return tex;
+    const camera = new THREE.PerspectiveCamera(36, W / H, 0.1, 100);
+    camera.position.set(0, 0, 8.5);
+
+    // ── Cinematic Studio Lighting ────────────────────────────────────
+    // 1. Deep navy ambient base
+    const ambientLight = new THREE.AmbientLight(0x041225, 1.2);
+    scene.add(ambientLight);
+
+    // 2. Main Key Light (Cool white)
+    const keyLight = new THREE.DirectionalLight(0xF4F7FA, 2.8);
+    keyLight.position.set(5.5, 7.5, 6.0);
+    scene.add(keyLight);
+
+    // 3. Electric Blue Rim Light (Positioned to graze dark chrome & glass edges)
+    const blueRimLight = new THREE.DirectionalLight(0x258BFF, 3.4);
+    blueRimLight.position.set(-5.0, -3.5, 3.5);
+    scene.add(blueRimLight);
+
+    // 4. Soft Cyan Specular Point Light
+    const cyanPointLight = new THREE.PointLight(0x7DC4FF, 2.4, 12);
+    cyanPointLight.position.set(2.5, 2.5, 4.0);
+    scene.add(cyanPointLight);
+
+    // 5. Deep Navy Fill
+    const navyFillLight = new THREE.PointLight(0x0a2246, 1.6, 15);
+    navyFillLight.position.set(-3.0, 1.5, -1.0);
+    scene.add(navyFillLight);
+
+    // ── Materials ───────────────────────────────────────────────────
+    const chromeMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#dce9f8'),
+      metalness: 0.98,
+      roughness: 0.03,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.03,
+      reflectivity: 1.0,
     });
 
-    // All 6 faces of the 3D cube model: 0:Right, 1:Left, 2:Top, 3:Bottom, 4:Front, 5:Back
-    const ALL_SIX_FACES = [0, 1, 2, 3, 4, 5];
-
-    // Initial active texture pool index for each of the 6 faces (indices 0 to 5)
-    let currentFaceIndices = [0, 1, 2, 3, 4, 5];
-
-    // Create 6 face materials with initial textures & blend uniforms
-    const materials = currentFaceIndices.map((texIdx) => {
-      const tex = poolTextures[texIdx];
-      return new THREE.ShaderMaterial({
-        uniforms: {
-          ...uniforms,
-          uMap:     { value: tex },
-          uNextMap: { value: tex },
-          uBlend:   { value: 0.0 },
-          uHasMap:  { value: true },
-        },
-        vertexShader,
-        fragmentShader,
-      });
+    const darkMetalMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#0c1b30'),
+      metalness: 0.92,
+      roughness: 0.20,
     });
 
-    // ── Build 3D "NEXORA" Background Typography ─────────────────────────
+    const titaniumRingMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#142842'),
+      metalness: 0.92,
+      roughness: 0.18,
+    });
+
+    const glassMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#9ec7f5'),
+      transmission: 0.88,
+      opacity: 1.0,
+      transparent: true,
+      roughness: 0.15,
+      ior: 1.52,
+      thickness: 0.35,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.1,
+      reflectivity: 0.95,
+    });
+
+    const poster1Tex = createPoster1Texture(img3);
+    const poster2Tex = createPoster2Texture(img6);
+    const paperTex = createPaperTexture();
+
+    const poster1FrontMat = new THREE.MeshPhysicalMaterial({
+      map: poster1Tex,
+      roughness: 0.30,
+      metalness: 0.08,
+      clearcoat: 0.35,
+      clearcoatRoughness: 0.15,
+    });
+
+    const poster2FrontMat = new THREE.MeshPhysicalMaterial({
+      map: poster2Tex,
+      roughness: 0.32,
+      metalness: 0.08,
+      clearcoat: 0.30,
+      clearcoatRoughness: 0.18,
+    });
+
+    const paperMat = new THREE.MeshStandardMaterial({
+      map: paperTex,
+      roughness: 0.92,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+    });
+
+    // ── Build 3D Objects ─────────────────────────────────────────────
+    // NOTE: No background NEXORA text — composition speaks for itself.
     const font = new FontLoader().parse(helvetikerBold);
 
-    const textGeo = new TextGeometry('NEXORA', {
-      font: font,
-      size: 2.1,
-      depth: 0.38,
+    // ── Main Group — all objects orbit this pivot ─────────────────────
+    const mainGroup = new THREE.Group();
+    scene.add(mainGroup);
+
+    // (A) Poster 1: Primary Front Focal Piece — portrait 2:3
+    const poster1Geo = new THREE.BoxGeometry(2.0, 2.82, 0.048);
+    const poster1Mesh = new THREE.Mesh(poster1Geo, [
+      darkMetalMat, darkMetalMat, darkMetalMat, darkMetalMat,
+      poster1FrontMat, darkMetalMat,
+    ]);
+    mainGroup.add(poster1Mesh);
+
+    // (B) Poster 2: Secondary Rear Piece — slightly smaller
+    const poster2Geo = new THREE.BoxGeometry(1.78, 2.48, 0.042);
+    const poster2Mesh = new THREE.Mesh(poster2Geo, [
+      darkMetalMat, darkMetalMat, darkMetalMat, darkMetalMat,
+      poster2FrontMat, darkMetalMat,
+    ]);
+    mainGroup.add(poster2Mesh);
+
+    // (C) Frosted Glass Overlay — partial transparency over poster1
+    const glassGeo = new THREE.BoxGeometry(1.22, 1.80, 0.042);
+    const glassMesh = new THREE.Mesh(glassGeo, glassMat);
+    mainGroup.add(glassMesh);
+
+    // (D) Curved Drafting Paper — lightest, drifts the most
+    const paperGeo = new THREE.PlaneGeometry(1.58, 2.20, 32, 32);
+    const posAttr = paperGeo.attributes.position;
+    for (let i = 0; i < posAttr.count; i++) {
+      const px = posAttr.getX(i);
+      const py = posAttr.getY(i);
+      const arch = Math.sin((px + 0.79) / 1.58 * Math.PI) * 0.14;
+      const cornerCurl = Math.max(0, px - 0.18) * Math.max(0, -py - 0.28) * 0.26;
+      posAttr.setZ(i, arch + cornerCurl);
+    }
+    paperGeo.computeVertexNormals();
+    const paperMesh = new THREE.Mesh(paperGeo, paperMat);
+    mainGroup.add(paperMesh);
+
+    // (E) Chrome Sphere — foreground jewel accent, lower-left
+    const sphereGeo = new THREE.SphereGeometry(0.40, 64, 64);
+    const sphereMesh = new THREE.Mesh(sphereGeo, chromeMat);
+    mainGroup.add(sphereMesh);
+
+    // (F) Titanium Torus Ring — upper geometric accent
+    const ringGeo = new THREE.TorusGeometry(0.45, 0.033, 24, 80);
+    const ringMesh = new THREE.Mesh(ringGeo, titaniumRingMat);
+    mainGroup.add(ringMesh);
+
+    // (G) 3D "NX" Chrome Monogram — lower right accent
+    const nxGeo = new TextGeometry('NX', {
+      font,
+      size: 0.48,
+      depth: 0.13,
       curveSegments: 8,
       bevelEnabled: true,
-      bevelThickness: 0.05,
-      bevelSize: 0.025,
-      bevelOffset: 0,
+      bevelThickness: 0.022,
+      bevelSize: 0.012,
       bevelSegments: 4,
     });
-    textGeo.computeVertexNormals();
-    textGeo.center();
+    nxGeo.computeVertexNormals();
+    nxGeo.center();
+    const nxMesh = new THREE.Mesh(nxGeo, chromeMat);
+    mainGroup.add(nxMesh);
 
-    const textMat = new THREE.ShaderMaterial({
-      uniforms: {
-        ...uniforms,
-        uFade: { value: 1.0 },
-      },
-      vertexShader: textVertexShader,
-      fragmentShader: textFragmentShader,
+    // ── Tight Composition — Z-depth layering for organic parallax ────
+    //
+    //  Layer 0 (bg,   pz ~ -0.75 to -0.25): poster2, paperSheet
+    //  Layer 1 (mid,  pz ~  0.08 to  0.25): poster1 (focal), ring
+    //  Layer 2 (fg,   pz ~  0.60 to  0.96): glassMesh, sphere, nxMesh
+    //
+    //  Three.js perspective projection separates layers naturally when
+    //  the whole group rotates — no per-object mouse hacks needed.
+    //
+    const base = {
+      poster1:    { px:  0.00, py:  0.02, pz:  0.22, rx:  0.040, ry: -0.165, rz:  0.032 },
+      poster2:    { px: -0.68, py:  0.52, pz: -0.78, rx: -0.048, ry:  0.245, rz: -0.042 },
+      glassMesh:  { px:  0.52, py:  0.26, pz:  0.62, rx:  0.058, ry: -0.270, rz:  0.036 },
+      paperSheet: { px:  1.08, py: -0.58, pz: -0.24, rx:  0.195, ry:  0.355, rz: -0.115 },
+      sphere:     { px: -0.82, py: -0.88, pz:  0.90, rx:  0.000, ry:  0.000, rz:  0.000 },
+      ring:       { px:  0.82, py:  1.08, pz:  0.08, rx:  1.095, ry:  0.275, rz:  0.175 },
+      nxMesh:     { px:  0.78, py: -0.72, pz:  0.35, rx:  0.048, ry: -0.118, rz:  0.018 },
+    };
+
+    // Apply initial poses
+    [
+      [poster1Mesh, base.poster1],
+      [poster2Mesh, base.poster2],
+      [glassMesh,   base.glassMesh],
+      [paperMesh,   base.paperSheet],
+      [sphereMesh,  base.sphere],
+      [ringMesh,    base.ring],
+      [nxMesh,      base.nxMesh],
+    ].forEach(([mesh, b]) => {
+      mesh.position.set(b.px, b.py, b.pz);
+      mesh.rotation.set(b.rx, b.ry, b.rz);
     });
 
-    const textMesh = new THREE.Mesh(textGeo, textMat);
+    // ── Responsive Layout Positioning ────────────────────────────────
+    let currentDevice = { scale: 0.95, posX: 1.75, posY: 0.0, posZ: 0.0, fov: 36, camZ: 8.5 };
 
-    const textGroup = new THREE.Group();
-    textGroup.position.set(0.0, 0.0, -2.0); // Layering: behind 3D box model (Z = 0) and in front of net grid (Z = -3.5)
-    textGroup.scale.setScalar(getTextScale(W));
-    textGroup.add(textMesh);
-    scene.add(textGroup);
-
-    // ── Build 6 3D Face Panels that form Box at Home & Explode on Scroll ──
-    const group = new THREE.Group();
-    group.scale.setScalar(getGroupScale(W));
-    scene.add(group);
-
-    const panelGeo = new THREE.BoxGeometry(2.3, 2.3, 0.12);
-
-    const panelRight  = new THREE.Mesh(panelGeo, materials[0]);
-    const panelLeft   = new THREE.Mesh(panelGeo, materials[1]);
-    const panelTop    = new THREE.Mesh(panelGeo, materials[2]);
-    const panelBottom = new THREE.Mesh(panelGeo, materials[3]);
-    const panelFront  = new THREE.Mesh(panelGeo, materials[4]);
-    const panelBack   = new THREE.Mesh(panelGeo, materials[5]);
-
-    group.add(panelRight, panelLeft, panelTop, panelBottom, panelFront, panelBack);
-
-    // ── Base positions (Home: forms solid closed 3D Box) ───────────────
-    const slabHome = [
-      { mesh: panelRight,  px:  1.15, py:  0.00, pz:  0.00, rx:  0.00, ry:  Math.PI/2, rz: 0.00 },
-      { mesh: panelLeft,   px: -1.15, py:  0.00, pz:  0.00, rx:  0.00, ry: -Math.PI/2, rz: 0.00 },
-      { mesh: panelTop,    px:  0.00, py:  1.15, pz:  0.00, rx: -Math.PI/2, ry:  0.00, rz: 0.00 },
-      { mesh: panelBottom, px:  0.00, py: -1.15, pz:  0.00, rx:  Math.PI/2, ry:  0.00, rz: 0.00 },
-      { mesh: panelFront,  px:  0.00, py:  0.00, pz:  1.15, rx:  0.00, ry:  0.00,      rz: 0.00 },
-      { mesh: panelBack,   px:  0.00, py:  0.00, pz: -1.15, rx:  0.00, ry:  Math.PI,   rz: 0.00 },
-    ];
-
-    // ── 5-Part Controlled Composition around NEXORA (Scroll Target) ─────────
-    const slabExplode = [
-      // 0: panelRight → Part 3: Right side of NEXORA
-      { px:  4.4, py:  0.15, pz: -1.4, rx:  0.08, ry: -0.22, rz: -0.06, scale: 0.70 },
-      // 1: panelLeft → Part 2: Left side of NEXORA
-      { px: -4.3, py:  0.35, pz: -1.2, rx: -0.06, ry:  0.24, rz:  0.06, scale: 0.70 },
-      // 2: panelTop → Part 1: Upper area, slightly right of center
-      { px:  1.6, py:  2.10, pz: -0.6, rx:  0.08, ry: -0.12, rz: -0.04, scale: 0.72 },
-      // 3: panelBottom → Part 4: Lower area, slightly left
-      { px: -2.0, py: -2.10, pz: -0.8, rx: -0.10, ry:  0.14, rz:  0.04, scale: 0.72 },
-      // 4: panelFront → Part 5: Lower / right area (layered slightly behind NEXORA at -2.0)
-      { px:  2.5, py: -2.00, pz: -2.4, rx: -0.08, ry: -0.15, rz: -0.04, scale: 0.70 },
-      // 5: panelBack → 6th panel smoothly dissolves on scroll so exactly 5 parts frame NEXORA
-      { px:  0.0, py:  0.00, pz: -3.0, rx:  0.00, ry: Math.PI, rz:  0.00, scale: 0.00 },
-    ];
-
-    // ── Texture Transition State Tracker for 6 materials ─────────────
-    const transitionState = materials.map(() => ({
-      active: false,
-      progress: 0,
-      nextTexIdx: -1,
-    }));
-
-    let nextFaceIdx = 0;
-
-    // Timer: Cycle images across ALL 6 sides every 2.8 seconds
-    const swapInterval = setInterval(() => {
-      const targetFace = ALL_SIX_FACES[nextFaceIdx];
-      nextFaceIdx = (nextFaceIdx + 1) % ALL_SIX_FACES.length;
-
-      // Find unused asset image indices in pool that are NOT active on ANY of the 6 sides
-      const activeImages = ALL_SIX_FACES.map(fIdx => currentFaceIndices[fIdx]);
-      const unusedIndices = [];
-      for (let i = 0; i < poolTextures.length; i++) {
-        if (!activeImages.includes(i)) {
-          unusedIndices.push(i);
-        }
+    const updateResponsiveLayout = (width) => {
+      if (width <= 768) {
+        // Mobile: Stack underneath/behind heading
+        currentDevice = { scale: 0.56, posX: 0.0, posY: -1.35, posZ: -0.5, fov: 42, camZ: 9.0 };
+      } else if (width <= 1024) {
+        // Tablet: Scaled down on the right
+        currentDevice = { scale: 0.74, posX: 1.15, posY: -0.1, posZ: 0.0, fov: 38, camZ: 8.6 };
+      } else {
+        // Desktop: Right side composition overlapping center
+        currentDevice = { scale: 0.95, posX: 1.75, posY: 0.0, posZ: 0.0, fov: 36, camZ: 8.5 };
       }
-
-      if (unusedIndices.length > 0) {
-        const nextPoolIdx = unusedIndices[Math.floor(Math.random() * unusedIndices.length)];
-
-        // Start cross-fade transition on that side
-        materials[targetFace].uniforms.uNextMap.value = poolTextures[nextPoolIdx];
-        transitionState[targetFace].active = true;
-        transitionState[targetFace].progress = 0;
-        transitionState[targetFace].nextTexIdx = nextPoolIdx;
-      }
-    }, 2800);
-
-    // ── Glow sprites (dynamic color bloom behind active light angle) ─
-    const makeGlow = (color, size, pos) => {
-      const mat = new THREE.ShaderMaterial({
-        uniforms: { uIntensity: { value: 0.0 }, uColor: { value: new THREE.Color(color) } },
-        vertexShader: glowVert,
-        fragmentShader: glowFrag,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(size, size), mat);
-      m.position.copy(pos);
-      scene.add(m);
-      return m;
-    };
-
-    const blueGlow1 = makeGlow('#ffffff', 4.0, new THREE.Vector3( 0.6, 0.6,-0.8));
-    const blueGlow2 = makeGlow('#d0d0d0', 4.0, new THREE.Vector3(-0.6,-0.6,-0.8));
-
-    // ── ANIMATED DYNAMIC 3D CYBER NET GRID ─────────────────────────────────────
-    // Grid opacity reduced ~35% to give the 3D NEXORA text visual breathing room
-    const lineMat = new THREE.LineBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.05,  // was 0.08 → reduced ~38%
-      blending: THREE.AdditiveBlending,
-    });
-
-    const linesGrp = new THREE.Group();
-    linesGrp.position.set(0, 0, -3.5);
-    scene.add(linesGrp);
-
-    const animatedLines = [];
-
-    const addSegmentedLine = (x1, y1, x2, y2, segments = 16) => {
-      const positions = new Float32Array((segments + 1) * 3);
-      const initialCoords = [];
-
-      for (let i = 0; i <= segments; i++) {
-        const t = i / segments;
-        const x = x1 + (x2 - x1) * t;
-        const y = y1 + (y2 - y1) * t;
-        positions[i * 3] = x;
-        positions[i * 3 + 1] = y;
-        positions[i * 3 + 2] = 0;
-        initialCoords.push({ x, y });
-      }
-
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const lineMesh = new THREE.Line(geo, lineMat);
-      linesGrp.add(lineMesh);
-
-      animatedLines.push({ geo, initialCoords, positions });
-    };
-
-    // Build vertical and horizontal grid lines
-    const gridNodes = [];
-    for (let x = -14; x <= 14; x += 3.5) {
-      addSegmentedLine(x, -10, x, 10, 20);
-    }
-    for (let y = -9; y <= 9; y += 3) {
-      addSegmentedLine(-14, y, 14, y, 24);
-    }
-    // Subdued diagonal accent lines
-    addSegmentedLine(-14, 8, 14, -8, 20);
-    addSegmentedLine(-14, -8, 14, 8, 20);
-    addSegmentedLine(-14, 3, 14, -5, 20);
-    addSegmentedLine(-14, -3, 14, 5, 20);
-
-    // Glowing Node Dots at Grid Intersections
-    const nodePositions = [];
-    for (let x = -14; x <= 14; x += 3.5) {
-      for (let y = -9; y <= 9; y += 3) {
-        nodePositions.push(x, y, 0);
-        gridNodes.push({ x, y });
-      }
-    }
-
-    const nodeGeo = new THREE.BufferGeometry();
-    nodeGeo.setAttribute('position', new THREE.Float32BufferAttribute(nodePositions, 3));
-
-    const nodeMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.10,      // was 0.13 → slightly smaller
-      transparent: true,
-      opacity: 0.28,   // was 0.45 → reduced ~38%
-      blending: THREE.AdditiveBlending,
-    });
-    const nodePoints = new THREE.Points(nodeGeo, nodeMat);
-    linesGrp.add(nodePoints);
-
-    // ── ELECTRIC CURRENT PULSES TRAVELING ALONG NET LINES ──────────────────────
-    const NUM_PULSES = 16;
-    const currentPulses = [];
-    const PULSE_COLORS = [0xffffff, 0xdddddd, 0xcccccc, 0xeeeeee, 0xffffff, 0xaaaaaa];
-
-    const getInterpolatedPointOnLine = (lineData, tNorm) => {
-      const { initialCoords } = lineData;
-      const count = initialCoords.length;
-      if (count < 2) return { x: 0, y: 0 };
-      const clampedT = Math.max(0, Math.min(1, tNorm));
-      const idxF = clampedT * (count - 1);
-      const idx1 = Math.floor(idxF);
-      const idx2 = Math.min(idx1 + 1, count - 1);
-      const subT = idxF - idx1;
-      const p1 = initialCoords[idx1];
-      const p2 = initialCoords[idx2];
-      return {
-        x: p1.x + (p2.x - p1.x) * subT,
-        y: p1.y + (p2.y - p1.y) * subT,
-      };
-    };
-
-    const resetPulse = (pulse) => {
-      pulse.lineIndex = Math.floor(Math.random() * animatedLines.length);
-      pulse.progress = -Math.random() * 0.4;
-      pulse.speed = 0.006 + Math.random() * 0.010;
-      pulse.length = 0.12 + Math.random() * 0.18;
-      const colHex = PULSE_COLORS[Math.floor(Math.random() * PULSE_COLORS.length)];
-      pulse.mesh.material.color.setHex(colHex);
-    };
-
-    for (let i = 0; i < NUM_PULSES; i++) {
-      const pulseGeo = new THREE.BufferGeometry();
-      const pulsePos = new Float32Array(8 * 3); // 8-segment smooth glowing current trail
-      pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
-
-      const pulseMat = new THREE.LineBasicMaterial({
-        color: 0x00f0ff,
-        transparent: true,
-        opacity: 0.95,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-
-      const pulseMesh = new THREE.Line(pulseGeo, pulseMat);
-      linesGrp.add(pulseMesh);
-
-      const pulse = {
-        mesh: pulseMesh,
-        geo: pulseGeo,
-        positions: pulsePos,
-        lineIndex: 0,
-        progress: 0,
-        speed: 0.01,
-        length: 0.18,
-      };
-      resetPulse(pulse);
-      currentPulses.push(pulse);
-    }
-
-    // ── REALISTIC LIGHTNING ARC SYSTEM (TRIONN REFERENCE STYLE) ────────────────
-    const lightningGrp = new THREE.Group();
-    lightningGrp.position.set(0, 0, -3.4);
-    scene.add(lightningGrp);
-
-    const activeLightningBolts = [];
-
-    // Midpoint displacement to generate jagged realistic lightning bolt points
-    const subdivideBolt = (p1, p2, displacement, depth) => {
-      if (depth === 0) return [p1, p2];
-      const mid = p1.clone().lerp(p2, 0.5);
-      // Perpendicular jitter (cross product with z axis gives 2D perpendicular)
-      const dir = p2.clone().sub(p1);
-      const perp = new THREE.Vector3(-dir.y, dir.x, 0).normalize();
-      const offset = (Math.random() - 0.5) * displacement;
-      mid.addScaledVector(perp, offset);
-      return [
-        ...subdivideBolt(p1, mid, displacement * 0.6, depth - 1),
-        ...subdivideBolt(mid, p2, displacement * 0.6, depth - 1).slice(1),
-      ];
-    };
-
-    const spawnBolt = (start, end, layerOpacityScale = 1.0, depth = 4, isRoot = true) => {
-      const points = subdivideBolt(start, end, start.distanceTo(end) * 0.42, depth);
-      const decay  = 0.045 + Math.random() * 0.055;
-
-      // Layer 1: wide cyan outer glow — opacity reduced ~35% for subtlety
-      const geoGlow = new THREE.BufferGeometry().setFromPoints(points);
-      const matGlow = new THREE.LineBasicMaterial({
-        color: 0x00bfff,
-        transparent: true,
-        opacity: 0.18 * layerOpacityScale,  // was 0.28
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-      const meshGlow = new THREE.Line(geoGlow, matGlow);
-      lightningGrp.add(meshGlow);
-      activeLightningBolts.push({ lineMesh: meshGlow, geo: geoGlow, life: 1.0, decay, baseOpacity: 0.18 * layerOpacityScale });
-
-      // Layer 2: medium bright cyan — opacity reduced ~35%
-      const geoMid = new THREE.BufferGeometry().setFromPoints(points);
-      const matMid = new THREE.LineBasicMaterial({
-        color: 0x55d4ff,
-        transparent: true,
-        opacity: 0.36 * layerOpacityScale,  // was 0.55
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-      const meshMid = new THREE.Line(geoMid, matMid);
-      lightningGrp.add(meshMid);
-      activeLightningBolts.push({ lineMesh: meshMid, geo: geoMid, life: 1.0, decay, baseOpacity: 0.36 * layerOpacityScale });
-
-      // Layer 3: tight white hot core — opacity reduced ~35%
-      const geoCore = new THREE.BufferGeometry().setFromPoints(points);
-      const matCore = new THREE.LineBasicMaterial({
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.60 * layerOpacityScale,  // was 0.90
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-      });
-      const meshCore = new THREE.Line(geoCore, matCore);
-      lightningGrp.add(meshCore);
-      activeLightningBolts.push({ lineMesh: meshCore, geo: geoCore, life: 1.0, decay, baseOpacity: 0.60 * layerOpacityScale });
-
-      // Spawn recursive branches off mid-points of the bolt (realistic fork lightning)
-      if (isRoot) {
-        const numBranches = 1 + Math.floor(Math.random() * 3);
-        for (let b = 0; b < numBranches; b++) {
-          const t = 0.25 + Math.random() * 0.55;
-          const branchStart = new THREE.Vector3().lerpVectors(start, end, t);
-          const dir = end.clone().sub(start).normalize();
-          const perp = new THREE.Vector3(-dir.y, dir.x, 0);
-          const bLen = start.distanceTo(end) * (0.25 + Math.random() * 0.35);
-          const branchEnd = branchStart.clone()
-            .addScaledVector(dir, bLen * 0.5)
-            .addScaledVector(perp, (Math.random() - 0.5) * bLen * 1.4);
-          spawnBolt(branchStart, branchEnd, layerOpacityScale * 0.55, 3, false);
-        }
-      }
-    };
-
-    // Convert NDC mouse position → scene world coords (at z = -3.4 plane)
-    const ndcToWorld = (nx, ny) => new THREE.Vector3(nx * 8.5, ny * 5.0, 0);
-
-    const triggerElectricCurrentAt = (nx, ny) => {
-      const end = ndcToWorld(nx, ny);
-      // Pick a random grid-snapped node as bolt origin
-      const gx = Math.round((nx * 8.5) / 3.5) * 3.5 + (Math.random() > 0.5 ? 3.5 : -3.5);
-      const gy = Math.round((ny * 5.0) / 3.0) * 3.0 + (Math.random() > 0.5 ? 3.0 : -3.0);
-      const start = new THREE.Vector3(gx, gy, 0);
-      spawnBolt(start, end, 1.0, 4, true);
-    };
-
-    // ── Discrete light positions targeting specific model corners ─────────────────
-    const LIGHT_POSITIONS = [
-      { name: 'top-right',    pos: [  3.5,  3.5, 3.8] },
-      { name: 'top-left',     pos: [ -3.5,  3.5, 3.8] },
-      { name: 'bottom-left',  pos: [ -3.2, -3.5, 3.8] },
-      { name: 'bottom-right', pos: [  3.2, -3.5, 3.8] },
-      { name: 'bottom-center',pos: [  0.0, -4.2, 3.5] },
-      { name: 'top-center',   pos: [  0.0,  4.2, 3.5] },
-    ];
-
-    const ALL_COLORS = [
-      '#ffffff',
-      '#f0f0f0',
-      '#e0e0e0',
-      '#cccccc',
-      '#ffffff',
-    ];
-
-    const pickRandomPos = (currentIdx) => {
-      let n;
-      do { n = Math.floor(Math.random() * LIGHT_POSITIONS.length); } while (n === currentIdx);
-      return n;
-    };
-
-    const pickRandomColor = () => ALL_COLORS[Math.floor(Math.random() * ALL_COLORS.length)];
-
-    const createLightState = (initialPosIdx, delayFrames, defaultHexColor) => ({
-      idx:        initialPosIdx,
-      pos:        new THREE.Vector3(...LIGHT_POSITIONS[initialPosIdx].pos),
-      color:      new THREE.Color(defaultHexColor),
-      int:        0.0,
-      phase:      'fadein',
-      frame:      -delayFrames,
-      FADEIN:     35,
-      HOLD:       90 + Math.floor(Math.random() * 50),
-      FADEOUT:    35,
-    });
-
-    const ls1 = createLightState(0, 0,  '#ffffff');
-    const ls2 = createLightState(2, 60, '#e0e0e0');
-
-    const tickLight = (ls) => {
-      ls.frame++;
-      if (ls.frame < 0) { ls.int = 0; return; }
-
-      if (ls.phase === 'fadein') {
-        ls.int = Math.min(ls.frame / ls.FADEIN, 1.0);
-        if (ls.frame >= ls.FADEIN) {
-          ls.phase = 'hold';
-          ls.frame = 0;
-        }
-      } else if (ls.phase === 'hold') {
-        ls.int = 1.0;
-        if (ls.frame >= ls.HOLD) {
-          ls.phase = 'fadeout';
-          ls.frame = 0;
-        }
-      } else if (ls.phase === 'fadeout') {
-        ls.int = Math.max(1.0 - (ls.frame / ls.FADEOUT), 0.0);
-        if (ls.frame >= ls.FADEOUT) {
-          ls.int = 0.0;
-          ls.idx = pickRandomPos(ls.idx);
-          ls.pos.set(...LIGHT_POSITIONS[ls.idx].pos);
-          ls.color.setStyle(pickRandomColor());
-          ls.phase = 'fadein';
-          ls.frame = 0;
-          ls.HOLD = 100 + Math.floor(Math.random() * 70);
-        }
-      }
-    };
-
-    // ── Mouse / drag ──────────────────────────────────────────────────
-    const mouse = { x: 0, y: 0 };
-    const tgt = { rx: -0.12, ry: 0.30 };
-    const cur = { rx: -0.12, ry: 0.30 };
-    let drag = false, autoSpin = true;
-    let last = { x:0, y:0 }, vel = { x:0, y:0 };
-
-    let lastSparkTime = 0;
-    const onMM  = (e) => {
-      const r = mount.getBoundingClientRect();
-      mouse.x =  ((e.clientX-r.left)/r.width )*2-1;
-      mouse.y = -((e.clientY-r.top) /r.height)*2+1;
-
-      // Trigger electric current arc on mouse movement over grid
-      const now = performance.now();
-      if (now - lastSparkTime > 45) { // ~22fps spark rate for super smooth crackle
-        lastSparkTime = now;
-        triggerElectricCurrentAt(mouse.x * 7.5, mouse.y * 4.5);
-      }
-    };
-    const onDown = (e) => {
-      drag=true; autoSpin=false;
-      last.x=e.clientX; last.y=e.clientY; vel.x=vel.y=0;
-      mount.style.cursor='grabbing';
-    };
-    const onMove = (e) => {
-      if(!drag) return;
-      vel.x=(e.clientX-last.x)*0.006; vel.y=(e.clientY-last.y)*0.005;
-      tgt.ry+=vel.x; tgt.rx+=vel.y;
-      last.x=e.clientX; last.y=e.clientY;
-    };
-    const onUp = () => {
-      drag=false; mount.style.cursor='grab';
-      setTimeout(()=>{ autoSpin=true; },2200);
-    };
-    window.addEventListener('mousemove', onMM);
-    mount.addEventListener('pointerdown', onDown);
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
-
-    // ── Resize ────────────────────────────────────────────────────────
-    const onResize = () => {
-      if (!mount) return;
-      W = mount.clientWidth || 520;
-      H = mount.clientHeight || 520;
-      // Update camera to match new viewport size
-      camera.aspect = W / H;
-      camera.fov    = getCameraFov(W);
-      camera.position.z = getCameraZ(W);
+      camera.fov = currentDevice.fov;
+      camera.position.z = currentDevice.camZ;
       camera.updateProjectionMatrix();
-      renderer.setSize(W, H);
-      // Rescale the 3D group so the box stays proportional on screen
-      group.scale.setScalar(getGroupScale(W));
-      // Rescale the NEXORA text group proportionally
-      textGroup.scale.setScalar(getTextScale(W));
+      mainGroup.scale.setScalar(currentDevice.scale);
     };
 
-    const resizeObserver = new ResizeObserver(() => onResize());
-    resizeObserver.observe(mount);
-    window.addEventListener('resize', onResize);
+    updateResponsiveLayout(W);
 
-    // ── Animate ───────────────────────────────────────────────────────
-    let animId, t = 0;
+    // ── Mouse Parallax Tracking ──────────────────────────────────────
+    const targetMouse = { x: 0, y: 0 };
+    const curMouse = { x: 0, y: 0 };
+
+    const handleMouseMove = (e) => {
+      const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+      const ny = -(e.clientY / window.innerHeight - 0.5) * 2;
+      targetMouse.x = nx;
+      targetMouse.y = ny;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // ── Resize Observer ──────────────────────────────────────────────
+    const handleResize = () => {
+      if (!mount) return;
+      W = mount.clientWidth || window.innerWidth;
+      H = mount.clientHeight || window.innerHeight;
+      camera.aspect = W / H;
+      updateResponsiveLayout(W);
+      renderer.setSize(W, H);
+    };
+
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(mount);
+    window.addEventListener('resize', handleResize);
+
+    // ── Animation Loop ───────────────────────────────────────────────
+    let animId;
+    let t = 0;
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
-      t += 0.012;
+      t += 0.010; // slightly slower tick — more deliberate feel
 
-      // ── Animate 3D Cyber Net Grid Wave & Parallax ──────────────────────
-      const waveT = t * 1.5;
-      const mouseW = { x: mouse.x * 7.5, y: mouse.y * 4.5 };
+      // Smooth mouse inertia (lerp 0.04 ≈ 40ms settling, very glassy)
+      curMouse.x += (targetMouse.x - curMouse.x) * 0.040;
+      curMouse.y += (targetMouse.y - curMouse.y) * 0.040;
 
-      animatedLines.forEach(({ geo, initialCoords, positions }) => {
-        for (let i = 0; i < initialCoords.length; i++) {
-          const { x, y } = initialCoords[i];
-          const distToM = Math.hypot(x - mouseW.x, y - mouseW.y);
-          const mouseWarp = Math.exp(-distToM * 0.35) * 0.45;
-          const waveZ = Math.sin(x * 0.35 + waveT) * Math.cos(y * 0.35 + waveT * 0.8) * 0.22;
+      // Camera micro-drift — barely perceptible, just enough to feel alive
+      camera.position.x = curMouse.x * 0.22;
+      camera.position.y = curMouse.y * 0.15;
+      camera.lookAt(mainGroup.position);
 
-          positions[i * 3 + 2] = waveZ + mouseWarp;
-        }
-        geo.attributes.position.needsUpdate = true;
-      });
-
-      // Animate node points Z & opacity pulse
-      const nodePosAttr = nodeGeo.attributes.position;
-      for (let i = 0; i < gridNodes.length; i++) {
-        const { x, y } = gridNodes[i];
-        const distToM = Math.hypot(x - mouseW.x, y - mouseW.y);
-        const mouseWarp = Math.exp(-distToM * 0.35) * 0.45;
-        const waveZ = Math.sin(x * 0.35 + waveT) * Math.cos(y * 0.35 + waveT * 0.8) * 0.22;
-
-        nodePosAttr.setZ(i, waveZ + mouseWarp);
-      }
-      nodePosAttr.needsUpdate = true;
-
-      // ── Animate Electric Current Pulses along Net Lines ────────────────
-      currentPulses.forEach((pulse) => {
-        pulse.progress += pulse.speed;
-        if (pulse.progress - pulse.length > 1.0) {
-          resetPulse(pulse);
-        }
-
-        const lineData = animatedLines[pulse.lineIndex];
-        if (!lineData) return;
-
-        const segs = 7;
-        const positions = pulse.positions;
-
-        for (let i = 0; i <= segs; i++) {
-          const subFactor = i / segs;
-          const currentT = pulse.progress - (1 - subFactor) * pulse.length;
-          const pt = getInterpolatedPointOnLine(lineData, currentT);
-
-          const distToM = Math.hypot(pt.x - mouseW.x, pt.y - mouseW.y);
-          const mouseWarp = Math.exp(-distToM * 0.35) * 0.45;
-          const waveZ = Math.sin(pt.x * 0.35 + waveT) * Math.cos(pt.y * 0.35 + waveT * 0.8) * 0.22;
-
-          positions[i * 3]     = pt.x;
-          positions[i * 3 + 1] = pt.y;
-          positions[i * 3 + 2] = waveZ + mouseWarp + 0.02; // elevated for vivid electric current glow
-        }
-
-        pulse.geo.attributes.position.needsUpdate = true;
-
-        const headT = pulse.progress;
-        const opacityScale = headT < 0.1 ? headT / 0.1 : headT > 0.9 ? (1 - headT) / 0.1 : 1.0;
-        pulse.mesh.material.opacity = Math.max(0, Math.min(1, opacityScale)) * 0.95;
-      });
-
-      // Parallax rotation & subtle opacity pulse on grid net
-      linesGrp.rotation.x = Math.sin(t * 0.3) * 0.03 + mouse.y * 0.04;
-      linesGrp.rotation.y = Math.cos(t * 0.25) * 0.03 + mouse.x * 0.04;
-      // Grid opacity reduced ~35% from original values to give NEXORA text visual space
-      lineMat.opacity = 0.044 + Math.sin(t * 1.8) * 0.018;  // was 0.07 + sin*0.03
-      nodeMat.opacity = 0.22  + Math.sin(t * 2.2) * 0.08;   // was 0.35 + sin*0.15
-
-      // ── Subtle NEXORA text parallax (very gentle, does NOT affect model drag) ──
-      textGroup.rotation.x = mouse.y * 0.025;
-      textGroup.rotation.y = mouse.x * 0.025;
-      // Slow autonomous drift in background plane
-      textGroup.position.x = Math.sin(t * 0.18) * 0.06;
-      textGroup.position.y = Math.cos(t * 0.14) * 0.04;
-
-      // ── Animate & fade out active electric current lightning arcs ──────
-      for (let i = activeLightningBolts.length - 1; i >= 0; i--) {
-        const bolt = activeLightningBolts[i];
-        bolt.life -= bolt.decay;
-        if (bolt.life <= 0) {
-          lightningGrp.remove(bolt.lineMesh);
-          bolt.geo.dispose();
-          bolt.lineMesh.material.dispose();
-          activeLightningBolts.splice(i, 1);
-        } else {
-          // Ease-out fade: fast initial flash then slow trail — like real lightning
-          const eased = bolt.life * bolt.life;
-          bolt.lineMesh.material.opacity = eased * bolt.baseOpacity;
-        }
-      }
-
-      // Ambient electric crackle — rare, random, feels like static electricity
-      if (Math.random() < 0.022) {
-        const nx = (Math.random() - 0.5) * 2.0;
-        const ny = (Math.random() - 0.5) * 2.0;
-        triggerElectricCurrentAt(nx, ny);
-      }
-
-      // Smooth cross-fade texture transitions on faces
-      transitionState.forEach((st, faceIdx) => {
-        if (!st.active) return;
-        st.progress += 0.035;
-        if (st.progress >= 1.0) {
-          st.progress = 1.0;
-          st.active = false;
-          materials[faceIdx].uniforms.uMap.value = poolTextures[st.nextTexIdx];
-          materials[faceIdx].uniforms.uBlend.value = 0.0;
-          currentFaceIndices[faceIdx] = st.nextTexIdx;
-        } else {
-          materials[faceIdx].uniforms.uBlend.value = st.progress;
-        }
-      });
-
-      // rotation
-      if (autoSpin && !drag) {
-        tgt.ry += 0.0045;
-        tgt.rx  = -0.08 + mouse.y * 0.10;
-      }
-      if (!drag) { vel.x *= 0.92; vel.y *= 0.92; }
-      cur.rx += (tgt.rx - cur.rx) * 0.058;
-      cur.ry += (tgt.ry - cur.ry) * 0.058;
-
-      // Scroll interpolation factor
+      // Scroll easing (cubic in-out)
       const sp = scrollRef.current;
-      const ease = sp < 0.5
-        ? 4 * sp * sp * sp
-        : 1 - Math.pow(-2 * sp + 2, 3) / 2;
+      const scrollEase = sp < 0.5 ? 4 * sp * sp * sp : 1 - Math.pow(-2 * sp + 2, 3) / 2;
 
-      // Group orientation:
-      // At home (ease = 0): full interactive drag / autoSpin rotation
-      // On scroll (ease > 0): smoothly eases into a stable frontal orientation with subtle responsive mouse parallax
-      const groupRotX = cur.rx * (1 - ease) + (mouse.y * 0.04) * ease;
-      const groupRotY = cur.ry * (1 - ease) + (mouse.x * 0.04) * ease;
-      group.rotation.x = groupRotX;
-      group.rotation.y = groupRotY;
-      group.position.y = Math.sin(t * 0.5) * 0.08 * (1 - ease);
-      uniforms.uTime.value = t;
+      // ── Group Transform ────────────────────────────────────────────
+      // Group rotation is the PRIMARY depth-parallax driver:
+      // objects at different pz naturally diverge in screen-space as the
+      // group rotates (Three.js perspective projection handles this for free).
+      mainGroup.position.x = currentDevice.posX;
+      mainGroup.position.y = currentDevice.posY + scrollEase * 0.5;
+      mainGroup.position.z = currentDevice.posZ - scrollEase * 4.2;
+      mainGroup.rotation.y = curMouse.x * 0.062;
+      mainGroup.rotation.x = -curMouse.y * 0.050;
 
-      // Tick lights
-      tickLight(ls1);
-      tickLight(ls2);
+      // ── Per-object breathing — phase-staggered, speed-varied ───────
+      // Each object has its own rhythm so they never move in unison.
+      // Mouse delta adds a small individual drift on top of group rotation.
 
-      const light1Pos = new THREE.Vector3(
-        ls1.pos.x + Math.sin(t * 0.9) * 0.25,
-        ls1.pos.y + Math.cos(t * 0.7) * 0.25,
-        ls1.pos.z
-      );
-      const light1Dir = new THREE.Vector3(0, 0, 0).sub(light1Pos).normalize();
+      // Poster 1 — main focal point, very gentle rock
+      poster1Mesh.position.y = base.poster1.py + Math.sin(t * 0.62) * 0.060;
+      poster1Mesh.position.x = base.poster1.px;
+      poster1Mesh.rotation.z = base.poster1.rz + Math.sin(t * 0.38) * 0.010;
 
-      uniforms.uLight1Pos.value.copy(light1Pos);
-      uniforms.uLight1Dir.value.copy(light1Dir);
-      uniforms.uLight1Int.value = ls1.int * 2.8;
-      uniforms.uLight1Color.value.copy(ls1.color);
+      // Poster 2 — slow drift, different phase (offset 1.6 rad)
+      poster2Mesh.position.y = base.poster2.py + Math.cos(t * 0.55 + 1.6) * 0.052;
+      poster2Mesh.position.x = base.poster2.px;
+      poster2Mesh.rotation.z = base.poster2.rz + Math.cos(t * 0.36 + 0.8) * 0.009;
 
-      const light2Pos = new THREE.Vector3(
-        ls2.pos.x + Math.cos(t * 0.8 + 1.2) * 0.25,
-        ls2.pos.y + Math.sin(t * 1.0 + 1.2) * 0.25,
-        ls2.pos.z
-      );
-      const light2Dir = new THREE.Vector3(0, 0, 0).sub(light2Pos).normalize();
+      // Glass overlay — tracks poster1 loosely (slightly faster)
+      glassMesh.position.y = base.glassMesh.py + Math.sin(t * 0.68 + 0.9) * 0.055;
+      glassMesh.position.x = base.glassMesh.px;
+      glassMesh.rotation.y = base.glassMesh.ry + Math.sin(t * 0.42) * 0.013;
 
-      uniforms.uLight2Pos.value.copy(light2Pos);
-      uniforms.uLight2Dir.value.copy(light2Dir);
-      uniforms.uLight2Int.value = ls2.int * 2.4;
-      uniforms.uLight2Color.value.copy(ls2.color);
+      // Paper sheet — lightest, drifts the most, opposite phase to poster1
+      paperMesh.position.y = base.paperSheet.py + Math.sin(t * 0.78 + 2.3) * 0.082;
+      paperMesh.position.x = base.paperSheet.px;
+      paperMesh.rotation.x = base.paperSheet.rx + Math.sin(t * 0.52) * 0.016;
 
-      blueGlow1.position.set(light1Pos.x * 0.22, light1Pos.y * 0.22, -0.9);
-      blueGlow1.material.uniforms.uIntensity.value = ls1.int * 0.32;
-      blueGlow1.material.uniforms.uColor.value.copy(ls1.color);
+      // Chrome sphere — orbital float (offset 0.5)
+      sphereMesh.position.y = base.sphere.py + Math.cos(t * 0.88 + 0.5) * 0.072;
+      sphereMesh.position.x = base.sphere.px;
+      sphereMesh.rotation.y += 0.0035; // slow continuous spin
+      sphereMesh.rotation.x += 0.0018;
 
-      blueGlow2.position.set(light2Pos.x * 0.22, light2Pos.y * 0.22, -0.9);
-      blueGlow2.material.uniforms.uIntensity.value = ls2.int * 0.28;
-      blueGlow2.material.uniforms.uColor.value.copy(ls2.color);
+      // Ring — slow spin + gentle bob (offset 1.9)
+      ringMesh.position.y = base.ring.py + Math.cos(t * 0.72 + 1.9) * 0.060;
+      ringMesh.position.x = base.ring.px;
+      ringMesh.rotation.z += 0.0022; // very slow rotation
 
-      // ── Animate 5-Part Composition framing NEXORA ──
-      slabHome.forEach((h, i) => {
-        const e = slabExplode[i];
-        const m = h.mesh;
+      // NX Monogram — calm settle, different phase
+      nxMesh.position.y = base.nxMesh.py + Math.sin(t * 0.60 + 2.7) * 0.048;
+      nxMesh.position.x = base.nxMesh.px;
 
-        // Position interpolation with subtle organic drift when settled
-        const posX = h.px + (e.px - h.px) * ease;
-        const posY = h.py + (e.py - h.py) * ease;
-        const posZ = h.pz + (e.pz - h.pz) * ease;
-
-        const driftY = Math.sin(t * 0.6 + i * 1.25) * 0.04 * ease;
-        const driftX = Math.cos(t * 0.5 + i * 0.95) * 0.03 * ease;
-
-        m.position.x = posX + driftX;
-        m.position.y = posY + driftY;
-        m.position.z = posZ;
-
-        // Rotation interpolation + subtle ambient breathing
-        const oscHome = 1 - ease;
-        const driftRotX = Math.sin(t * 0.4 + i * 0.8) * 0.02 * ease;
-        const driftRotY = Math.cos(t * 0.35 + i * 1.1) * 0.02 * ease;
-
-        m.rotation.x = h.rx + (e.rx - h.rx) * ease + Math.sin(t * 0.48 + i) * 0.013 * oscHome + driftRotX;
-        m.rotation.y = h.ry + (e.ry - h.ry) * ease + Math.sin(t * 0.36 + i * 1.2) * 0.011 * oscHome + driftRotY;
-        m.rotation.z = h.rz + (e.rz - h.rz) * ease + Math.sin(t * 0.40 + i * 0.8) * 0.014 * oscHome;
-
-        // Scale interpolation: 5 parts scale to targetScale, 6th part scales to 0
-        const targetScale = e.scale !== undefined ? e.scale : 0.72;
-        const currentScale = 1.0 + (targetScale - 1.0) * ease;
-        m.scale.setScalar(Math.max(0.0001, currentScale));
-      });
+      // Orbital key light — adds moving specular highlights
+      cyanPointLight.position.x = 3.0 + Math.sin(t * 0.68) * 0.55;
+      cyanPointLight.position.y = 2.8 + Math.cos(t * 0.52) * 0.42;
 
       renderer.render(scene, camera);
     };
+
     animate();
 
     return () => {
-      clearInterval(swapInterval);
       cancelAnimationFrame(animId);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
-      window.removeEventListener('mousemove', onMM);
-      window.removeEventListener('resize', onResize);
-      mount.removeEventListener('pointerdown', onDown);
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
       renderer.dispose();
-      if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+      pmremGenerator.dispose();
+      if (mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
@@ -1080,11 +788,6 @@ const Model3D = ({ scrollProgress = 0 }) => {
     <div className="model3d__wrapper">
       <div className="model3d__glow-bg" />
       <div ref={mountRef} className="model3d__canvas-mount" />
-
-      <div className="model3d__label">
-        <span className="model3d__label-dot" />
-        <span className="model3d__label-text">DRAG TO ROTATE 3D CONFIGURATOR</span>
-      </div>
     </div>
   );
 };
