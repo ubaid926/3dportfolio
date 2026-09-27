@@ -21,116 +21,116 @@ import './WorkCards.css';
 
 const PROJECTS = [
   {
-    id: 'aerodynamic-hypercar',
-    title: 'AeroDynamic GT Configurator',
+    id: 'aura-luxury-packaging',
+    title: 'Aura Luxury Skincare Architecture',
     subtitle:
-      'Real-time hypercar configurator with raytraced paint baking and carbon fiber anisotropy.',
-    category: '3D Configurator',
+      'Minimalist identity, custom geometric vessels, and blind debossed tactile packaging.',
+    category: 'Packaging & Brand Identity',
     year: '2026',
-    client: 'AeroDynamic Motors',
+    client: 'Aura Laboratories Paris',
     image: img1,
-    tagline: 'RAY-TRACED PBR PAINT & ANISOTROPIC BAKING',
-    tags: ['WebGL', 'PBR Baking', 'Three.js', 'Anisotropy'],
+    tagline: 'LUXURY PACKAGING ARCHITECTURE & BESPOKE BRAND IDENTITY',
+    tags: ['Brand Identity', 'Packaging Design', 'Gold Foil', 'Custom Vessels'],
     description:
-      'Ultra-high fidelity automotive configurator featuring real-time clearcoat lacquer reflection, baked carbon fiber weave anisotropy, and instant rim swapping.',
+      'A comprehensive visual identity and luxury packaging architecture featuring blind debossed textured cotton papers, custom amber glass vessels, and bespoke typography.',
   },
   {
-    id: 'cybermech-studio',
-    title: 'CyberMech Rig & Motion Studio',
+    id: 'kinetics-poster-triennial',
+    title: 'Kinetics Poster Triennial Series',
     subtitle:
-      'Kinematic skeletal rigging and normal cage baking for high-mobility robotic exoskeletons.',
-    category: 'Animation & Rigging',
+      'Expressive kinetic typography, dynamic variable weights, and chromatic silkscreen layouts.',
+    category: 'Motion & Typography',
     year: '2025',
-    client: 'Apex Robotics',
+    client: 'Type Festival Berlin',
     image: img2,
-    tagline: 'HIGH-TO-LOW CAGE BAKING & SKELETAL RIGS',
-    tags: ['Skeletal Animation', 'Normal Cages', 'Kinematics'],
+    tagline: 'KINETIC TYPOGRAPHY & EXPERIMENTAL POSTER ARCHITECTURES',
+    tags: ['Kinetic Typography', 'Poster Design', 'Silkscreen', 'Motion Graphics'],
     description:
-      'Interactive 3D mech configurator with high-poly to low-poly baked normal maps, procedural armor plating detachment, and dynamic hydraulic gait animations.',
+      'Award-winning identity and silkscreen poster system celebrating expressive letterforms, variable weight transitions, and optical layout vibrations.',
   },
   {
-    id: 'spatial-archviz',
-    title: 'Spatial ArchViz Lightmap Engine',
+    id: 'vanguard-architecture-monograph',
+    title: 'Vanguard Architectural Monograph',
     subtitle:
-      'Radiosity global illumination precomputation for photorealistic browser walkthroughs.',
-    category: 'Lightmap Baking',
+      'Hardcover publication with rigorous 12-column Swiss grid and natural linen binding.',
+    category: 'Editorial & Book Design',
     year: '2025',
-    client: 'Vanguard Architecture',
+    client: 'Vanguard Review',
     image: img3,
-    tagline: 'GLOBAL ILLUMINATION & RADIOSITY BAKING',
-    tags: ['Lightmap GI', 'Radiosity', '4K HDR', 'Spatial UI'],
+    tagline: 'EDITORIAL GRID SYSTEMS & LUXURY BOOK DESIGN',
+    tags: ['Editorial Design', 'Book Layout', 'Swiss Grid', 'Linen Binding'],
     description:
-      'Architectural visualizer that pre-computes complex bounce lighting, soft shadow penumbras, and ambient occlusion into lightweight 4K HDR lightmaps for 60+ FPS web walkthroughs.',
+      'A 320-page hardcover architectural monograph designed with a rigorous 12-column Swiss grid, curated duo-tone photography plates, and metallic foil debossing.',
   },
   {
-    id: 'chronowatch-horology',
-    title: 'ChronoWatch Horology Studio',
+    id: 'chrono-geneve-horology',
+    title: 'Chrono Genève Haute Horlogerie',
     subtitle:
-      'Micro-displacement normal baking and exploded mechanical escapement gear animation.',
-    category: '3D Configurator',
+      'Heritage visual universe, custom display serif typography, and prestige catalog.',
+    category: 'Luxury Brand Identity',
     year: '2026',
-    client: 'Chrono Horology Genève',
+    client: 'Chrono Genève Horology',
     image: img4,
-    tagline: 'MICRO-DISPLACEMENT & EXPLODED GEAR MOTION',
-    tags: ['Micro PBR', 'Exploded Animation', 'Jeweled Movement'],
+    tagline: 'HERITAGE BRANDING, CUSTOM SERIF & COLLECTORS CATALOG',
+    tags: ['Luxury Branding', 'Custom Typeface', 'Brand Manual', 'Art Direction'],
     description:
-      'Luxury timepiece configurator with baked brushed titanium roughness maps, procedural sapphire crystal refraction, and exploded mechanical escapement gear animations.',
+      'Complete brand universe for an independent Swiss horologist, including custom crafted serif numerals, leather-bound brand manual, and prestige collectors catalog.',
   },
   {
-    id: 'biosculpt-character',
-    title: 'BioSculpt Organic Character Lab',
+    id: 'hyperion-soundworks-vinyl',
+    title: 'Hyperion Sonic Identity & Vinyl',
     subtitle:
-      'Subsurface scattering (SSS) texture baking and facial blendshape animation rig.',
-    category: 'Texture Baking',
+      'Multi-sensory vinyl record packaging with iridescent holographic foil stamping.',
+    category: 'Music & Packaging',
     year: '2025',
-    client: 'BioSculpt Media',
+    client: 'Hyperion Records London',
     image: img5,
-    tagline: 'SUBSURFACE SCATTERING & BLENDSHAPE BAKING',
-    tags: ['SSS Baking', 'Blendshapes', 'Facial Rig', 'Skin Shader'],
+    tagline: 'VINYL SLEEVE DESIGN & GENERATIVE BRAND IDENTITY',
+    tags: ['Vinyl Packaging', 'Generative Art', 'Sonic Branding', 'Holo Foil'],
     description:
-      'High-end digital avatar suite featuring baked subsurface scattering irradiance maps, micro-pore normal distribution, and 52 ARKit facial blendshape animations.',
+      'Multi-sensory vinyl record packaging featuring generative sound-wave patterns, iridescent holographic foil stamping, and animated audio-reactive social visualizers.',
   },
   {
-    id: 'exosuit-combat',
-    title: 'ExoSuit Armor Customizer',
+    id: 'neoflora-botanical-spirits',
+    title: 'NeoFlora Botanical Spirits Label',
     subtitle:
-      'Multi-channel curvature and procedural weather wear baking with modular attachment rigging.',
-    category: '3D Configurator',
+      'Intricate botanical linework, micro-embossed cotton stock, and copper foil neck seal.',
+    category: 'Packaging & Print',
     year: '2026',
-    client: 'Aegis Armament',
+    client: 'NeoFlora Distilleries',
     image: img6,
-    tagline: 'CURVATURE WEAR & MODULAR ATTACHMENT RIGS',
-    tags: ['Curvature Baking', 'Modular Attachments', 'Weathering'],
+    tagline: 'BOTANICAL LABEL ARCHITECTURE & TACTILE EMBOSSING',
+    tags: ['Packaging Design', 'Botanical Illustration', 'Embossing', 'Copper Foil'],
     description:
-      'Military-grade combat exoskeleton configurator allowing users to simulate realistic armor scratch degradation, heat discolouration, and swap modular plating in real time.',
+      'Craft beverage packaging incorporating intricate hand-drawn botanical linework, micro-embossed textured recycled cotton stock, and copper foil neck bands.',
   },
   {
-    id: 'quantum-visualizer',
-    title: 'Quantum Volumetric Engine',
+    id: 'prism-collective-system',
+    title: 'Prism Modular Design System',
     subtitle:
-      'Volumetric density baking and vector field particle animation visualizer.',
-    category: 'Spatial WebGL',
+      'Adaptive digital brand framework with responsive SVG marks and token libraries.',
+    category: 'Digital Brand Systems',
     year: '2026',
-    client: 'Quantum Labs',
+    client: 'Prism Network Tokyo',
     image: img7,
-    tagline: 'VOLUMETRIC DENSITY & VECTOR FIELD MOTION',
-    tags: ['Volumetrics', 'Vector Fields', 'GPU Compute'],
+    tagline: 'MODULAR BRAND SYSTEMS & KINETIC DIGITAL GUIDELINES',
+    tags: ['Design Systems', 'Figma Tokens', 'Responsive Brandmark', 'UI Architecture'],
     description:
-      'Real-time simulation engine that bakes high-density fluid voxels and electromagnetic vector fields into compact 3D texture lookup tables with zero performance drop.',
+      'An adaptive visual identity framework built for digital-first creative agencies, complete with responsive vector marks, dynamic typography scales, and motion tokens.',
   },
   {
-    id: 'neurodrone-flight',
-    title: 'NeuroDrone Flight Visualizer',
+    id: 'monolith-museum-identity',
+    title: 'Monolith Museum Spatial Identity',
     subtitle:
-      'Photogrammetry texture baking and aerodynamic wind tunnel streamline animations.',
-    category: 'Animation & Rigging',
+      'Large-format outdoor banners, modular gallery wayfinding, and exhibition catalogs.',
+    category: 'Exhibition & Posters',
     year: '2025',
-    client: 'NeuroAero Dynamics',
+    client: 'Monolith Foundation Zurich',
     image: img8,
-    tagline: 'PHOTOGRAMMETRY BAKING & STREAMLINE MOTION',
-    tags: ['Photogrammetry', 'Wind Tunnel', 'Telemetry Twin'],
+    tagline: 'EXHIBITION SIGNAGE, WAYFINDING & SPATIAL GRAPHICS',
+    tags: ['Exhibition Identity', 'Wayfinding', 'Large-Format Print', 'Art Direction'],
     description:
-      'Industrial drone configurator with photogrammetric surface baking, live rotor kinematic animations, and interactive aerodynamic airflow streamlines.',
+      'Complete spatial and graphic identity for an international modern art exhibition, featuring 15-meter outdoor typographic banners, gallery signage, and merchandise.',
   },
 ];
 
@@ -388,12 +388,18 @@ const WorkCards = () => {
                 </div>
               </div>
 
-              {/* Main Section Heading */}
+              {/* Main Section Heading with Kinetic Entrance */}
               <div className="wc__heading-block">
-                <h2 className="wc__main-title">
-                  3D Configurators<br />
-                  <span className="wc__title-accent">&amp; Baked Renders</span>
-                </h2>
+                <motion.h2
+                  className="wc__main-title"
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  Brand Identities<br />
+                  <span className="wc__title-accent">&amp; Visual Systems</span>
+                </motion.h2>
               </div>
 
               {/* Dynamic Project Details (Number, Category, Title, Subtitle) */}
@@ -426,7 +432,7 @@ const WorkCards = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Action Link: View All 3D Projects */}
+              {/* Action Link: View All Design Disciplines */}
               <div className="wc__left-action-row">
                 <a
                   href="#services"
@@ -442,7 +448,7 @@ const WorkCards = () => {
                     }
                   }}
                 >
-                  <span>VIEW ALL 3D PROJECTS</span>
+                  <span>VIEW ALL DESIGN DISCIPLINES</span>
                   <svg
                     width="15"
                     height="15"

@@ -6,99 +6,99 @@ import '../pages/pages.css';
 
 const SERVICES = [
   {
-    id: 'baking',
+    id: 'branding',
     number: '01',
-    title: 'Real-Time GPU Texture Baking & UVs',
-    category: 'TEXTURE SYNTHESIS & CAGES',
-    tagline: 'High-to-low poly cage baking and multi-channel PBR synthesis with zero artifacts.',
-    description: 'Hardware-accelerated texture baking that projects 100M+ poly sculpts into micro-displacement, normal, AO, and curvature maps.',
+    title: 'Brand Identity & Visual Architecture',
+    category: 'BRAND STRATEGY & LOGOS',
+    tagline: 'Comprehensive visual identity frameworks, iconic logo marks, and cohesive design systems.',
+    description: 'We forge distinct brand personalities through bespoke logotypes, comprehensive visual design guidelines, bespoke color theories, and multi-platform identity systems.',
     icon: 'bars',
-    deliverables: ['High-to-Low Poly Normal Cage Baking', 'Ambient Occlusion & Curvature Extraction', 'Automated UV Unwrapping & Seam Packing', 'Roughness & Metalness Map Compilation', 'Multi-Texture Atlas Channel Consolidation'],
-    pricing: 'From $5,000',
-    timeline: '1–3 weeks',
+    deliverables: ['Bespoke Logo Suites & Monograms', 'Brand Guidelines & Design Tokens', 'Visual Personality & Moodboards', 'Stationery & Corporate Collateral', 'Sub-Brand Architecture Systems'],
+    pricing: 'From $4,500',
+    timeline: '3–5 weeks',
   },
   {
-    id: 'configurator',
+    id: 'packaging',
     number: '02',
-    title: 'Interactive 3D Web Configurators',
-    category: 'WEBGL 3D CONFIGURATION',
-    tagline: 'Hyper-responsive, customized 3D product viewports for web and spatial commerce.',
-    description: 'Scalable WebGL 3D configurators with real-time part swapping, procedural material customization, and camera director controls.',
+    title: 'Luxury Packaging & Structural Print',
+    category: 'PACKAGING & TACTILE PRINT',
+    tagline: 'High-impact physical packaging with custom die-lines, specialty finishes, and foil stamping.',
+    description: 'From luxury perfume boxes to organic botanical bottles, we craft tangible packaging that commands retail presence through tactile stocks, foil embossing, and sustainable materials.',
     icon: 'radar',
-    deliverables: ['Three.js & WebGL 2.0 Configurator Engines', 'Instantaneous Texture & Material Swapping', 'Modular Part Assembly & Attachment Logic', 'Interactive Exploded View Presentations', 'Mobile-Optimized Touch Orbit Gestures'],
-    pricing: 'From $12,000',
-    timeline: '4–8 weeks',
-  },
-  {
-    id: 'animation',
-    number: '03',
-    title: 'Skeletal Rigging & 3D Animation',
-    category: 'KINETIC RIGS & MOTION',
-    tagline: 'Kinematic skeletal animation, blendshapes, and secondary physics.',
-    description: 'Professional bone rigging, morph target facial animation, and physics-driven spring dynamics for interactive 3D web models.',
-    icon: 'prism',
-    deliverables: ['Dual-Quaternion Skeletal Rigging', 'ARKit 52 Facial Blendshape Calibration', 'Procedural Inverse Kinematics (IK) Rigs', 'Cinematic Camera Motion Choreography', 'Interactive State Machine Animation Graphs'],
-    pricing: 'From $8,000',
+    deliverables: ['Custom Die-Lines & Unfolded Templates', 'Foil Stamping & Emboss Specifications', 'CMYK & Pantone Spot Color Profiles', 'Sustainable & Recycled Stock Selection', '3D Photorealistic Packaging Mockups'],
+    pricing: 'From $5,500',
     timeline: '3–6 weeks',
   },
   {
-    id: 'lightmaps',
-    number: '04',
-    title: 'Global Illumination & Lightmap Baking',
-    category: 'RADIOSITY & LIGHTMAPS',
-    tagline: 'Pre-computed radiosity and raytraced bounce lighting for 120 FPS web playback.',
-    description: 'Bake complex ray-traced lighting, contact shadow penumbras, and caustics into lightweight HDR lightmap textures.',
-    icon: 'nodes',
-    deliverables: ['Multi-Bounce Radiosity GI Computation', 'Daylight & Artificial Lightmap Mixing', 'High-Dynamic Range (HDR) Lightmaps', 'Indirect Reflection Probe Precomputation', 'Zero-Overhead Static Scene Rendering'],
-    pricing: 'From $6,000',
+    id: 'typography',
+    number: '03',
+    title: 'Kinetic Typography & Custom Type',
+    category: 'TYPE DESIGN & MOTION',
+    tagline: 'Expressive typographic layouts, custom display fonts, and dynamic motion typography.',
+    description: 'Words that move, inspire, and define culture. We design bespoke glyph sets, dynamic typographic scales, and kinetic type animations for screen and space.',
+    icon: 'prism',
+    deliverables: ['Custom Display & Headline Typefaces', 'Variable Font Weight Configuration', 'Kinetic Typography Motion Loops', 'Editorial Hierarchy & Text Grid Systems', 'Cross-Platform Font Licensing Support'],
+    pricing: 'From $3,500',
     timeline: '2–4 weeks',
   },
   {
-    id: 'shaders',
-    number: '05',
-    title: 'Custom GLSL Shaders & Material Lab',
-    category: 'PBR SHADER GRAPH',
-    tagline: 'Bespoke GLSL and Three.js custom shaders for exotic optical materials.',
-    description: 'Custom shader development for anisotropic carbon fiber, clearcoat car paint, thin-film iridescence, and refractive dispersion.',
-    icon: 'wave',
-    deliverables: ['Custom GLSL Fragment & Vertex Shaders', 'Anisotropic Brushed Metal & Carbon Weaves', 'Clearcoat Lacquer & Orange-Peel Bump', 'Subsurface Scattering (SSS) Approximation', 'Refractive Glass Dispersion & Fresnel Rims'],
-    pricing: 'From $7,000',
-    timeline: '2–5 weeks',
-  },
-  {
-    id: 'optimization',
-    number: '06',
-    title: 'Mesh Decimation & LOD Pipelines',
-    category: 'DRAWCALL MINIMIZATION',
-    tagline: 'Drastic draw call reduction and geometric decimation for instant load times.',
-    description: 'Transform heavy 500MB CAD files into snappy 5MB WebGL assets with intelligent polygon reduction and draw-call merging.',
-    icon: 'arcs',
-    deliverables: ['Quadric Error Metric Mesh Decimation', 'Automated Hierarchical LOD Generation', 'Draw-Call Batching & Material Merging', 'Draco & Meshopt Compression Pipelines', 'Sub-50ms Initial Asset Hydration'],
+    id: 'editorial',
+    number: '04',
+    title: 'Editorial Design & Art Publications',
+    category: 'EDITORIAL & PUBLICATIONS',
+    tagline: 'Museum-grade monographs, luxury coffee table books, lookbooks, and high-fashion magazines.',
+    description: 'Elevated layout design guided by Swiss typographic grids, exquisite white-space balance, custom grid ratios, and tactile paper curation.',
+    icon: 'nodes',
+    deliverables: ['Swiss Grid Layout Architectures', 'Art Catalog & Book Binding Curation', 'Editorial Page Spreads & Pacing', 'Print Pre-Flight Production Checks', 'Digital Interactive PDF Publications'],
     pricing: 'From $4,000',
-    timeline: '1–3 weeks',
+    timeline: '3–6 weeks',
   },
   {
-    id: 'spatial-webxr',
-    number: '07',
-    title: 'Spatial 3D & WebXR Environments',
-    category: 'SPATIAL COMPUTING',
-    tagline: 'Immersive AR product placement and browser-based VR showrooms.',
-    description: 'WebXR-enabled 3D product showrooms allowing users to place baked 3D models in their physical spaces with realistic scale and shadows.',
-    icon: 'compass',
-    deliverables: ['WebXR Augmented Reality (AR) Placement', 'Virtual Reality 3D Showroom Walkthroughs', 'Real-Time Spatial Audio Spatialization', 'Environmental Lighting Adaptation (HDR)', 'Cross-Device Apple Vision Pro Compatibility'],
-    pricing: 'From $14,000',
-    timeline: '6–10 weeks',
+    id: 'art-direction',
+    number: '05',
+    title: 'Creative Direction & Visual Concepts',
+    category: 'ART DIRECTION & CAMPAIGNS',
+    tagline: 'Cohesive aesthetic narratives for high-end fashion, tech pioneers, and luxury lifestyle brands.',
+    description: 'Setting the visual tone through high-concept mood direction, bespoke photoshoot styling guidance, color narrative curation, and cross-media consistency.',
+    icon: 'wave',
+    deliverables: ['Campaign Moodboards & Creative Briefs', 'Photography & Render Art Direction', 'Color Palette & Tone-of-Voice Guides', 'Cross-Channel Campaign Guidelines', 'Creative Production Supervision'],
+    pricing: 'From $6,000',
+    timeline: '4–8 weeks',
   },
   {
-    id: 'export',
-    number: '08',
-    title: 'Multi-Format Export & Asset Pipeline',
-    category: 'PRODUCTION ASSET DELIVERY',
-    tagline: 'Production-ready glTF/GLB, USDZ, and FBX generation for web and game engines.',
-    description: 'Seamless automated export pipelines generating production-grade 3D assets ready for Shopify, Unreal Engine, Unity, and iOS QuickLook.',
-    icon: 'orbit',
-    deliverables: ['glTF 2.0 / GLB Binary Optimization', 'Apple iOS QuickLook USDZ Packaging', 'Unreal Engine & Unity Asset Presets', 'Automated Headless Cloud Baking API', 'Cloud CDN Texture Streaming Architecture'],
+    id: 'digital-systems',
+    number: '06',
+    title: 'Digital Design Systems & UI Assets',
+    category: 'FIGMA TOKENS & DIGITAL',
+    tagline: 'Modular Figma component libraries, responsive iconography, and digital brand toolkits.',
+    description: 'Unifying brand consistency across digital ecosystems with scalable vector assets, responsive icon families, and seamless designer-to-developer token handoffs.',
+    icon: 'arcs',
+    deliverables: ['Scalable SVG Iconography Sets', 'Figma Component & Variable Libraries', 'Responsive Digital Brand Assets', 'Social Media Asset Templates', 'Web & App Design Token Systems'],
     pricing: 'From $5,000',
+    timeline: '3–5 weeks',
+  },
+  {
+    id: 'poster-exhibition',
+    number: '07',
+    title: 'Exhibition Signage & Poster Design',
+    category: 'SPATIAL GRAPHICS & POSTERS',
+    tagline: 'Large-scale typographic posters, gallery wayfinding, and architectural exhibition graphics.',
+    description: 'Translating graphic design into physical spatial environments, large-format silk-screened posters, and intuitive gallery wayfinding systems.',
+    icon: 'compass',
+    deliverables: ['Screen-Printed Poster Series', 'Architectural Wayfinding & Signage', 'Exhibition Wall Typography & Vinyls', 'Festival & Event Identity Suites', 'Large-Format Billboard Visuals'],
+    pricing: 'From $3,500',
+    timeline: '2–4 weeks',
+  },
+  {
+    id: 'motion-graphics',
+    number: '08',
+    title: 'Motion Graphics & Brand Idents',
+    category: '2D/3D MOTION & BROADCAST',
+    tagline: 'Dynamic logo stings, broadcast idents, and kinetic social media campaigns.',
+    description: 'Injecting kinetic energy into static identities through liquid vector morphs, 3D logo reveals, and captivating motion language.',
+    icon: 'orbit',
+    deliverables: ['Animated 2D/3D Logo Reveals', 'Broadcast & Video Title Sequences', 'Kinetic Social Media Motion Kits', 'Looping Seamless Brand Idents', 'Lottie / SVG Web Motion Assets'],
+    pricing: 'From $4,200',
     timeline: '2–4 weeks',
   },
 ];
@@ -194,24 +194,24 @@ export default function ServicesPage() {
         <div className="page-hero__glow" />
 
         <motion.div className="page-hero__tag" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <span className="page-hero__tag-dot" /> 3D Capabilities &amp; Services
+          <span className="page-hero__tag-dot" /> Design Disciplines &amp; Studio Services
         </motion.div>
 
         <motion.h1 className="page-hero__heading"
           initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}>
-          Pipelines built<br/>for <em>120 FPS</em> 3D.
+          Identities crafted<br/>with <em>enduring distinction</em>.
         </motion.h1>
 
         <motion.p className="page-hero__subheading"
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-          From GPU texture baking and radiosity lightmaps to interactive 3D WebGL configurators and skeletal kinematics.
+          From comprehensive brand architectures and luxury tactile packaging to kinetic typography, editorial monographs, and scalable digital design systems.
         </motion.p>
 
         <div className="page-hero__meta">
           <span className="page-hero__meta-line">{SERVICES.length} Disciplines</span>
-          <span className="page-hero__meta-line">End-to-End Pipeline</span>
+          <span className="page-hero__meta-line">Full Brand Ecosystem</span>
         </div>
       </section>
 
@@ -219,7 +219,7 @@ export default function ServicesPage() {
       <section className="page-section">
         <div className="page-rule page-rule--tight">
           <div className="page-rule__line" />
-          <span className="page-rule__text">All 3D Disciplines</span>
+          <span className="page-rule__text">All Design Disciplines</span>
           <div className="page-rule__line" />
         </div>
         <motion.div
@@ -239,17 +239,17 @@ export default function ServicesPage() {
 
       {/* ── PROCESS ── */}
       <section className="page-section page-section--mid">
-        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Baking Pipeline</motion.div>
+        <motion.div className="page-section__label" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>Our Creative Process</motion.div>
         <motion.h2 className="page-section__heading page-section__heading--spaced" initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
-          The 3D baking &amp;<br/>animation process.
+          The graphic design &amp;<br/>brand identity journey.
         </motion.h2>
         <motion.ul className="page-numbered-list" initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           {[
-            { n: '01', title: 'High-Poly Ingestion & Topology', desc: 'We ingest heavy CAD, ZBrush sculpts, or Maya assemblies, analyzing surface curvature and preparing clean low-poly retopology.' },
-            { n: '02', title: 'UV Packing & Cage Setup', desc: 'Optimal automated UV packing with maximum texel density and custom projection cages to prevent normal skewing.' },
-            { n: '03', title: 'GPU Texture & Lightmap Baking', desc: 'Hardware-accelerated baking of 4K/8K Normal, AO, Curvature, Roughness, and Radiosity GI lightmaps in seconds.' },
-            { n: '04', title: 'Rigging, Animation & Shaders', desc: 'Kinematic skeletal rigging, facial blendshapes, and custom GLSL shaders engineered for browser viewport interaction.' },
-            { n: '05', title: 'Configurator Assembly & Deployment', desc: 'Full Three.js / WebGL integration with modular part swapping, touch orbit controls, and Shopify/WebXR export.' },
+            { n: '01', title: 'Discovery & Visual Strategy', desc: 'We immerse ourselves into your brand heritage, market positioning, target demographics, and creative ambitions to formulate a distinct visual thesis.' },
+            { n: '02', title: 'Typographic & Conceptual Exploration', desc: 'Bespoke letterform crafting, custom glyph development, moodboard curation, and iterative mark experimentation guided by Swiss design principles.' },
+            { n: '03', title: 'Identity System Architecture', desc: 'Designing comprehensive color systems, modular layout grids, tactile packaging mockups, and corporate collateral suites with meticulous detail.' },
+            { n: '04', title: 'Brand Guidelines & Digital Tokens', desc: 'Codifying your visual identity into comprehensive interactive brand guidelines, Figma component libraries, and scalable vector assets.' },
+            { n: '05', title: 'Print Production & Multi-Platform Launch', desc: 'Hands-on print pre-flight checks, foil stamp & embossing supervision, and seamless asset deployment across digital and physical touchpoints.' },
           ].map((step) => (
             <motion.li key={step.n} className="page-numbered-item" variants={fadeUp}>
               <span className="page-numbered-item__num">{step.n}</span>
@@ -265,14 +265,14 @@ export default function ServicesPage() {
       {/* ── CTA ── */}
       <section className="page-section about-cta-section">
         <motion.div className="about-cta-inner" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-          <h2 className="about-cta-heading">Ready to build with Nexora Studio?</h2>
-          <p className="about-cta-sub">Tell us about your 3D vision — we'll tailor a custom real-time pipeline.</p>
+          <h2 className="about-cta-heading">Ready to elevate your brand identity?</h2>
+          <p className="about-cta-sub">Tell us about your brand vision — we'll tailor a bespoke visual design system.</p>
           <div className="about-cta-actions">
             <Link to="/contact" className="page-btn page-btn--primary">
               Start a project →
             </Link>
             <Link to="/work" className="page-btn page-btn--outline">
-              See 3D showcases
+              See design showcases
             </Link>
           </div>
         </motion.div>

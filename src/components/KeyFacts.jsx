@@ -571,8 +571,16 @@ const KeyFacts = () => {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <h2 className="kf__title">Key Facts</h2>
-          <p className="kf__subtitle">A snapshot of our creative impact</p>
+          <motion.h2
+            className="kf__title"
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            Key Facts
+          </motion.h2>
+          <p className="kf__subtitle">A snapshot of our creative impact &amp; design excellence</p>
         </motion.div>
 
         {/* 3 Levitating Glass Cards Stage */}
@@ -597,7 +605,7 @@ const KeyFacts = () => {
                 <AnimatedCounter to={150} suffix="+" />
               </div>
               <h3 className="kf__card-heading">Projects Delivered</h3>
-              <p className="kf__card-sub">Complete Identities.</p>
+              <p className="kf__card-sub">Brand Identities &amp; Packaging.</p>
             </div>
           </motion.div>
 
@@ -621,7 +629,7 @@ const KeyFacts = () => {
                 <AnimatedCounter to={98} suffix="%" />
               </div>
               <h3 className="kf__card-heading">Satisfied Clients</h3>
-              <p className="kf__card-sub">&amp; Visual Design</p>
+              <p className="kf__card-sub">Across 18+ Countries Worldwide.</p>
             </div>
           </motion.div>
 
@@ -645,7 +653,7 @@ const KeyFacts = () => {
                 <AnimatedDecimalCounter to={2.5} suffix="K+" />
               </div>
               <h3 className="kf__card-heading">Custom Assets Created</h3>
-              <p className="kf__card-sub">and motifs crafted.</p>
+              <p className="kf__card-sub">Logomarks, Glyphs &amp; Tokens.</p>
             </div>
           </motion.div>
         </div>

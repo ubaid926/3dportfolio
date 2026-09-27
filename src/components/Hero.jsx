@@ -791,21 +791,21 @@ const Hero = () => {
           {/* Small Category Label */}
           <div className="hero__eyebrow">
             <span className="hero__eyebrow-dot" />
-            <span className="hero__eyebrow-text">Graphic Designer</span>
+            <span className="hero__eyebrow-text">Graphic Designer &amp; Art Director</span>
           </div>
 
           {/* Main Display Heading */}
           <h1 className="hero__heading">
-            <span className="hero__heading-line">Turning Ideas</span>
+            <span className="hero__heading-line">Shaping Brands</span>
             <span className="hero__heading-line">
-              into <span className="hero__heading-accent">Visual</span>
+              with <span className="hero__heading-accent">Visual</span> Depth
             </span>
-            <span className="hero__heading-line">Experiences</span>
+            <span className="hero__heading-line">&amp; Design Systems</span>
           </h1>
 
           {/* Supporting Statement */}
           <p className="hero__desc">
-            I'm a graphic designer focused on creating bold visuals, clean designs and memorable brand experiences.
+            Senior Graphic Designer and Visual Art Director crafting iconic brand identities, luxury packaging, kinetic typography, and high-impact digital design systems.
           </p>
 
           {/* Bottom Scroll Indicator */}

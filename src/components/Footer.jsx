@@ -5,7 +5,7 @@ import './Footer.css';
 
 /* =========================================================
    INTERACTIVE WAVEFORM BARS (Bottom of Footer)
-   Lines that animate autonomously AND react to mouse hover
+   Audio frequency spectrum with reactive neon cyan bloom
    ========================================================= */
 const WaveformBars = () => {
   const canvasRef = useRef(null);
@@ -18,7 +18,7 @@ const WaveformBars = () => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    const NUM_COLS = 22;
+    const NUM_COLS = 28;
     const NUM_ROWS = 8;
 
     const handleMouseMove = (e) => {
@@ -59,30 +59,41 @@ const WaveformBars = () => {
           const cy = row * rowH + rowH / 2;
 
           // Organic wave motion
-          const wave = Math.sin(t * 1.4 + col * 0.55 + row * 0.3) * 0.5 + 0.5;
-          const wave2 = Math.sin(t * 0.8 - col * 0.4 + row * 0.6) * 0.5 + 0.5;
+          const wave = Math.sin(t * 1.5 + col * 0.45 + row * 0.35) * 0.5 + 0.5;
+          const wave2 = Math.sin(t * 0.9 - col * 0.3 + row * 0.5) * 0.5 + 0.5;
           const combined = (wave + wave2) / 2;
 
           // Mouse proximity influence
           const dx = cx - mouseRef.current.x;
           const dy = cy - mouseRef.current.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          const proximity = Math.max(0, 1 - dist / 200);
+          const proximity = Math.max(0, 1 - dist / 220);
 
-          // Line length: base wave + hover glow
-          const baseLen = colW * 0.55 * (0.3 + combined * 0.7);
-          const hoverBoost = proximity * colW * 0.6;
+          // Line length: base wave + hover boost
+          const baseLen = colW * 0.58 * (0.3 + combined * 0.7);
+          const hoverBoost = proximity * colW * 0.8;
           const lineLen = baseLen + hoverBoost;
 
-          // Opacity: dimmer far from mouse, brighter near
-          const baseOpacity = 0.18 + combined * 0.22;
-          const hoverOpacity = proximity * 0.75;
-          const opacity = Math.min(1, baseOpacity + hoverOpacity);
+          // Dynamic colors: when near mouse, turns electric cyan with glowing shadow!
+          const isNear = proximity > 0.15;
+          const baseOpacity = 0.16 + combined * 0.22;
+          const opacity = Math.min(1, baseOpacity + proximity * 0.8);
 
           ctx.save();
           ctx.globalAlpha = opacity;
-          ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
-          ctx.lineWidth = proximity > 0.2 ? 1.5 : 0.85;
+
+          if (isNear) {
+            ctx.strokeStyle = `rgba(56, 189, 248, ${opacity})`;
+            ctx.shadowColor = '#38bdf8';
+            ctx.shadowBlur = 8;
+            ctx.lineWidth = 1.8;
+          } else {
+            ctx.strokeStyle = `rgba(148, 163, 184, ${opacity})`;
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.lineWidth = 0.9;
+          }
+
           ctx.lineCap = 'round';
           ctx.beginPath();
           ctx.moveTo(cx - lineLen / 2, cy);
@@ -109,7 +120,7 @@ const WaveformBars = () => {
 };
 
 /* =========================================================
-   ANIMATED BACKGROUND CANVAS (Floating glowing orbs)
+   ANIMATED BACKGROUND CANVAS (Cosmic Space Nebulae & Stars)
    ========================================================= */
 const FooterBackground = () => {
   const canvasRef = useRef(null);
@@ -128,14 +139,24 @@ const FooterBackground = () => {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    // Define glowing orbs
+    // Glowing cosmic nebulae
     const orbs = [
-      { x: 0.22, y: 0.45, r: 0.42, color: '255,255,255', speed: 0.18, phase: 0 },
-      { x: 0.65, y: 0.3,  r: 0.28, color: '200,210,255', speed: 0.27, phase: 1.4 },
-      { x: 0.5,  y: 0.7,  r: 0.22, color: '180,200,255', speed: 0.22, phase: 2.8 },
-      { x: 0.12, y: 0.15, r: 0.18, color: '255,255,255', speed: 0.15, phase: 0.7 },
-      { x: 0.85, y: 0.6,  r: 0.20, color: '210,220,255', speed: 0.32, phase: 4.2 },
+      { x: 0.18, y: 0.35, r: 0.45, color: '37,99,235', speed: 0.15, phase: 0 },
+      { x: 0.72, y: 0.28, r: 0.38, color: '56,189,248', speed: 0.22, phase: 1.6 },
+      { x: 0.48, y: 0.65, r: 0.32, color: '124,58,237', speed: 0.18, phase: 3.1 },
+      { x: 0.85, y: 0.75, r: 0.28, color: '14,165,233', speed: 0.26, phase: 4.5 },
     ];
+
+    // Star dust particles
+    const stars = Array.from({ length: 50 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      size: Math.random() * 1.5 + 0.4,
+      alpha: Math.random() * 0.45 + 0.12,
+      speed: Math.random() * 0.02 + 0.005,
+      phase: Math.random() * Math.PI * 2,
+      isCyan: Math.random() > 0.6,
+    }));
 
     let startTime = null;
 
@@ -145,36 +166,51 @@ const FooterBackground = () => {
       const W = canvas.width;
       const H = canvas.height;
 
-      // Clear with deep black
-      ctx.fillStyle = '#080808';
+      // Deep void background
+      ctx.fillStyle = '#02040b';
       ctx.fillRect(0, 0, W, H);
 
-      // Draw each glowing orb
+      // Draw cosmic nebulae
       orbs.forEach((orb) => {
-        // Gentle floating motion
-        const fx = Math.sin(t * orb.speed + orb.phase) * 0.06;
-        const fy = Math.cos(t * orb.speed * 0.7 + orb.phase) * 0.04;
+        const fx = Math.sin(t * orb.speed + orb.phase) * 0.05;
+        const fy = Math.cos(t * orb.speed * 0.7 + orb.phase) * 0.03;
         const ox = (orb.x + fx) * W;
         const oy = (orb.y + fy) * H;
         const radius = orb.r * Math.min(W, H);
 
-        // Breathing pulse
-        const pulse = 1 + 0.08 * Math.sin(t * orb.speed * 2.5 + orb.phase);
+        const pulse = 1 + 0.08 * Math.sin(t * orb.speed * 2.2 + orb.phase);
         const finalR = radius * pulse;
-
-        // Intensity fluctuation
-        const intensity = 0.055 + 0.025 * Math.sin(t * orb.speed * 1.8 + orb.phase * 0.5);
+        const intensity = 0.085 + 0.035 * Math.sin(t * orb.speed * 1.5 + orb.phase * 0.5);
 
         const grad = ctx.createRadialGradient(ox, oy, 0, ox, oy, finalR);
-        grad.addColorStop(0,   `rgba(${orb.color},${intensity * 2.2})`);
-        grad.addColorStop(0.3, `rgba(${orb.color},${intensity})`);
-        grad.addColorStop(0.7, `rgba(${orb.color},${intensity * 0.3})`);
-        grad.addColorStop(1,   `rgba(${orb.color},0)`);
+        grad.addColorStop(0, `rgba(${orb.color},${intensity * 1.8})`);
+        grad.addColorStop(0.4, `rgba(${orb.color},${intensity * 0.7})`);
+        grad.addColorStop(0.8, `rgba(${orb.color},${intensity * 0.15})`);
+        grad.addColorStop(1, `rgba(${orb.color},0)`);
 
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(ox, oy, finalR, 0, Math.PI * 2);
         ctx.fill();
+      });
+
+      // Draw twinkling stars
+      stars.forEach((star) => {
+        star.phase += star.speed;
+        const alpha = Math.max(0.05, star.alpha + Math.sin(star.phase) * 0.25);
+        ctx.beginPath();
+        ctx.arc(star.x * W, star.y * H, star.size, 0, Math.PI * 2);
+        if (star.isCyan) {
+          ctx.fillStyle = `rgba(56, 189, 248, ${alpha})`;
+          ctx.shadowColor = 'rgba(56, 189, 248, 0.6)';
+          ctx.shadowBlur = 4;
+        } else {
+          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+          ctx.shadowColor = 'rgba(255, 255, 255, 0.4)';
+          ctx.shadowBlur = 2;
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
       });
 
       rafRef.current = requestAnimationFrame(draw);
@@ -192,7 +228,7 @@ const FooterBackground = () => {
 };
 
 /* =========================================================
-   CLOCK DISPLAY (IST → HH:MM live clock)
+   LIVE CLOCK DISPLAY
    ========================================================= */
 const LiveClock = () => {
   const [time, setTime] = useState('');
@@ -210,16 +246,17 @@ const LiveClock = () => {
   }, []);
 
   return (
-    <span className="footer__clock">
-      IST → {time}
-    </span>
+    <div className="footer__clock-wrap">
+      <span className="footer__clock-dot" />
+      <span className="footer__clock">GLOBAL RUNTIME // {time}</span>
+    </div>
   );
 };
 
 /* =========================================================
-   CTA LINK ROW (bordered arrow row)
+   CTA LINK ROW (Cybernetic Numbered Arrow Row)
    ========================================================= */
-const CtaRow = ({ label, href = '#contact', delay = 0 }) => {
+const CtaRow = ({ number = '01', label, subtitle = '', href = '#contact', delay = 0 }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.a
@@ -232,9 +269,15 @@ const CtaRow = ({ label, href = '#contact', delay = 0 }) => {
       viewport={{ once: true }}
       transition={{ delay, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
     >
-      <span className="footer__cta-label">{label}</span>
-      <span className="footer__cta-arrow">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <div className="footer__cta-left">
+        <span className="footer__cta-num">{number}</span>
+        <div className="footer__cta-titles">
+          <span className="footer__cta-label">{label}</span>
+          {subtitle && <span className="footer__cta-sub">{subtitle}</span>}
+        </div>
+      </div>
+      <span className="footer__cta-arrow-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="5" y1="12" x2="19" y2="12" />
           <polyline points="12 5 19 12 12 19" />
         </svg>
@@ -251,16 +294,19 @@ const Footer = () => {
   const headingRef = useRef(null);
   const isInView = useInView(footerRef, { once: true, margin: '-60px' });
 
-  // Split "Ready to build with Nexora Studio?" into chars for stagger animation
-  const headingLine1 = 'Ready to build';
-  const headingLine2 = 'with Nexora Studio?';
+  const headingLine1 = 'Ready to elevate';
+  const headingLine2 = 'your brand identity?';
 
-  const renderHeadingLine = (text, lineKey, baseDelay) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderHeadingLine = (text, lineKey, baseDelay, isAccent = false) => {
     let charOffset = 0;
     const words = text.split(' ');
 
     return (
-      <span className="footer__heading-line">
+      <span className={`footer__heading-line ${isAccent ? 'footer__heading-line--accent' : ''}`}>
         {words.map((word, wIdx) => {
           const chars = word.split('');
           const currentWordOffset = charOffset;
@@ -293,44 +339,96 @@ const Footer = () => {
 
   return (
     <footer id="contact" ref={footerRef} className="footer">
-      {/* ── Animated Background Canvas ── */}
+      {/* ── Animated Background Cosmic Nebulae & Stars Canvas ── */}
       <FooterBackground />
 
       {/* ── Top Micro Strip ── */}
       <div className="footer__top-strip">
-        <span className="footer__tagline">NEXORA STUDIO™ — REAL-TIME 3D ANIMATION CONFIGURATOR &amp; SPATIAL EXPERIENCES.</span>
-        <LiveClock />
+        <div className="footer__strip-left">
+          <span className="footer__strip-badge">SYSTEM 05</span>
+          <span className="footer__tagline">NEXORA STUDIO™ // BRAND IDENTITIES, LUXURY PACKAGING &amp; VISUAL SYSTEMS</span>
+        </div>
+        <div className="footer__strip-right">
+          <LiveClock />
+          <button className="footer__top-btn" onClick={scrollToTop} aria-label="Scroll to top of page">
+            <span>TOP</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polyline points="18 15 12 9 6 15" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* ── Main Content Grid ── */}
       <div className="footer__main-grid">
-        {/* LEFT: Hero Heading */}
+        {/* LEFT: Hero Heading & Guarantee Chip */}
         <div className="footer__left">
+          <div className="footer__category-pill">
+            <span className="footer__pill-pulse" />
+            <span className="footer__pill-text">BESPOKE VISUAL DIRECTION</span>
+          </div>
+
           <h2 ref={headingRef} className="footer__hero-heading">
-            {renderHeadingLine(headingLine1, 'l1', 0.1)}
-            {renderHeadingLine(headingLine2, 'l2', 0.25 + headingLine1.length * 0.028)}
+            {renderHeadingLine(headingLine1, 'l1', 0.1, false)}
+            {renderHeadingLine(headingLine2, 'l2', 0.25 + headingLine1.length * 0.028, true)}
           </h2>
+
+          <div className="footer__guarantee-row">
+            <span className="footer__guarantee-chip">
+              <span className="footer__chip-icon">⚡</span>
+              24H Rapid Discovery
+            </span>
+            <span className="footer__guarantee-chip">
+              <span className="footer__chip-icon">🛡️</span>
+              Full IP &amp; Font Rights
+            </span>
+            <span className="footer__guarantee-chip">
+              <span className="footer__chip-icon">✦</span>
+              Swiss Typographic Precision
+            </span>
+          </div>
         </div>
 
-        {/* RIGHT: CTA Rows */}
+        {/* RIGHT: High-Impact Cyber CTA Rows */}
         <div className="footer__right">
-          <CtaRow label="START A 3D PROJECT" href="#contact" delay={0.2} />
-          <CtaRow label="BOOK A TECHNICAL DEMO" href="https://cal.com" delay={0.32} />
+          <CtaRow
+            number="01"
+            label="START A BRAND PROJECT"
+            subtitle="Custom visual identity, packaging & typography"
+            href="#contact"
+            delay={0.2}
+          />
+          <CtaRow
+            number="02"
+            label="SCHEDULE A CONSULTATION"
+            subtitle="Direct creative session with our art directors"
+            href="https://cal.com"
+            delay={0.32}
+          />
+          <CtaRow
+            number="03"
+            label="EXPLORE DESIGN ARCHIVES"
+            subtitle="Browse identity case studies and print collections"
+            href="#work"
+            delay={0.42}
+          />
         </div>
       </div>
 
-      {/* ── Divider Line ── */}
-      <motion.div
-        className="footer__divider"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      />
+      {/* ── Cyber Hairline Divider with Crosshairs ── */}
+      <div className="footer__divider-wrap">
+        <motion.div
+          className="footer__divider"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        />
+      </div>
 
       {/* ── Lower Info Bar ── */}
       <div className="footer__info-bar">
-        {/* Left: Copyright + Sound Notice */}
+        {/* Left: Copyright + Engine Status */}
         <div className="footer__info-left">
           <motion.div
             className="footer__copyright"
@@ -340,8 +438,12 @@ const Footer = () => {
             transition={{ delay: 0.1, duration: 0.5 }}
           >
             <img src={logoImg} alt="Nexora Studio" className="footer__logo-img" />
-            <span>NEXORA STUDIO<sup>®</sup> 2026</span>
+            <div className="footer__brand-text">
+              <span className="footer__brand-name">NEXORA STUDIO<sup>®</sup></span>
+              <span className="footer__brand-copy">© 2026 GRAPHIC DESIGN &amp; ART DIRECTION STUDIO</span>
+            </div>
           </motion.div>
+
           <motion.div
             className="footer__sound-notice"
             initial={{ opacity: 0 }}
@@ -350,14 +452,21 @@ const Footer = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <span className="footer__sound-dot" />
-            NEXORA 3D ENGINE ACTIVE · HOVER THE FREQUENCY WAVEFORM.
+            <span>NEXORA AUDIO MATRIX ACTIVE · HOVER FREQUENCY SPECTRUM BELOW</span>
           </motion.div>
         </div>
 
-        {/* Center: empty spacer on desktop */}
-        <div className="footer__info-center" />
+        {/* Center: Location Nodes */}
+        <div className="footer__info-center">
+          <div className="footer__col-heading">STUDIO NODES</div>
+          <div className="footer__location-list">
+            <span className="footer__location-item">SAN FRANCISCO · CA</span>
+            <span className="footer__location-item">LONDON · UK</span>
+            <span className="footer__location-item">ZURICH · SWITZERLAND</span>
+          </div>
+        </div>
 
-        {/* Right: Business Enquiry + Social */}
+        {/* Right: Studio Enquiry + Social Grid */}
         <div className="footer__info-right">
           <motion.div
             className="footer__contact-col"
@@ -366,7 +475,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.15, duration: 0.5 }}
           >
-            <div className="footer__col-heading">STUDIO ENQUIRY</div>
+            <div className="footer__col-heading">DIRECT ENQUIRY</div>
             <a href="mailto:hello@nexora.studio" className="footer__contact-link">
               <span className="footer__prefix">E.</span> hello@nexora.studio
             </a>
@@ -382,19 +491,26 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.25, duration: 0.5 }}
           >
-            <div className="footer__col-heading">SOCIAL</div>
+            <div className="footer__col-heading">CHANNELS</div>
             <div className="footer__social-grid">
-              <a href="https://linkedin.com"  target="_blank" rel="noopener noreferrer" className="footer__social-link">Linkedin</a>
-              <a href="https://facebook.com"  target="_blank" rel="noopener noreferrer" className="footer__social-link">Facebook</a>
-              <a href="https://dribbble.com"  target="_blank" rel="noopener noreferrer" className="footer__social-link">Dribbble</a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="footer__social-link">LinkedIn</a>
+              <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" className="footer__social-link">Dribbble</a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="footer__social-link">GitHub</a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer__social-link">Instagram</a>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* ── Interactive Waveform Lines ── */}
+      {/* ── Interactive Waveform Section Header & Canvas ── */}
       <div className="footer__waveform-section">
+        <div className="footer__waveform-header">
+          <span className="footer__waveform-title">
+            <span className="footer__wave-pulse" />
+            AUDIO &amp; FREQUENCY MATRIX // 44.1 kHz SPATIAL HARMONICS
+          </span>
+          <span className="footer__waveform-hint">INTERACTIVE REAL-TIME SPECTRUM</span>
+        </div>
         <WaveformBars />
       </div>
     </footer>

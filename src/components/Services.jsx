@@ -10,141 +10,141 @@ import './Services.css';
 export const SERVICES_DATA = [
   // ── LEFT COLUMN SERVICES ──
   {
-    id: 'baking',
+    id: 'branding',
     side: 'left',
-    title: 'Real-Time GPU Texture Baking & UVs',
-    category: 'TEXTURE SYNTHESIS & CAGES',
-    tagline: 'High-to-low poly cage baking and multi-channel PBR synthesis with zero artifacts.',
+    title: 'Brand Identity & Visual Architecture',
+    category: 'BRAND STRATEGY & LOGOS',
+    tagline: 'Comprehensive visual identity frameworks, iconic logo marks, and cohesive design systems.',
     description:
-      'Hardware-accelerated texture baking that projects 100M+ poly sculpts into micro-displacement, normal, AO, and curvature maps.',
+      'We forge distinct brand personalities through bespoke logotypes, comprehensive visual design guidelines, bespoke color theories, and multi-platform identity systems.',
     icon: 'bars',
     deliverables: [
-      'High-to-Low Poly Normal Cage Baking',
-      'Ambient Occlusion & Curvature Extraction',
-      'Automated UV Unwrapping & Seam Packing',
-      'Roughness & Metalness Map Compilation',
-      'Multi-Texture Atlas Channel Consolidation',
+      'Bespoke Logo Suites & Monograms',
+      'Brand Guidelines & Design Tokens',
+      'Visual Personality & Moodboards',
+      'Stationery & Corporate Collateral',
+      'Sub-Brand Architecture Systems',
     ],
   },
   {
-    id: 'configurator',
+    id: 'packaging',
     side: 'left',
-    title: 'Interactive 3D Web Configurators',
-    category: 'WEBGL 3D CONFIGURATION',
-    tagline: 'Hyper-responsive, customized 3D product viewports for web and spatial commerce.',
+    title: 'Luxury Packaging & Structural Print',
+    category: 'PACKAGING & TACTILE PRINT',
+    tagline: 'High-impact physical packaging with custom die-lines, specialty finishes, and foil stamping.',
     description:
-      'Scalable WebGL 3D configurators with real-time part swapping, procedural material customization, and camera director controls.',
+      'From luxury perfume boxes to organic botanical bottles, we craft tangible packaging that commands retail presence through tactile stocks, foil embossing, and sustainable materials.',
     icon: 'radar',
     deliverables: [
-      'Three.js & WebGL 2.0 Configurator Engines',
-      'Instantaneous Texture & Material Swapping',
-      'Modular Part Assembly & Attachment Logic',
-      'Interactive Exploded View Presentations',
-      'Mobile-Optimized Touch Orbit Gestures',
+      'Custom Die-Lines & Unfolded Templates',
+      'Foil Stamping & Emboss Specifications',
+      'CMYK & Pantone Spot Color Profiles',
+      'Sustainable & Recycled Stock Selection',
+      '3D Photorealistic Packaging Mockups',
     ],
   },
   {
-    id: 'animation',
+    id: 'typography',
     side: 'left',
-    title: 'Skeletal Rigging & 3D Animation',
-    category: 'KINETIC RIGS & MOTION',
-    tagline: 'Kinematic skeletal animation, blendshapes, and secondary physics.',
+    title: 'Kinetic Typography & Custom Type',
+    category: 'TYPE DESIGN & MOTION',
+    tagline: 'Expressive typographic layouts, custom display fonts, and dynamic motion typography.',
     description:
-      'Professional bone rigging, morph target facial animation, and physics-driven spring dynamics for interactive 3D web models.',
+      'Words that move, inspire, and define culture. We design bespoke glyph sets, dynamic typographic scales, and kinetic type animations for screen and space.',
     icon: 'prism',
     deliverables: [
-      'Dual-Quaternion Skeletal Rigging',
-      'ARKit 52 Facial Blendshape Calibration',
-      'Procedural Inverse Kinematics (IK) Rigs',
-      'Cinematic Camera Motion Choreography',
-      'Interactive State Machine Animation Graphs',
+      'Custom Display & Headline Typefaces',
+      'Variable Font Weight Configuration',
+      'Kinetic Typography Motion Loops',
+      'Editorial Hierarchy & Text Grid Systems',
+      'Cross-Platform Font Licensing Support',
     ],
   },
   {
-    id: 'lightmaps',
+    id: 'editorial',
     side: 'left',
-    title: 'Global Illumination & Lightmap Baking',
-    category: 'RADIOSITY & LIGHTMAPS',
-    tagline: 'Pre-computed radiosity and raytraced bounce lighting for 120 FPS web playback.',
+    title: 'Editorial Design & Art Publications',
+    category: 'EDITORIAL & PUBLICATIONS',
+    tagline: 'Museum-grade monographs, luxury coffee table books, lookbooks, and high-fashion magazines.',
     description:
-      'Bake complex ray-traced lighting, contact shadow penumbras, and caustics into lightweight HDR lightmap textures.',
+      'Elevated layout design guided by Swiss typographic grids, exquisite white-space balance, custom grid ratios, and tactile paper curation.',
     icon: 'nodes',
     deliverables: [
-      'Multi-Bounce Radiosity GI Computation',
-      'Daylight & Artificial Lightmap Mixing',
-      'High-Dynamic Range (HDR) Lightmaps',
-      'Indirect Reflection Probe Precomputation',
-      'Zero-Overhead Static Scene Rendering',
+      'Swiss Grid Layout Architectures',
+      'Art Catalog & Book Binding Curation',
+      'Editorial Page Spreads & Pacing',
+      'Print Pre-Flight Production Checks',
+      'Digital Interactive PDF Publications',
     ],
   },
 
   // ── RIGHT COLUMN SERVICES ──
   {
-    id: 'shaders',
+    id: 'art-direction',
     side: 'right',
-    title: 'Custom GLSL Shaders & Material Lab',
-    category: 'PBR SHADER GRAPH',
-    tagline: 'Bespoke GLSL and Three.js custom shaders for exotic optical materials.',
+    title: 'Creative Direction & Visual Concepts',
+    category: 'ART DIRECTION & CAMPAIGNS',
+    tagline: 'Cohesive aesthetic narratives for high-end fashion, tech pioneers, and luxury lifestyle brands.',
     description:
-      'Custom shader development for anisotropic carbon fiber, clearcoat car paint, thin-film iridescence, and refractive dispersion.',
+      'Setting the visual tone through high-concept mood direction, bespoke photoshoot styling guidance, color narrative curation, and cross-media consistency.',
     icon: 'wave',
     deliverables: [
-      'Custom GLSL Fragment & Vertex Shaders',
-      'Anisotropic Brushed Metal & Carbon Weaves',
-      'Clearcoat Lacquer & Orange-Peel Bump',
-      'Subsurface Scattering (SSS) Approximation',
-      'Refractive Glass Dispersion & Fresnel Rims',
+      'Campaign Moodboards & Creative Briefs',
+      'Photography & Render Art Direction',
+      'Color Palette & Tone-of-Voice Guides',
+      'Cross-Channel Campaign Guidelines',
+      'Creative Production Supervision',
     ],
   },
   {
-    id: 'optimization',
+    id: 'digital-systems',
     side: 'right',
-    title: 'Mesh Decimation & LOD Pipelines',
-    category: 'DRAWCALL MINIMIZATION',
-    tagline: 'Drastic draw call reduction and geometric decimation for instant load times.',
+    title: 'Digital Design Systems & UI Assets',
+    category: 'FIGMA TOKENS & DIGITAL',
+    tagline: 'Modular Figma component libraries, responsive iconography, and digital brand toolkits.',
     description:
-      'Transform heavy 500MB CAD files into snappy 5MB WebGL assets with intelligent polygon reduction and draw-call merging.',
+      'Unifying brand consistency across digital ecosystems with scalable vector assets, responsive icon families, and seamless designer-to-developer token handoffs.',
     icon: 'arcs',
     deliverables: [
-      'Quadric Error Metric Mesh Decimation',
-      'Automated Hierarchical LOD Generation',
-      'Draw-Call Batching & Material Merging',
-      'Draco & Meshopt Compression Pipelines',
-      'Sub-50ms Initial Asset Hydration',
+      'Scalable SVG Iconography Sets',
+      'Figma Component & Variable Libraries',
+      'Responsive Digital Brand Assets',
+      'Social Media Asset Templates',
+      'Web & App Design Token Systems',
     ],
   },
   {
-    id: 'spatial-webxr',
+    id: 'poster-exhibition',
     side: 'right',
-    title: 'Spatial 3D & WebXR Environments',
-    category: 'SPATIAL COMPUTING',
-    tagline: 'Immersive AR product placement and browser-based VR showrooms.',
+    title: 'Exhibition Signage & Poster Design',
+    category: 'SPATIAL GRAPHICS & POSTERS',
+    tagline: 'Large-scale typographic posters, gallery wayfinding, and architectural exhibition graphics.',
     description:
-      'WebXR-enabled 3D product showrooms allowing users to place baked 3D models in their physical spaces with realistic scale and shadows.',
+      'Translating graphic design into physical spatial environments, large-format silk-screened posters, and intuitive gallery wayfinding systems.',
     icon: 'compass',
     deliverables: [
-      'WebXR Augmented Reality (AR) Placement',
-      'Virtual Reality 3D Showroom Walkthroughs',
-      'Real-Time Spatial Audio Spatialization',
-      'Environmental Lighting Adaptation (HDR)',
-      'Cross-Device Apple Vision Pro Compatibility',
+      'Screen-Printed Poster Series',
+      'Architectural Wayfinding & Signage',
+      'Exhibition Wall Typography & Vinyls',
+      'Festival & Event Identity Suites',
+      'Large-Format Billboard Visuals',
     ],
   },
   {
-    id: 'export',
+    id: 'motion-graphics',
     side: 'right',
-    title: 'Multi-Format Export & Asset Pipeline',
-    category: 'PRODUCTION ASSET DELIVERY',
-    tagline: 'Production-ready glTF/GLB, USDZ, and FBX generation for web and game engines.',
+    title: 'Motion Graphics & Brand Idents',
+    category: '2D/3D MOTION & BROADCAST',
+    tagline: 'Dynamic logo stings, broadcast idents, and kinetic social media campaigns.',
     description:
-      'Seamless automated export pipelines generating production-grade 3D assets ready for Shopify, Unreal Engine, Unity, and iOS QuickLook.',
+      'Injecting kinetic energy into static identities through liquid vector morphs, 3D logo reveals, and captivating motion language.',
     icon: 'orbit',
     deliverables: [
-      'glTF 2.0 / GLB Binary Optimization',
-      'Apple iOS QuickLook USDZ Packaging',
-      'Unreal Engine & Unity Asset Presets',
-      'Automated Headless Cloud Baking API',
-      'Cloud CDN Texture Streaming Architecture',
+      'Animated 2D/3D Logo Reveals',
+      'Broadcast & Video Title Sequences',
+      'Kinetic Social Media Motion Kits',
+      'Looping Seamless Brand Idents',
+      'Lottie / SVG Web Motion Assets',
     ],
   },
 ];
@@ -406,7 +406,7 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
           }}
         >
           <div className="srv__typo-grid">
-            {['BAKING', 'CONFIGURATOR', 'RIGGING', 'LIGHTMAPS'].map((word, idx) => (
+            {['BRANDING', 'PACKAGING', 'TYPOGRAPHY', 'EDITORIAL'].map((word, idx) => (
               <div key={word} className="srv__typo-row">
                 <button
                   className={`srv__word-btn ${hoveredWord === word ? 'active' : ''}`}
@@ -415,9 +415,14 @@ export const ServicesView = ({ progress = 0, onOpenModal }) => {
                   onClick={() => onOpenModal?.(SERVICES_DATA[idx])}
                   aria-label={`Explore ${word} Services`}
                 >
-                  <span className="srv__word" style={{ color: wordColor }}>
+                  <motion.span
+                    className="srv__word"
+                    style={{ color: wordColor }}
+                    whileHover={{ scale: 1.04, letterSpacing: '0.04em' }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                  >
                     {word}
-                  </span>
+                  </motion.span>
                   <span className="srv__dot-indicator">•</span>
                 </button>
               </div>

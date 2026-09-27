@@ -24,111 +24,111 @@ const EXPLORATION_CARDS = [
     id: 'exp-headphone',
     type: 'headphone',
     number: '02',
-    title: 'RAY-TRACED AO & NORMAL CAGES',
-    subtitle: 'High-Poly Mesh Surface Projection',
-    tagline: 'HIGH-TO-LOW CAGE BAKING',
-    category: 'Normal & AO Baking',
+    title: 'BESPOKE VARIABLE DISPLAY TYPE',
+    subtitle: 'Geometric Letterform Exploration',
+    tagline: 'TYPE LAB',
+    category: 'Variable Type Design',
     year: '2025',
     client: 'Aether Soundworks',
     description:
-      'A multi-pass normal map cage baker that projects 20M micro-bevel polygon details onto a 4K low-poly game asset with zero tangent distortion.',
-    tags: ['Normal Baking', 'AO Cage', 'Tangent Vectors', 'GLSL Shaders'],
+      'A custom variable display typeface with optical weight scaling, geometric ligatures, and dynamic ink traps engineered for high-impact editorial displays.',
+    tags: ['Variable Font', 'Type Design', 'Ligatures', 'Glyphs App'],
     bgType: 'dark',
   },
   {
     id: 'exp-novaglam',
     type: 'novaglam',
     number: '03',
-    title: 'MICRO-FIBER ANISOTROPIC WEAVE',
-    subtitle: 'Procedural Fabric Normal Synthesis',
-    tagline: 'TEXTURE LAB',
-    category: 'Anisotropic PBR',
+    title: 'TACTILE FOIL EMBOSSED PACKAGING',
+    subtitle: 'Multi-Sensory Unboxing Experience',
+    tagline: 'PACKAGING ARCHITECTURE',
+    category: 'Luxury Packaging',
     year: '2026',
     client: 'NovaGlam Paris',
     image: avatarLuxury,
     description:
-      'Real-time anisotropic tangent calculation for high-end silk, velvet, and brushed metallic fabrics with pre-baked roughness gradients.',
-    tags: ['Anisotropy', 'Procedural PBR', 'Roughness Map'],
+      'Rigid cosmetic presentation boxes engineered with double-thick cotton stock, hot-stamped copper foil accents, and hidden magnetic closures.',
+    tags: ['Copper Foil', 'Embossing', 'Luxury Box', 'Die-Cuts'],
     bgType: 'pink',
   },
   {
     id: 'exp-orange-ai',
     type: 'orange-ai',
     number: '04',
-    title: 'HIGH-POLY SCULPTS TO BAKED GLTF',
-    subtitle: 'Automated GPU Texture Synthesizer',
-    tagline: 'GPU BAKING ENGINE',
-    category: 'Procedural Baking Lab',
+    title: 'GENERATIVE BRAND IDENTITY & POSTERS',
+    subtitle: 'Algorithmic Visual Grammar',
+    tagline: 'GENERATIVE LAB',
+    category: 'Algorithmic Identity',
     year: '2026',
     client: 'Nexora Creative Lab',
     image: cardOrangeAi,
     description:
-      'GPU-accelerated texture synthesizer that converts complex procedural noise graphs and curvature maps into consolidated 4K texture atlases in milliseconds.',
-    tags: ['GPU Baking', 'Texture Atlas', 'Curvature Maps', 'glTF 2.0'],
+      'A flexible generative brand framework that translates mathematical datasets into vibrant vector patterns and limited-edition exhibition screen prints.',
+    tags: ['Generative Art', 'Vector Grammar', 'Screen Printing', 'Posters'],
     bgType: 'orange-editorial',
   },
   {
     id: 'exp-imagination',
     type: 'beige-sculpture',
     number: '05',
-    title: 'RADIOSITY LIGHTMAP BAKING',
-    subtitle: 'Global Illumination Precomputation',
-    tagline: 'PRE-COMPUTED RADIANCE',
-    category: 'Lightmap Engine',
+    title: 'SWISS EDITORIAL GRID & MONOGRAPH',
+    subtitle: 'Typographic Layout Architecture',
+    tagline: 'EDITORIAL SYSTEM',
+    category: 'Editorial Design',
     year: '2025',
     client: 'Studio Morph',
     image: avatarCredible,
     description:
-      'Immersive radiosity engine calculating photon bounces and soft contact shadows for ultra-lean architectural WebGL deployment.',
-    tags: ['Lightmaps', 'Radiosity GI', 'HDR Textures', 'WebXR'],
+      'A 280-page architecture monograph laid out on an asymmetric 12-column Swiss typographic grid with Japanese exposed Smyth-sewn binding.',
+    tags: ['Swiss Grid', 'Book Binding', 'Typography', 'InDesign'],
     bgType: 'beige',
   },
   {
     id: 'exp-cyberverse',
     type: 'cyberverse',
     number: '06',
-    title: 'SKELETAL ANIMATION & MORPH TARGETS',
-    subtitle: 'Kinematic Blendshape Configurator',
-    tagline: 'KINETIC RIGS',
-    category: 'Animation Rigging',
+    title: 'KINETIC LOGOMARK & BROADCAST IDENT',
+    subtitle: 'Vector Morphing & Motion Language',
+    tagline: 'KINETIC IDENTITY',
+    category: 'Motion Design',
     year: '2026',
     client: 'CyberVerse Lab',
     image: avatarVentigence,
     description:
-      'Interactive 3D configurator with multi-bone dual quaternion skinning and 60+ FPS real-time facial blendshape playback in the browser.',
-    tags: ['Dual Quaternion', 'Morph Targets', 'Skeletal Rig', 'WebGL'],
+      'Dynamic vector logo animation system featuring 3D dimensional transitions, fluid ribbon morphs, and responsive micro-ident loops for digital products.',
+    tags: ['Motion Graphics', 'Logo Ident', 'After Effects', 'Lottie'],
     bgType: 'dark',
   },
   {
     id: 'exp-quantum',
     type: 'quantum',
     number: '07',
-    title: 'SUBSURFACE SCATTERING PROXIES',
-    subtitle: 'Translucency & Depth Map Baking',
-    tagline: 'ORGANIC PBR',
-    category: 'SSS Baking Lab',
+    title: 'HOLOGRAPHIC VINYL PACKAGING',
+    subtitle: 'Iridescent Substrate Printing',
+    tagline: 'PRINT RESEARCH',
+    category: 'Specialty Print',
     year: '2026',
-    client: 'Quantum AI Systems',
+    client: 'Quantum Sonic Works',
     image: avatarFastResume,
     description:
-      'Pre-computed subsurface scattering lookup maps allowing organic skin, wax, and jade materials to exhibit light diffusion with zero raytracing overhead.',
-    tags: ['SSS Lookup', 'Translucency', 'Depth Maps'],
+      'Specialty gatefold vinyl record packaging utilizing rainbow iridescent foil stamping over matte black soft-touch laminate with spot UV accents.',
+    tags: ['Iridescent Foil', 'Spot UV', 'Vinyl Gatefold', 'Pantone Spot'],
     bgType: 'dark',
   },
   {
     id: 'exp-vanguard',
     type: 'vanguard',
     number: '08',
-    title: 'DRAWCALL CONSOLIDATION & LODs',
-    subtitle: 'Mesh Decimation & Atlas Baking',
-    tagline: 'OPTIMIZATION PIPELINE',
-    category: 'Draw-Call Minimizer',
+    title: 'SPATIAL EXHIBITION WAYFINDING',
+    subtitle: 'Architectural Graphic Systems',
+    tagline: 'SPATIAL DESIGN',
+    category: 'Wayfinding & Signage',
     year: '2025',
-    client: 'Vanguard Group',
+    client: 'Vanguard Modern Museum',
     image: avatarTechnis,
     description:
-      'Automated LOD generation and multi-material atlas baking that merges 40 distinct material draw calls into a single unified render pass.',
-    tags: ['Texture Atlas', 'LOD Decimation', 'Zero Lag'],
+      'Bilingual environmental graphic system featuring floor-to-ceiling typographic interventions, modular directional pylons, and acrylic wayfinding plaques.',
+    tags: ['Wayfinding', 'Spatial Signage', 'Typography', 'Environmental'],
     bgType: 'beige',
   },
 ];
@@ -272,7 +272,7 @@ const RibbonCard = ({ card, index, progress, isMobile, onSelectCard }) => {
             <div className="dm__ng-year">2026</div>
             <div className="dm__ng-title">{card.title}</div>
             <div className="dm__hp-bottom">
-              <span className="dm__hp-tag" style={{ background: '#331522', color: '#ffffff' }}>
+              <span className="dm__hp-tag" style={{ background: 'rgba(236, 72, 153, 0.15)', color: '#f472b6', border: '1px solid rgba(236, 72, 153, 0.3)' }}>
                 DIGITAL FASHION
               </span>
               <span>COUTURE</span>
@@ -281,14 +281,14 @@ const RibbonCard = ({ card, index, progress, isMobile, onSelectCard }) => {
         ) : card.type === 'beige-sculpture' ? (
           /* Beige Sculptural Card */
           <div className="dm__card-beige-layout">
-            <div className="dm__hp-top-badge" style={{ color: '#6b5e54' }}>
+            <div className="dm__hp-top-badge" style={{ color: '#d4c5b9' }}>
               <span>{card.number}</span>
               <span>—</span>
               <span>{card.tagline}</span>
             </div>
             <div className="dm__beige-title">{card.title}</div>
-            <div className="dm__hp-bottom" style={{ color: '#6b5e54' }}>
-              <span className="dm__hp-tag" style={{ background: '#2b2520', color: '#ffffff' }}>
+            <div className="dm__hp-bottom" style={{ color: '#a89a8e' }}>
+              <span className="dm__hp-tag" style={{ background: 'rgba(212, 197, 185, 0.15)', color: '#f5efe9', border: '1px solid rgba(212, 197, 185, 0.25)' }}>
                 SPATIAL 3D
               </span>
               <span>{card.year}</span>
@@ -394,7 +394,14 @@ const DesignMotionSection = () => {
       {/* ── 100vh Sticky Viewport Stage ── */}
       <div className="dm__sticky-stage">
         
-        {/* ── Ambient Background Vector Lines (Trionn-style curved pencil loops) ── */}
+        {/* ── Ambient Cosmic Nebulae Glows ── */}
+        <div className="dm__ambient-glows" pointerEvents="none">
+          <div className="dm__glow dm__glow--blue" />
+          <div className="dm__glow dm__glow--cyan" />
+          <div className="dm__glow dm__glow--purple" />
+        </div>
+
+        {/* ── Ambient Background Vector Lines (Luminous cyber curves) ── */}
         <svg className="dm__ambient-svg" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
           {/* Main looping arc */}
           <motion.path
@@ -411,34 +418,34 @@ const DesignMotionSection = () => {
 
 
 
-        {/* ── Typography Stage (BAKE & ANIMATE in Opposing Directions) ── */}
+        {/* ── Typography Stage (DESIGN & MOTION in Opposing Directions) ── */}
         <div className="dm__typo-stage">
-          {/* Top Word: BAKE (Moves Left -> Right) */}
+          {/* Top Word: DESIGN (Moves Left -> Right) */}
           <div className="dm__typo-row">
             <motion.span
               className="dm__typo-word dm__typo-word--design"
               style={{ x: designTranslateX }}
             >
-              BAKE
+              DESIGN
             </motion.span>
           </div>
 
           {/* Centered Subtitle Tagline */}
           <div className="dm__tagline-center">
             <span className="dm__tagline-text">
-              EXPLORING PROCEDURAL TEXTURE PIPELINES
+              EXPLORING EXPERIMENTAL TYPOGRAPHY
               <br />
-              &amp; 3D ANIMATION CONFIGURATIONS
+              &amp; KINETIC BRAND IDENTITIES
             </span>
           </div>
 
-          {/* Bottom Word: ANIMATE (Moves Right -> Left) */}
+          {/* Bottom Word: MOTION (Moves Right -> Left) */}
           <div className="dm__typo-row">
             <motion.span
               className="dm__typo-word dm__typo-word--motion"
               style={{ x: motionTranslateX }}
             >
-              ANIMATE
+              MOTION
             </motion.span>
           </div>
         </div>
@@ -461,7 +468,7 @@ const DesignMotionSection = () => {
         <footer className="dm__bottom-bar">
           {/* Left Description */}
           <div className="dm__bottom-left-desc">
-            Shader labs, normal cage projections, and 3D animation rigs engineered for 60+ FPS web performance.
+            Bespoke typefaces, tactile foil packaging prototypes, and kinetic brand systems designed for culture-defining organizations.
           </div>
 
           {/* Center Interactive Cookie Notification Banner */}
@@ -565,7 +572,7 @@ const DesignMotionSection = () => {
                 </div>
 
                 <div className="dm__modal-footer">
-                  <span style={{ fontSize: '0.8rem', color: '#777777', fontWeight: 600 }}>
+                  <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>
                     CLIENT: {selectedCard.client} ({selectedCard.year})
                   </span>
                   <a

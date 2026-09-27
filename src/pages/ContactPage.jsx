@@ -4,34 +4,34 @@ import Footer from '../components/Footer';
 import '../pages/pages.css';
 
 const SERVICES_OPTIONS = [
-  'Real-Time GPU Texture Baking',
-  '3D WebGL Product Configurator',
-  'Skeletal Rigging & Animation',
-  'Global Illumination & Lightmaps',
-  'Custom GLSL Shaders & PBR Lab',
-  'Mesh Decimation & LOD Pipelines',
-  'Spatial 3D & WebXR Environments',
-  'glTF / USDZ Cloud Asset Pipeline',
+  'Brand Identity & Logotypes',
+  'Luxury Packaging & Structural Print',
+  'Kinetic Typography & Type Design',
+  'Editorial & Publication Design',
+  'Creative Direction & Visual Concepts',
+  'Digital Design Systems & UI Tokens',
+  'Exhibition Signage & Wayfinding',
+  'Motion Graphics & Brand Idents',
 ];
 
-const BUDGET_OPTIONS = ['< $10,000', '$10,000 – $25,000', '$25,000 – $50,000', '$50,000+'];
+const BUDGET_OPTIONS = ['< $5,000', '$5,000 – $15,000', '$15,000 – $30,000', '$30,000+'];
 
 const FAQS = [
   {
-    q: 'What 3D file formats can you ingest for texture baking?',
-    a: 'We support all major 3D industry formats including FBX, OBJ, Alembic, STEP/IGES CAD, ZTL/ZPR (ZBrush), and Blender/Maya scenes.',
+    q: 'What is your typical project timeline for a complete brand identity?',
+    a: 'A comprehensive brand identity typically takes 4–6 weeks, covering deep discovery, bespoke typographic exploration, mark craft, packaging mockups, and full design guidelines.',
   },
   {
-    q: 'How fast does your GPU texture baking engine operate?',
-    a: 'Our hardware-accelerated pipeline bakes 4K/8K multi-pass texture atlases (Normal, AO, Curvature, Roughness) in under 10 seconds per high-poly asset.',
+    q: 'Do you provide print production supervision for packaging and editorial books?',
+    a: 'Yes. We prepare rigorous pre-flight print files, specify Pantone spot colors and foil dies, recommend tactile paper stocks, and communicate directly with your print house.',
   },
   {
-    q: 'Can the 3D configurator integrate into Shopify or WooCommerce?',
-    a: 'Yes. Our WebGL configurators are fully embeddable into Shopify, headless eCommerce, WordPress, Webflow, and custom React/Next.js storefronts.',
+    q: 'What file formats and deliverables will we receive upon completion?',
+    a: 'You receive full vector master files (AI, EPS, SVG), digital asset suites (PNG, WebP), custom variable font files (TTF, WOFF2), and comprehensive interactive Figma design guidelines.',
   },
   {
-    q: 'Do you deliver AR/WebXR compatible assets for mobile and Vision Pro?',
-    a: 'Every 3D model is exported in both optimized binary glTF (.glb) for Android/Web and Apple USDZ with QuickLook and visionOS spatial compatibility.',
+    q: 'Can you create motion graphics and animated logos for our digital channels?',
+    a: 'Absolutely. Every identity system we craft includes kinetic rules, looping animated logo idents, and exportable Lottie / MP4 / GIF assets for social and web applications.',
   },
 ];
 
@@ -51,7 +51,7 @@ export default function ContactPage() {
   }, []);
 
   const [selectedServices, setSelectedServices] = useState([]);
-  const [selectedBudget, setSelectedBudget] = useState('$10,000 – $25,000');
+  const [selectedBudget, setSelectedBudget] = useState('$5,000 – $15,000');
   const [formData, setFormData] = useState({ name: '', email: '', company: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
@@ -92,7 +92,7 @@ export default function ContactPage() {
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
         >
           Let's build<br />
-          your <em>3D vision</em>.
+          your <em>brand vision</em>.
         </motion.h1>
 
         <motion.p
@@ -101,12 +101,12 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          Have a 3D animation configurator project or need high-poly models optimized for real-time web? Share your brief with Nexora Studio below.
+          Have a brand identity, luxury packaging, editorial publication, or visual design project? Share your brief with Nexora Studio below.
         </motion.p>
 
         <div className="page-hero__meta">
           <span className="page-hero__meta-line">Typical reply in &lt; 24h</span>
-          <span className="page-hero__meta-line">Global 3D Pipeline</span>
+          <span className="page-hero__meta-line">Worldwide Client Collaborations</span>
         </div>
       </section>
 

@@ -63,7 +63,7 @@ function ProjectCard({ project, onClick }) {
         {project.mediaType === 'video' && (
           <div className="work-card__video-badge">
             <span className="work-card__video-dot" />
-            <span>Reel 3D</span>
+            <span>Motion</span>
           </div>
         )}
 
@@ -82,19 +82,17 @@ function ProjectCard({ project, onClick }) {
 
           {project.stats && (
             <div className="work-card__overlay-stats">
-              <div className="work-card__stat-item">
-                <span className="work-card__stat-lbl">Target FPS</span>
-                <span className="work-card__stat-val">{project.stats.fps}</span>
-              </div>
-              <div className="work-card__stat-item">
-                <span className="work-card__stat-lbl">Polys</span>
-                <span className="work-card__stat-val">{project.stats.polygons}</span>
-              </div>
+              {Object.entries(project.stats).slice(0, 2).map(([k, v]) => (
+                <div key={k} className="work-card__stat-item">
+                  <span className="work-card__stat-lbl">{k}</span>
+                  <span className="work-card__stat-val">{v}</span>
+                </div>
+              ))}
             </div>
           )}
 
           <div className="work-card__action-hint">
-            <span>Inspect 3D Specs</span>
+            <span>Inspect Case Study</span>
             <svg
               width="14"
               height="14"
@@ -196,21 +194,15 @@ function ProjectModal({ project, onClose, onPrev, onNext, hasPrev, hasNext }) {
 
           <p className="work-modal-desc">{project.description}</p>
 
-          {/* Technical Specs */}
+          {/* Design System & Production Specs */}
           {project.stats && (
             <div className="work-modal-specs-box">
-              <div className="work-modal-spec">
-                <span className="work-modal-spec-lbl">Decimation</span>
-                <span className="work-modal-spec-val">{project.stats.polygons}</span>
-              </div>
-              <div className="work-modal-spec">
-                <span className="work-modal-spec-lbl">Draw Calls</span>
-                <span className="work-modal-spec-val">{project.stats.drawCalls}</span>
-              </div>
-              <div className="work-modal-spec">
-                <span className="work-modal-spec-lbl">Performance</span>
-                <span className="work-modal-spec-val">{project.stats.fps}</span>
-              </div>
+              {Object.entries(project.stats).map(([k, v]) => (
+                <div key={k} className="work-modal-spec">
+                  <span className="work-modal-spec-lbl">{k.toUpperCase()}</span>
+                  <span className="work-modal-spec-val">{v}</span>
+                </div>
+              ))}
             </div>
           )}
 
@@ -230,7 +222,7 @@ function ProjectModal({ project, onClose, onPrev, onNext, hasPrev, hasNext }) {
               className="page-btn page-btn--primary"
               onClick={onClose}
             >
-              Request Similar 3D Build →
+              Start Similar Project →
             </Link>
 
             <div className="work-modal-nav-btns">
@@ -348,7 +340,7 @@ export default function WorkPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="page-hero__tag-dot" /> 100+ Baked 3D Works &amp; Interactive Showcases
+          <span className="page-hero__tag-dot" /> Featured Case Studies &amp; Visual Systems
         </motion.div>
 
         <motion.h1
@@ -357,8 +349,8 @@ export default function WorkPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
         >
-          Showcases that<br />
-          <em>redefine</em> real-time 3D.
+          Selected Works &amp;<br />
+          <em>Visual Systems</em>.
         </motion.h1>
 
         <motion.p
@@ -367,13 +359,13 @@ export default function WorkPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          Explore Nexora Studio's comprehensive index of 100+ GPU texture-baked 3D configurators, spatial WebGL environments, radiosity lightmaps, and kinetic character rigs.
+          Explore our curated portfolio of brand identity systems, luxury tactile packaging, kinetic typefaces, editorial monographs, and multi-platform design guidelines.
         </motion.p>
 
         <div className="page-hero__meta">
-          <span className="page-hero__meta-line">{ALL_PROJECTS.length} 3D Projects</span>
+          <span className="page-hero__meta-line">{ALL_PROJECTS.length} Selected Projects</span>
           <span className="page-hero__meta-line">8 Disciplines</span>
-          <span className="page-hero__meta-line">120 FPS Standard</span>
+          <span className="page-hero__meta-line">48+ Design Awards</span>
         </div>
       </section>
 
