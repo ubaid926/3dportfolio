@@ -184,11 +184,26 @@
   display: block;
 }
 .sc__h1-highlight {
-  color: #F4F7FA;
-  background: linear-gradient(135deg, #F4F7FA 30%, #a4c4e8 100%);
+  background: linear-gradient(
+    110deg,
+    #F4F7FA 0%,
+    #e2e8f0 20%,
+    #cbd5e1 38%,
+    #F4F7FA 50%,
+    #cbd5e1 62%,
+    #e2e8f0 80%,
+    #F4F7FA 100%
+  );
+  background-size: 250% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: scShimmer 4s linear infinite;
+}
+
+@keyframes scShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 250% center; }
 }
 
 .sc__supporting-text {

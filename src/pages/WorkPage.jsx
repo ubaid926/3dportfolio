@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
@@ -18,34 +18,57 @@ const staggerGrid = {
 };
 
 const cardVariant = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  hidden: { opacity: 0, y: 36, scale: 0.95, filter: 'blur(6px)' },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+    filter: 'blur(0px)',
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
   },
-  exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } },
+  exit: { opacity: 0, scale: 0.93, filter: 'blur(4px)', transition: { duration: 0.22 } },
 };
 
 /* ── Project Card Component ── */
 function ProjectCard({ project, onClick }) {
   const [hovered, setHovered] = useState(false);
+  const cardRef = useRef(null);
+
+  /* Subtle 3D tilt on mouse move */
+  const handleMouseMove = (e) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 12;
+    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * -9;
+    cardRef.current.style.setProperty('--tilt-x', `${y}deg`);
+    cardRef.current.style.setProperty('--tilt-y', `${x}deg`);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    if (cardRef.current) {
+      cardRef.current.style.setProperty('--tilt-x', '0deg');
+      cardRef.current.style.setProperty('--tilt-y', '0deg');
+    }
+  };
 
   return (
     <motion.article
+      ref={cardRef}
       layout
       variants={cardVariant}
       className={`work-card work-card--${project.aspectRatio} ${
         project.featured ? 'work-card--featured' : ''
       } ${hovered ? 'work-card--active' : ''}`}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
       onClick={() => onClick(project)}
       tabIndex={0}
       role="button"
       aria-label={`View details for ${project.title}`}
     >
+      {/* ── Image Frame ── */}
       <div className="work-card__media">
         <img
           src={project.image}
@@ -54,12 +77,19 @@ function ProjectCard({ project, onClick }) {
           loading="lazy"
         />
 
-        {/* Featured Tag */}
-        {project.featured && (
-          <div className="work-card__featured-badge">★ Spotlight</div>
-        )}
+        {/* Bottom gradient */}
+        <div className="work-card__img-gradient" />
 
-        {/* Video Badge */}
+        {/* Top-left: category ribbon */}
+        <div className="work-card__cat-ribbon">
+          {project.featured && <span className="work-card__star">★</span>}
+          {project.category}
+        </div>
+
+        {/* Top-right: project number */}
+        <div className="work-card__index">#{project.number}</div>
+
+        {/* Video badge */}
         {project.mediaType === 'video' && (
           <div className="work-card__video-badge">
             <span className="work-card__video-dot" />
@@ -67,51 +97,55 @@ function ProjectCard({ project, onClick }) {
           </div>
         )}
 
-        {/* Index number */}
-        <div className="work-card__index">#{project.number}</div>
-
-        {/* Hover Overlay */}
+        {/* ── Hover Reveal Overlay ── */}
         <div className="work-card__overlay">
-          <div className="work-card__overlay-tags">
+          <motion.div
+            className="work-card__overlay-tags"
+            initial={false}
+            animate={hovered ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+          >
             {project.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="page-chip">
-                {tag}
-              </span>
+              <span key={tag} className="work-card__tag-chip">{tag}</span>
             ))}
-          </div>
+          </motion.div>
 
           {project.stats && (
-            <div className="work-card__overlay-stats">
+            <motion.div
+              className="work-card__overlay-stats"
+              initial={false}
+              animate={hovered ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.94 }}
+              transition={{ duration: 0.28, delay: 0.06, ease: 'easeOut' }}
+            >
               {Object.entries(project.stats).slice(0, 2).map(([k, v]) => (
                 <div key={k} className="work-card__stat-item">
                   <span className="work-card__stat-lbl">{k}</span>
                   <span className="work-card__stat-val">{v}</span>
                 </div>
               ))}
-            </div>
+            </motion.div>
           )}
 
-          <div className="work-card__action-hint">
-            <span>Inspect Case Study</span>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
+          <motion.div
+            className="work-card__action-hint"
+            initial={false}
+            animate={hovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.28, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span>View Case Study</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
-          </div>
+          </motion.div>
         </div>
       </div>
 
+      {/* ── Card Footer ── */}
       <div className="work-card__footer">
         <div className="work-card__meta">
           <span className="work-card__category">{project.category}</span>
-          <span>·</span>
+          <span className="work-card__meta-sep">·</span>
           <span>{project.year}</span>
         </div>
         <h3 className="work-card__title">{project.title}</h3>
